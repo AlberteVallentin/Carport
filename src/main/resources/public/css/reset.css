@@ -1,0 +1,41 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font: inherit; /* Get rid of all font sizes and heights */
+}
+
+html {
+    hanging-punctuation: first last; /* Punctuation marks should hang outside the box */
+}
+
+body {
+    min-height: 100vh;
+}
+
+/* Media responsive */
+img, picture, svg, video {
+    display: block;
+    max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+    overflow-wrap: break-word;
+}
+
+p {
+    text-wrap: pretty; /* Prevents orphans on lines */
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    :has(:target) {
+        scroll-behavior: smooth;
+        scroll-padding-top: 3rem;
+    }
+}
