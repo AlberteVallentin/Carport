@@ -4,65 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carport Order Form</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link href="../public/css/reset.css" th:href="@{/css/reset.css}" rel="stylesheet"/>
     <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
     <link href="../public/css/carportform.css" th:href="@{/css/carportform.css}" rel="stylesheet"/>
 </head>
 <body>
-
-<nav>
-    <a href="index.html" th:href="@{/}">
-        <img class="logo" src="../public/images/logo.png" th:src="@{/images/logo.png}"/>
-    </a>
-    <div th:if="${session.currentUser != null}">
-        <div class="user-email" th:text="${session.currentUser.email}"></div>
-    </div>
-
-    </ul>
-</nav>
-
-
-
-
-<div class="form-container">
-    <header>
-        <h1>Bestil en carport med fladt tag</h1>
-        <div class="steps">
-            <span class="step active">1</span>
-            <span class="step">2</span>
-            <span class="step">3</span>
+    <nav>
+        <a href="index.html" th:href="@{/}">
+            <img class="logo" src="../public/images/logo.png" th:src="@{/images/logo.png}"/>
+        </a>
+        <div th:if="${session.currentUser != null}">
+            <div class="user-email" th:text="${session.currentUser.email}"></div>
         </div>
-    </header>
-    <form>
-        <fieldset>
-            <legend>Carport</legend>
-            <label for="width">Carport bredde*</label>
-            <select id="width" name="width"></select>
 
-            <label for="length">Carport længde*</label>
-            <select id="length" name="length"></select>
+    </nav>
 
-            <label for="roof">Carport trapeztag*</label>
-            <select id="roof" name="roof"></select>
-        </fieldset>
+    <h1> Bestil en carport med fladt tag </h1>
 
-        <fieldset>
-            <legend>Redskabsrum</legend>
-            <label for="roomWidth">Redskabsrum bredde*</label>
-            <select id="roomWidth" name="roomWidth"></select>
+<main>
+    <div class="box">
+        <form method="post">
+            <section>
+                <h2>Carport</h2>
+                <h3>Carport bredde*</h3>
+                <div class="container">
+                    <select name="width">
+                        <option>Vælg en bredde</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                    </select>
+                    <div th:if="${message != null}" class="error-message">
+                        <p th:text="${message}"></p>
+                        <p>erroor</p>
+                    </div>
+                </div>
 
-            <label for="roomLength">Redskabsrum længde*</label>
-            <select id="roomLength" name="roomLength"></select>
-        </fieldset>
+            </section>
 
-        <label for="notes">Evt. bemærkning / særlige ønsker</label>
-        <textarea id="notes" name="notes"></textarea>
 
-        <div class="buttons">
-            <button type="button">Tilbage</button>
-            <button type="submit">Videre</button>
-        </div>
-    </form>
+
+        </form>
+</main>
+
+
+
+
 </div>
 </body>
 </html>

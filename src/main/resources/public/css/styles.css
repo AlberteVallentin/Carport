@@ -1,27 +1,69 @@
 /* Stylesheet for the application */
 
 :root{
+    font-family: Inter, sans-serif;
+}
+
+
+
+:root{
     --clr-bg:#F5F5F5;
+    --clr-light-blue: #C0DCF4;
 }
 
 :root {
-    --fs-xl: 3 rem;
-    --fs-l: 1.5 rem;
-    --fs-m: 1.25 rem;
-    --fs-n: 1 rem;
+    --fs-xl: 3rem;
+    --fs-l: 1.5rem;
+    --fs-m: 1.25rem;
+    --fs-n: 1rem;
     --fs-s: 0.75rem;
 }
 
 html {
     background-color: var(--clr-bg);
+}
 
+
+h1 {
+    font-size: var(--fs-xl);
+    text-align: center;
+    margin: 1rem;
+}
+
+h2 {
+    font-size: var(--fs-l);
+    margin: 1rem;
+}
+
+h3 {
+    font-size: var(--fs-m);
+    margin: 1rem;
+}
+
+p {
+    font-size: var(--fs-n);
+    margin: 1rem;
+}
+
+.error-message {
+    color: red;
+    font-size: var(--fs-s);
+}
+
+
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 nav {
-    padding: 0;
-    background: white;
     position: sticky;
     top: 0;
+    padding: 0;
+    background: white;
 }
 
 
@@ -31,5 +73,18 @@ nav a img {
     margin: 0;
     padding: 0;
 }
+
+.box {
+    width: 100%;
+    max-width: 800px;
+    height: 200px;
+    background-color: var(--clr-light-blue);
+}
+
+.container {
+    margin: 1rem;
+}
+
+
 
 
