@@ -19,6 +19,20 @@
     --fs-s: 0.75rem;
 }
 
+
+:root {
+    --fs-s: clamp(0.8333rem, 0.7754rem + 0.2899vi, 1rem);
+    --fs-n: clamp(1rem, 0.913rem + 0.4348vi, 1.25rem);
+    --fs-m: clamp(1.2rem, 1.0739rem + 0.6304vi, 1.5625rem);
+    --fs-l: clamp(1.44rem, 1.2615rem + 0.8924vi, 1.9531rem);
+    --fs-xl: clamp(1.728rem, 1.4799rem + 1.2407vi, 2.4414rem);
+    --fs-4: clamp(2.0736rem, 1.7334rem + 1.7011vi, 3.0518rem);
+    --fs-xcl: clamp(2.4883rem, 2.027rem + 2.3067vi, 3.8147rem);
+}
+
+
+
+
 html {
     background-color: var(--clr-bg);
 }
@@ -32,23 +46,17 @@ h1 {
 
 h2 {
     font-size: var(--fs-l);
-    margin: 1rem;
 }
 
 h3 {
     font-size: var(--fs-m);
-    margin: 1rem;
 }
 
-p {
+p, select, option {
     font-size: var(--fs-n);
-    margin: 1rem;
 }
 
-.error-message {
-    color: red;
-    font-size: var(--fs-s);
-}
+
 
 
 
@@ -74,16 +82,45 @@ nav a img {
     padding: 0;
 }
 
-.box {
-    width: 100%;
-    max-width: 800px;
+.container {
+    width: min(100% - 2rem,800px);
     height: 200px;
+    display: flex;
+    flex-direction: column;
     background-color: var(--clr-light-blue);
 }
 
-.container {
+.select-container {
+    display: flex;
+    flex-direction: column;
     margin: 1rem;
+
 }
+
+.error-message {
+    color: red;
+    font-size: var(--fs-s);
+}
+
+.select-container:has(.error-message) select {
+    margin-bottom: 0;
+}
+
+.select-container:has(.error-message) .error-message p {
+    margin-top: 0;
+}
+
+select {
+    border: 1rem;
+}
+
+
+
+
+
+
+
+
 
 
 

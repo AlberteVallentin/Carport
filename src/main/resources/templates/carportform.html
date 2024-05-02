@@ -25,12 +25,12 @@
     <h1> Bestil en carport med fladt tag </h1>
 
 <main>
-    <div class="box">
+    <div class="container">
         <form method="post">
             <section>
                 <h2>Carport</h2>
-                <h3>Carport bredde*</h3>
-                <div class="container">
+                <div class="select-container">
+                    <h3>Carport bredde*</h3>
                     <select name="width">
                         <option>Vælg en bredde</option>
                         <option value="1">1</option>
@@ -38,18 +38,9 @@
                         <option value="3">3</option>
                         <option value="4">4</option>
                         <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        <option value="13">13</option>
                     </select>
                     <div th:if="${message != null}" class="error-message">
-                        <p th:text="${message}"></p>
-                        <p>erroor</p>
+                        <p th:text="${message}">error message</p>
                     </div>
                 </div>
 
@@ -62,7 +53,5 @@
 
 
 
-
-</div>
 </body>
 </html>
