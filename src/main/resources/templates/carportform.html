@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carport Order Form</title>
+    <link href="../public/css/reset.css" th:href="@{/css/reset.css}" rel="stylesheet"/>
+    <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link href="../public/css/carportform.css" th:href="@{/css/carportform.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" th:href="@{/}">
+        <img class="logo" src="../public/images/logo.png" th:src="@{/images/logo.png}"/>
+    </a>
+    <div th:if="${session.currentUser != null}">
+        <div class="user-email" th:text="${session.currentUser.email}"></div>
+    </div>
+
+    </ul>
+</nav>
+
+
+
+
+<div class="form-container">
+    <header>
+        <h1>Bestil en carport med fladt tag</h1>
+        <div class="steps">
+            <span class="step active">1</span>
+            <span class="step">2</span>
+            <span class="step">3</span>
+        </div>
+    </header>
+    <form>
+        <fieldset>
+            <legend>Carport</legend>
+            <label for="width">Carport bredde*</label>
+            <select id="width" name="width"></select>
+
+            <label for="length">Carport længde*</label>
+            <select id="length" name="length"></select>
+
+            <label for="roof">Carport trapeztag*</label>
+            <select id="roof" name="roof"></select>
+        </fieldset>
+
+        <fieldset>
+            <legend>Redskabsrum</legend>
+            <label for="roomWidth">Redskabsrum bredde*</label>
+            <select id="roomWidth" name="roomWidth"></select>
+
+            <label for="roomLength">Redskabsrum længde*</label>
+            <select id="roomLength" name="roomLength"></select>
+        </fieldset>
+
+        <label for="notes">Evt. bemærkning / særlige ønsker</label>
+        <textarea id="notes" name="notes"></textarea>
+
+        <div class="buttons">
+            <button type="button">Tilbage</button>
+            <button type="submit">Videre</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

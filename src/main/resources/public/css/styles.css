@@ -1,11 +1,35 @@
 /* Stylesheet for the application */
 
-h1 {
-    color: #369;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 3rem;
+:root{
+    --clr-bg:#F5F5F5;
+}
+
+:root {
+    --fs-xl: 3 rem;
+    --fs-l: 1.5 rem;
+    --fs-m: 1.25 rem;
+    --fs-n: 1 rem;
+    --fs-s: 0.75rem;
+}
+
+html {
+    background-color: var(--clr-bg);
+
+}
+
+nav {
+    padding: 0;
+    background: white;
+    position: sticky;
+    top: 0;
 }
 
 
+nav a img {
+    width: 60px;
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
 
 

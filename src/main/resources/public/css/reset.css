@@ -8,9 +8,6 @@
     font: inherit; /* Get rid of all font sizes and heights */
 }
 
-html {
-    hanging-punctuation: first last; /* Punctuation marks should hang outside the box */
-}
 
 body {
     min-height: 100vh;
@@ -23,7 +20,7 @@ img, picture, svg, video {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    text-wrap: balance;
+    text-wrap: pretty;
     overflow-wrap: break-word;
 }
 
@@ -31,11 +28,4 @@ p {
     text-wrap: pretty; /* Prevents orphans on lines */
     overflow-wrap: break-word;
     hyphens: auto;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-    :has(:target) {
-        scroll-behavior: smooth;
-        scroll-padding-top: 3rem;
-    }
 }
