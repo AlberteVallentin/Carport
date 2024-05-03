@@ -24,6 +24,8 @@ public class Main {
 
         // Routing
 
-        app.get("/", ctx -> ctx.render("index.html"));
+        app.get("/", ctx -> ctx.render("build-self.html"));
+        app.get("/users-data.html", ctx -> ctx.render("users-data.html"));
+
     }
 }
