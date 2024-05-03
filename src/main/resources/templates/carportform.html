@@ -27,13 +27,12 @@
 
 <main>
     <div class="container">
-        <form method="post" id="form">
             <section>
                 <h2>Carport</h2>
                 <div class="select-container">
                     <h3>Carport bredde*</h3>
-                    <label for="width"></label>
-                    <select name="width" id="width">
+                    <label for="carport-width"></label>
+                    <select name="carport-width" id="carport-width">
                         <option>Vælg en bredde</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -46,8 +45,8 @@
                 </div>
                 <div class="select-container">
                     <h3>Carport længde*</h3>
-                    <label for="length"></label>
-                    <select name="length" id="length">
+                    <label for="carport-length"></label>
+                    <select name="carport-length" id="carport-length">
                         <option>Vælg en længde</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -60,22 +59,55 @@
                 </div>
                 <div class="select-container">
                     <h3>Carport trapeztag*</h3>
-                    <label for="roof"></label>
-                    <select name="roof" id="roof">
+                    <label for="carport-roof"></label>
+                    <select name="carport-roof" id="carport-roof">
                         <option>Vælg et tag</option>
-                        <option value="1">Uden tagplader</option>
+                        <option value="Uden tagplader">Uden tagplader</option>
                         <option value="2">Plasttrapeztag</option>
                     </select>
                     <div class="error-message">
                     </div>
                 </div>
-
-
             </section>
+        <section>
+            <h2>Redskabsrum</h2>
+            <p>NB! Der skal beregnes 15 cm tagudhæng på hver side af redskabsrummet*</p>
+            <div class="select-container">
+                <h3>Redskabsrum bredde*</h3>
+                <label for="shed-width"></label>
+                <select name="shed-width" id="shed-width">
+                    <option>Vælg en bredde</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <div class="error-message">
+                </div>
+            </div>
+            <div class="select-container">
+                <h3>Redskabsrum længde*</h3>
+                <label for="shed-length"></label>
+                <select name="shed-length" id="shed-length">
+                    <option>Vælg en længde</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <div class="error-message">
+                </div>
+            </div>
+        </section>
 
-            <button type="submit">Sign Up</button>
 
-        </form>
+
+            <a href="confirmation.html" id="validateLink">Bekræft og fortsæt</a>
+
+
+    </div>
 </main>
 
 

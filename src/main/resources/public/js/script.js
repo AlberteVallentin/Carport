@@ -1,41 +1,42 @@
-const width = document.getElementById('width');
-const length = document.getElementById('length');
-const roof = document.getElementById('roof');
-const form = document.querySelector('form');
+const carportWidth = document.getElementById('carport-width');
+const carportLength = document.getElementById('carport-length');
+const carportRoof = document.getElementById('carport-roof');
+const validateLink = document.getElementById('validateLink');
 
 const setError = (element, message) => {
     const inputControl = element.parentElement;
     const errorDisplay = inputControl.querySelector('.error-message');
-
     errorDisplay.innerText = message;
     inputControl.classList.add('error');
-    inputControl.classList.remove('success')
-}
-
-const setSuccess = (element) => {
-    const inputControl = element.parentElement;
-    const errorDisplay = inputControl.querySelector('.error-message');
-
-    errorDisplay.innerText = '';
-    inputControl.classList.remove('error');
-    inputControl.classList.add('success');
-}
+};
 
 const validateSelect = (selectElement, errorMessage) => {
-    if(selectElement.value === selectElement.options[0].value) {
+    if (selectElement.value === selectElement.options[0].value) {
         setError(selectElement, errorMessage);
+        return false;  // Return 'false' hvis validering fejler
     } else {
-        setSuccess(selectElement);
+        return true;  // Return 'true' hvis validering er succesfuld
     }
 };
 
 const validateInputs = () => {
-    validateSelect(width, 'Vælg venligst en bredde');
-    validateSelect(length, 'Vælg venligst en længde');
-    validateSelect(roof, 'Vælg venligst en tagtype');
-}
+    const isValidWidth = validateSelect(carportWidth, 'Vælg venligst en bredde');
+    const isValidLength = validateSelect(carportLength, 'Vælg venligst en længde');
+    const isValidRoof = validateSelect(carportRoof, 'Vælg venligst en tagtype');
 
-form.addEventListener('submit', e => {
-    e.preventDefault();
-    validateInputs();
+    return isValidWidth && isValidLength && isValidRoof;  // Returner 'true' kun hvis alle er gyldige
+};
+
+validateLink.addEventListener('click', e => {
+    e.preventDefault();  // Forhindrer linket i at følge sin href
+
+    if (validateInputs()) {  // Hvis validering er succesfuld, gem data
+        localStorage.setItem('carport-width', width.options[width.selectedIndex].text);
+        localStorage.setItem('carport-length', carportLength.options[carportLength.selectedIndex].text);
+        localStorage.setItem('carport-roof', roof.options[roof.selectedIndex].text);
+        localStorage.setItem('shed-width', shedWidth.options[shedWidth.selectedIndex].text);
+        localStorage.setItem('shed-length', shedLength.options[shedLength.selectedIndex].text);
+
+        window.location.href = 'confirmation.html';  // Skift til din ønskede bekræftelsesside
+    }
 });
