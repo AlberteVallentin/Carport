@@ -95,17 +95,20 @@ section {
     flex-direction: column;
     background-color: var(--clr-light-blue);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
 }
 
 .select-container, .input-container{
     display: flex;
     flex-direction: column;
-    margin: 1rem;
+    margin: 0.5rem;
+
 }
 
 select, input, textarea {
     width: 100%;
     border: 1px solid;
+    border-radius: 5px;
     cursor: pointer;
     height: calc(var(--fs-n) * 2);
     line-height: calc(var(--fs-n) * 2);
