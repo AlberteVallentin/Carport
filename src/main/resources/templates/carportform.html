@@ -10,6 +10,7 @@
     <link href="../public/css/reset.css" th:href="@{/css/reset.css}" rel="stylesheet"/>
     <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
     <link href="../public/css/carportform.css" th:href="@{/css/carportform.css}" rel="stylesheet"/>
+    <script defer src="../public/js/script.js" th:src="@{/js/script.js}"></script>
 </head>
 <body>
     <nav>
@@ -26,12 +27,13 @@
 
 <main>
     <div class="container">
-        <form method="post">
+        <form method="post" id="form">
             <section>
                 <h2>Carport</h2>
                 <div class="select-container">
                     <h3>Carport bredde*</h3>
-                    <select name="width">
+                    <label for="width"></label>
+                    <select name="width" id="width">
                         <option>Vælg en bredde</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -39,14 +41,39 @@
                         <option value="4">4</option>
                         <option value="5">5</option>
                     </select>
-                    <div th:if="${message != null}" class="error-message">
-                        <p th:text="${message}">error message</p>
+                    <div class="error-message">
+                    </div>
+                </div>
+                <div class="select-container">
+                    <h3>Carport længde*</h3>
+                    <label for="length"></label>
+                    <select name="length" id="length">
+                        <option>Vælg en længde</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <div class="error-message">
+                    </div>
+                </div>
+                <div class="select-container">
+                    <h3>Carport trapeztag*</h3>
+                    <label for="roof"></label>
+                    <select name="roof" id="roof">
+                        <option>Vælg et tag</option>
+                        <option value="1">Uden tagplader</option>
+                        <option value="2">Plasttrapeztag</option>
+                    </select>
+                    <div class="error-message">
                     </div>
                 </div>
 
+
             </section>
 
-
+            <button type="submit">Sign Up</button>
 
         </form>
 </main>

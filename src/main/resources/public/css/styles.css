@@ -84,7 +84,7 @@ nav a img {
 
 .container {
     width: min(100% - 2rem,800px);
-    height: 200px;
+    height: auto;
     display: flex;
     flex-direction: column;
     background-color: var(--clr-light-blue);
@@ -97,17 +97,14 @@ nav a img {
 
 }
 
-.error-message {
+.select-container .error-message{
     color: red;
     font-size: var(--fs-s);
 }
 
-.select-container:has(.error-message) select {
-    margin-bottom: 0;
-}
+.error-message {
+    height: 1rem;
 
-.select-container:has(.error-message) .error-message p {
-    margin-top: 0;
 }
 
 select {
