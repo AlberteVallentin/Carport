@@ -1,6 +1,8 @@
 const carportWidth = document.getElementById('carport-width');
 const carportLength = document.getElementById('carport-length');
 const carportRoof = document.getElementById('carport-roof');
+const shedWidth = document.getElementById('shed-width');
+const shedLength = document.getElementById('shed-length');
 const validateLink = document.getElementById('validateLink');
 
 const setError = (element, message) => {
@@ -31,9 +33,9 @@ validateLink.addEventListener('click', e => {
     e.preventDefault();  // Forhindrer linket i at følge sin href
 
     if (validateInputs()) {  // Hvis validering er succesfuld, gem data
-        localStorage.setItem('carport-width', width.options[width.selectedIndex].text);
+        localStorage.setItem('carport-width', carportWidth.options[carportWidth.selectedIndex].text);
         localStorage.setItem('carport-length', carportLength.options[carportLength.selectedIndex].text);
-        localStorage.setItem('carport-roof', roof.options[roof.selectedIndex].text);
+        localStorage.setItem('carport-roof', carportRoof.options[carportRoof.selectedIndex].text);
         localStorage.setItem('shed-width', shedWidth.options[shedWidth.selectedIndex].text);
         localStorage.setItem('shed-length', shedLength.options[shedLength.selectedIndex].text);
 
