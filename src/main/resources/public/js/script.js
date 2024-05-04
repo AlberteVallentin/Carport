@@ -1,44 +1,84 @@
-const carportWidth = document.getElementById('carport-width');
-const carportLength = document.getElementById('carport-length');
-const carportRoof = document.getElementById('carport-roof');
-const shedWidth = document.getElementById('shed-width');
-const shedLength = document.getElementById('shed-length');
-const validateLink = document.getElementById('validateLink');
+document.addEventListener("DOMContentLoaded", function() {
+    // Setup event listeners once the document is fully loaded
+    setupNavigation();
+    attachEventListeners();
+});
 
-const setError = (element, message) => {
-    const inputControl = element.parentElement;
-    const errorDisplay = inputControl.querySelector('.error-message');
-    errorDisplay.innerText = message;
-    inputControl.classList.add('error');
-};
+function setupNavigation() {
+    const validateLink = document.getElementById('validateLink');
 
-const validateSelect = (selectElement, errorMessage) => {
-    if (selectElement.value === selectElement.options[0].value) {
-        setError(selectElement, errorMessage);
-        return false;  // Return 'false' hvis validering fejler
-    } else {
-        return true;  // Return 'true' hvis validering er succesfuld
+    if (validateLink) {
+        validateLink.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent the default link action
+
+            // Perform validation
+            if (validateInputs()) {
+                // If validation is successful, navigate
+                navigate();
+            }
+        });
     }
-};
+}
 
-const validateInputs = () => {
+function validateInputs() {
+    // Fetch all select elements
+    const carportWidth = document.getElementById('carport-width');
+    const carportLength = document.getElementById('carport-length');
+    const carportRoof = document.getElementById('carport-roof');
+
+    // Validate each select element
     const isValidWidth = validateSelect(carportWidth, 'Vælg venligst en bredde');
     const isValidLength = validateSelect(carportLength, 'Vælg venligst en længde');
     const isValidRoof = validateSelect(carportRoof, 'Vælg venligst en tagtype');
 
-    return isValidWidth && isValidLength && isValidRoof;  // Returner 'true' kun hvis alle er gyldige
-};
+    // Return true only if all validations are passed
+    return isValidWidth && isValidLength && isValidRoof;
+}
 
-validateLink.addEventListener('click', e => {
-    e.preventDefault();  // Forhindrer linket i at følge sin href
-
-    if (validateInputs()) {  // Hvis validering er succesfuld, gem data
-        localStorage.setItem('carport-width', carportWidth.options[carportWidth.selectedIndex].text);
-        localStorage.setItem('carport-length', carportLength.options[carportLength.selectedIndex].text);
-        localStorage.setItem('carport-roof', carportRoof.options[carportRoof.selectedIndex].text);
-        localStorage.setItem('shed-width', shedWidth.options[shedWidth.selectedIndex].text);
-        localStorage.setItem('shed-length', shedLength.options[shedLength.selectedIndex].text);
-
-        window.location.href = 'confirmation.html';  // Skift til din ønskede bekræftelsesside
+function validateSelect(selectElement, errorMessage) {
+    // Simple validation to check if the first option (usually default "choose" option) is selected
+    if (selectElement.value === "" || selectElement.value === selectElement.options[0].value) {
+        setError(selectElement, errorMessage);
+        return false;
+    } else {
+        clearError(selectElement);
+        return true;
     }
-});
+}
+
+function setError(element, message) {
+    const inputControl = element.parentElement;
+    const errorDisplay = inputControl.querySelector('.error-message');
+    errorDisplay.innerText = message;
+    element.classList.add('error');
+}
+
+function clearError(element) {
+    const inputControl = element.parentElement;
+    const errorDisplay = inputControl.querySelector('.error-message');
+    errorDisplay.innerText = '';
+    element.classList.remove('error');
+}
+
+function navigate() {
+    // Increase the step in sessionStorage
+    const currentStep = parseInt(sessionStorage.getItem('currentStep') || '0');
+    const nextStep = currentStep + 1;
+    sessionStorage.setItem('currentStep', nextStep);
+
+    // Update the progress bar
+    updateProgressbar(nextStep);
+
+    // Determine the next page based on the current step
+    const pages = ['carportform.html', 'kontakt.html', 'kvittering.html'];
+    if (nextStep < pages.length) {
+        window.location.href = pages[nextStep];
+    }
+}
+
+function updateProgressbar(step) {
+    const progress = document.getElementById("progress");
+    if (progress) {
+        progress.style.width = ((step / 2) * 100) + '%'; // Assuming there are 3 steps (0, 1, 2)
+    }
+}
