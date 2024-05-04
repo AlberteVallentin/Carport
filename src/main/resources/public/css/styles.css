@@ -180,6 +180,66 @@ textarea::placeholder, input::placeholder {
 }
 
 
+/* Progressbar */
+.progressbar {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    counter-reset: step;
+    margin-bottom: 2rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+}
+
+.progressbar::before,
+.progress {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 4px;
+    width: 100%;
+    background-color: violet;
+    z-index: -1;
+}
+
+.progress {
+    background-color: var(--clr-dark-blue);
+    width: 0%;
+    transition: 0.3s;
+
+}
+
+.progress-step {
+    width: 2rem;
+    height: 2rem;
+    background-color: #dcdcdc;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.progress-step::before {
+    counter-increment: step;
+    content: counter(step);
+}
+
+.progress-step::after {
+    content: attr(data-title);
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    font-size: 0.85rem;
+    color: black;
+}
+
+.progress-step-active {
+    background-color: var(--clr-dark-blue);
+    color: #f3f3f3;
+}
+
 
 
 
