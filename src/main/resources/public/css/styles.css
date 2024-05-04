@@ -188,7 +188,7 @@ textarea::placeholder, input::placeholder {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 3rem;
+    gap: min(calc(var(--fs-n) * 2.25), calc(var(--fs-n) * 1.25));
 }
 
 .step {
