@@ -17,7 +17,7 @@
 <body>
     <nav>
         <a href="index.html" th:href="@{/}">
-            <img class="logo" src="../public/images/logo.png" th:src="@{/images/logo.png}"/>
+            <img class="logo" src="../public/images/logo.svg" th:src="@{/images/logo.svg}"/>
         </a>
         <div th:if="${session.currentUser != null}">
             <div class="user-email" th:text="${session.currentUser.email}"></div>
@@ -107,21 +107,24 @@
             <h2>Evt. bemærkning / særlige ønsker</h2>
             <div class="input-container">
                 <label for="comment">
-                    <textarea name="comment" id="comment" placeholder="Vælg dine bemærkninger / ønsker her"></textarea>
+                    <textarea name="comment" id="comment" placeholder="Skriv dine bemærkninger / ønsker her"></textarea>
                 </label>
                 <div class="error-message">
                 </div>
             </div>
         </section>
+        <section>
+            <div class="navigation">
+                <a href="index" class="link-button">Tilbage</a>
+                <a href="confirmation.html" id="validateLink" class="link-button">Bekræft og fortsæt</a>
+            </div>
+
+        </section>
 
 
-            <a href="confirmation.html" id="validateLink">Bekræft og fortsæt</a>
 
 
     </div>
 </main>
-
-
-
 </body>
 </html>

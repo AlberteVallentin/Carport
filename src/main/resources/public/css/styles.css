@@ -147,7 +147,27 @@ textarea::placeholder, input::placeholder {
     height: 1rem;
 }
 
+.navigation{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    font-size: var(--fs-n);
+    gap: 0.5rem;
+}
 
+.link-button{
+    display: inline-block;
+    padding: 0.5rem 0.5rem;
+    color: white;
+    text-decoration: none;
+
+}
+
+.link-button:nth-child(2) {
+    background-color: var(--clr-dark-blue);
+    border-radius: 5px;
+
+}
 
 
 
