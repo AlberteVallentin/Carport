@@ -170,9 +170,10 @@ textarea::placeholder, input::placeholder {
     padding: 0.5rem 0.5rem;
     color: white;
     text-decoration: none;
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.5s ease, background-color 0.5s ease;
 
 }
+
 
 .link-button:nth-child(2) {
     background-color: var(--clr-dark-blue);
@@ -182,7 +183,7 @@ textarea::placeholder, input::placeholder {
 
 
 
-/* Existing Styles */
+/* Progress bar and steps */
 .progress-bar {
     display: flex;
     align-items: center;
@@ -195,7 +196,7 @@ textarea::placeholder, input::placeholder {
     flex-direction: column;
     align-items: center;
     position: relative;
-    cursor: pointer; /* Makes it clear that the steps are interactive */
+    cursor: pointer;
 }
 
 .step-number {
@@ -231,9 +232,8 @@ textarea::placeholder, input::placeholder {
     transform: scale(1.1);
 }
 
-.step:hover .step-number, .link-button:hover {
-    animation: pulse 2s infinite;
-}
+
+
 
 @keyframes pop {
     0% {
@@ -250,6 +250,7 @@ textarea::placeholder, input::placeholder {
 .current-step .step-number{
     animation: pop 2s ease-out;
 }
+
 
 
 
