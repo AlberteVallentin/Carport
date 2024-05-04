@@ -188,11 +188,12 @@ textarea::placeholder, input::placeholder {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: min(calc(var(--fs-n) * 2.25), calc(var(--fs-n) * 1.25));
+    gap: clamp(10px, 7vw, 32px);
 }
 
 .step {
     display: flex;
+    flex-grow: 1;
     flex-direction: column;
     align-items: center;
     position: relative;
