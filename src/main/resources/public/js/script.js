@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function initializeProgress() {
+    // Get the current step from sessionStorage or default to the first step
     const currentStep = parseInt(sessionStorage.getItem('currentStep') || '0');
     updateProgressbar(currentStep);
 }
@@ -11,12 +12,10 @@ function initializeProgress() {
 function updateProgressbar(step) {
     const progress = document.getElementById("progress");
     const progressSteps = document.querySelectorAll(".progress-step");
-    const numberOfSteps = progressSteps.length - 1; // Total number of steps minus one
+    const numberOfSteps = progressSteps.length - 1;
 
-    // Calculate the width of the progress bar based on the current step
     progress.style.width = `${(step / numberOfSteps) * 100}%`;
 
-    // Update step active state
     progressSteps.forEach((stepElement, index) => {
         if (index <= step) {
             stepElement.classList.add("progress-step-active");
@@ -29,12 +28,18 @@ function updateProgressbar(step) {
 function setupButtons() {
     const nextBtn = document.querySelector(".btn-next");
     const prevBtn = document.querySelector(".btn-prev");
+    const currentPage = window.location.pathname.split("/").pop(); // Get the current file name
 
     if (nextBtn) {
         nextBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            if (validateInputs()) { // Only navigate forward if the inputs are valid
-                navigate(1); // Navigate forward
+            // Only perform validation on 'carportform.html'
+            if (currentPage === 'carportform.html') {
+                if (validateInputs()) {
+                    navigate(1); // Navigate forward if validation is successful
+                }
+            } else {
+                navigate(1); // Navigate forward without validation
             }
         });
     }
@@ -50,12 +55,11 @@ function setupButtons() {
 function navigate(direction) {
     const currentStep = parseInt(sessionStorage.getItem('currentStep') || '0');
     const newStep = currentStep + direction;
+    const pages = ['carportform.html', 'kontakt.html', 'kvittering.html'];
 
-    // Ensure the new step is within valid bounds
-    if (newStep >= 0 && newStep < document.querySelectorAll(".progress-step").length) {
+    if (newStep >= 0 && newStep < pages.length) {
         sessionStorage.setItem('currentStep', newStep);
         updateProgressbar(newStep);
-        const pages = ['carportform.html', 'kontakt.html', 'kvittering.html'];
         window.location.href = pages[newStep];
     }
 }
@@ -64,16 +68,12 @@ function validateInputs() {
     const carportWidth = document.getElementById('carport-width');
     const carportLength = document.getElementById('carport-length');
     const carportRoof = document.getElementById('carport-roof');
-    const shedWidth = document.getElementById('shed-width');
-    const shedLength = document.getElementById('shed-length');
 
     const isValidWidth = validateSelect(carportWidth, 'Vælg venligst en bredde');
     const isValidLength = validateSelect(carportLength, 'Vælg venligst en længde');
     const isValidRoof = validateSelect(carportRoof, 'Vælg venligst en tagtype');
-    const isValidShedWidth = validateSelect(shedWidth, 'Vælg venligst en bredde for redskabsrum');
-    const isValidShedLength = validateSelect(shedLength, 'Vælg venligst en længde for redskabsrum');
 
-    return isValidWidth && isValidLength && isValidRoof && isValidShedWidth && isValidShedLength;
+    return isValidWidth && isValidLength && isValidRoof;
 }
 
 function validateSelect(selectElement, errorMessage) {
