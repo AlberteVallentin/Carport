@@ -15,17 +15,17 @@
     <script defer src="../public/js/script.js" th:src="@{/js/script.js}"></script>
 </head>
 <body>
-    <nav>
-        <a href="index.html" th:href="@{/}">
-            <img class="logo" src="../public/images/logo.svg" th:src="@{/images/logo.svg}"/>
-        </a>
-        <div th:if="${session.currentUser != null}">
-            <div class="user-email" th:text="${session.currentUser.email}"></div>
-        </div>
+<nav>
+    <a href="index.html" th:href="@{/}">
+        <img class="logo" src="../public/images/logo.svg" th:src="@{/images/logo.svg}"/>
+    </a>
+    <div th:if="${session.currentUser != null}">
+        <div class="user-email" th:text="${session.currentUser.email}"></div>
+    </div>
 
-    </nav>
+</nav>
 
-    <h1> Bestil en carport med fladt tag </h1>
+<h1> Kontakt </h1>
 
 <main>
     <div class="container">
@@ -37,11 +37,11 @@
 
         <section>
             <div class="progress-bar">
-                <div class="step current-step">
+                <div class="step">
                     <div class="step-number">1</div>
                     <div class="step-name">Bestilling</div>
                 </div>
-                <div class="step">
+                <div class="step current-step">
                     <div class="step-number">2</div>
                     <div class="step-name">Kontaktoplysninger</div>
                 </div>
@@ -53,47 +53,47 @@
         </section>
 
         <section>
-                <h2>Carport</h2>
-                <div class="select-container">
-                    <h3>Carport bredde*</h3>
-                    <label for="carport-width"></label>
-                    <select name="carport-width" id="carport-width">
-                        <option>Vælg en bredde</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                    <div class="error-message">
-                    </div>
+            <h2>Carport</h2>
+            <div class="select-container">
+                <h3>Carport bredde*</h3>
+                <label for="carport-width"></label>
+                <select name="carport-width" id="carport-width">
+                    <option>Vælg en bredde</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <div class="error-message">
                 </div>
-                <div class="select-container">
-                    <h3>Carport længde*</h3>
-                    <label for="carport-length"></label>
-                    <select name="carport-length" id="carport-length">
-                        <option>Vælg en længde</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                    <div class="error-message">
-                    </div>
+            </div>
+            <div class="select-container">
+                <h3>Carport længde*</h3>
+                <label for="carport-length"></label>
+                <select name="carport-length" id="carport-length">
+                    <option>Vælg en længde</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <div class="error-message">
                 </div>
-                <div class="select-container">
-                    <h3>Carport trapeztag*</h3>
-                    <label for="carport-roof"></label>
-                    <select name="carport-roof" id="carport-roof">
-                        <option>Vælg et tag</option>
-                        <option value="Uden tagplader">Uden tagplader</option>
-                        <option value="2">Plasttrapeztag</option>
-                    </select>
-                    <div class="error-message">
-                    </div>
+            </div>
+            <div class="select-container">
+                <h3>Carport trapeztag*</h3>
+                <label for="carport-roof"></label>
+                <select name="carport-roof" id="carport-roof">
+                    <option>Vælg et tag</option>
+                    <option value="Uden tagplader">Uden tagplader</option>
+                    <option value="2">Plasttrapeztag</option>
+                </select>
+                <div class="error-message">
                 </div>
-            </section>
+            </div>
+        </section>
         <section>
             <h2>Redskabsrum</h2>
             <p>NB! Der skal beregnes 15 cm tagudhæng på hver side af redskabsrummet*</p>
@@ -139,7 +139,7 @@
         <section>
             <div class="navigation">
                 <a href="index.html" class="link-button">Tilbage</a>
-                <a href="contactinfo.html" id="validateLink" class="link-button">Videre</a>
+                <a href="confirmation.html" id="validateLink" class="link-button">Videre</a>
             </div>
 
         </section>

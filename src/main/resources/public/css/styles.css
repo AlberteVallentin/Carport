@@ -181,6 +181,77 @@ textarea::placeholder, input::placeholder {
 
 
 
+/* Existing Styles */
+.progress-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    cursor: pointer; /* Makes it clear that the steps are interactive */
+}
+
+.step-number {
+    width: calc(var(--fs-n)*2.25);
+    height: calc(var(--fs-n)*2.25);
+    background-color: white;
+    border-radius: 50%;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--fs-n);
+    font-weight: var(--fw-normal);
+    transition: transform 0.3s ease-in-out; /* Smooth transition for transform */
+    border: 3px solid var(--clr-dark-blue);
+}
+
+.step-name {
+    margin-top: 0.5rem;
+    font-size: var(--fs-s);
+}
+
+.current-step .step-number {
+    border: 0;
+    background-color: var(--clr-dark-blue);
+    color: white;
+    font-weight: var(--fw-semi-bold);
+
+
+}
+
+.step:hover .step-number {
+    transform: scale(1.1);
+}
+
+
+.current-step .step-number {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.current-step .step-number{
+    animation: pop 1.5s ease-out;
+}
+
+
 
 
 

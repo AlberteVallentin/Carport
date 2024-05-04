@@ -39,6 +39,6 @@ validateLink.addEventListener('click', e => {
         localStorage.setItem('shed-width', shedWidth.options[shedWidth.selectedIndex].text);
         localStorage.setItem('shed-length', shedLength.options[shedLength.selectedIndex].text);
 
-        window.location.href = 'confirmation.html';  // Skift til din ønskede bekræftelsesside
+        window.location.href = 'contactinfo.html';  // Skift til din ønskede bekræftelsesside
     }
 });
