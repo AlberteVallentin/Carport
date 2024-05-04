@@ -147,6 +147,16 @@ textarea::placeholder, input::placeholder {
     height: 1rem;
 }
 
+/* Information */
+.info-text {
+    font-size: var(--fs-n);
+    text-align: center;
+    padding: 1rem;
+}
+
+
+
+/* Navigation buttons */
 .navigation{
     display: flex;
     justify-content: end;
