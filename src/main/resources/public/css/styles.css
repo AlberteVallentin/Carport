@@ -170,6 +170,7 @@ textarea::placeholder, input::placeholder {
     padding: 0.5rem 0.5rem;
     color: white;
     text-decoration: none;
+    transition: transform 0.3s ease-in-out;
 
 }
 
@@ -208,7 +209,7 @@ textarea::placeholder, input::placeholder {
     align-items: center;
     font-size: var(--fs-n);
     font-weight: var(--fw-normal);
-    transition: transform 0.3s ease-in-out; /* Smooth transition for transform */
+    transition: transform 0.3s ease-in-out;
     border: 3px solid var(--clr-dark-blue);
 }
 
@@ -226,12 +227,11 @@ textarea::placeholder, input::placeholder {
 
 }
 
-.step:hover .step-number {
+.step:hover .step-number, .link-button:hover {
     transform: scale(1.1);
 }
 
-
-.current-step .step-number {
+.step:hover .step-number, .link-button:hover {
     animation: pulse 2s infinite;
 }
 
@@ -248,7 +248,7 @@ textarea::placeholder, input::placeholder {
 }
 
 .current-step .step-number{
-    animation: pop 1.5s ease-out;
+    animation: pop 2s ease-out;
 }
 
 
