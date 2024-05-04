@@ -181,6 +181,7 @@ textarea::placeholder, input::placeholder {
 
 
 /* Progressbar */
+/* Baseline styling for progress bar */
 .progressbar {
     position: relative;
     display: flex;
@@ -193,26 +194,32 @@ textarea::placeholder, input::placeholder {
     width: 60%;
 }
 
-.progressbar::before,
-.progress {
+.progressbar::before {
     content: "";
     position: absolute;
     top: 50%;
+    left: 0;
+    right: 0;
     transform: translateY(-50%);
     height: 4px;
-    width: 100%;
-    background-color: violet;
-    z-index: -1;
+    background-color: #dcdcdc; /* Baseline color */
+    z-index: 0;
 }
 
 .progress {
-    background-color: var(--clr-dark-blue);
-    width: 0%;
-    transition: 0.3s;
-
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    height: 4px;
+    background-color: var(--clr-dark-blue); /* Dynamic color */
+    width: 0%; /* Start width */
+    transition: width 0.3s ease-in-out;
+    z-index: 1;
 }
 
 .progress-step {
+    position: relative;
     width: 2rem;
     height: 2rem;
     background-color: #dcdcdc;
@@ -220,17 +227,23 @@ textarea::placeholder, input::placeholder {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 2;
 }
 
 .progress-step::before {
     counter-increment: step;
     content: counter(step);
+    color: white;
 }
 
 .progress-step::after {
     content: attr(data-title);
     position: absolute;
     top: calc(100% + 0.5rem);
+    width: 100px; /* Ensure text is aligned properly */
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
     font-size: 0.85rem;
     color: black;
 }
@@ -239,9 +252,6 @@ textarea::placeholder, input::placeholder {
     background-color: var(--clr-dark-blue);
     color: #f3f3f3;
 }
-
-
-
 
 
 
