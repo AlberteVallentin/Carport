@@ -1,10 +1,268 @@
-/* Stylesheet for the application */
+/* Colors */
+:root{
+    --clr-bg:#F5F5F5;
+    --clr-light-blue: #C0DCF4;
+    --clr-dark-blue: #003D76;
+    --clr-error: #FF0000;
+}
+
+/* Font family */
+:root{
+    font-family: Montserrat, sans-serif;
+}
+
+/* Font sizes*/
+:root {
+    --fs-s: clamp(0.8333rem, 0.7754rem + 0.2899vi, 1rem);
+    --fs-n: clamp(1rem, 0.913rem + 0.4348vi, 1.25rem);
+    --fs-m: clamp(1.2rem, 1.0739rem + 0.6304vi, 1.5625rem);
+    --fs-l: clamp(1.44rem, 1.2615rem + 0.8924vi, 1.9531rem);
+    --fs-xl: clamp(2.0736rem, 1.7334rem + 1.7011vi, 3.0518rem);
+}
+
+/* Font weigth */
+:root {
+    --fw-ligth: 300;
+    --fw-normal: 400;
+    --fw-medium: 500;
+    --fw-semi-bold: 600;
+    --fw-bold: 700;
+}
+
+/* Text and background */
+html {
+    background-color: var(--clr-bg);
+}
+h1, h2, h3{
+    margin: 0.25rem 0;
+}
 
 h1 {
-    color: #369;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 3rem;
+    font-size: var(--fs-xl);
+    font-weight: var(--fw-bold);
+    text-align: center;
+    margin: 1rem;
 }
+
+h2 {
+    font-size: var(--fs-l);
+    font-weight: var(--fw-semi-bold);
+}
+
+h3 {
+    font-size: var(--fs-m);
+    font-weight: var(--fw-medium);
+}
+
+p, select, option, input, label, textarea {
+    font-size: var(--fs-n);
+    font-weight: var(--fw-normal);
+}
+
+/* Navigation */
+nav {
+    position: sticky;
+    top: 0;
+    padding: 0;
+    background: white;
+    z-index: 100;
+}
+
+nav a img {
+    width: 60px;
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+
+/* Main */
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+section {
+    margin: 1rem;
+}
+
+/* Containers */
+.container {
+    width: min(100% - 2rem, 800px);
+    margin: 1rem; 
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--clr-light-blue);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
+.select-container, .input-container{
+    display: flex;
+    flex-direction: column;
+    margin: 0.5rem;
+
+}
+
+select, input, textarea {
+    width: 100%;
+    border: 1px solid;
+    border-radius: 5px;
+    cursor: pointer;
+    height: calc(var(--fs-n) * 2);
+    line-height: calc(var(--fs-n) * 2);
+}
+
+textarea {
+    height: calc(var(--fs-n) * 6);
+}
+
+select, input, textarea:focus {
+    outline:none;
+}
+
+/* Match the padding of the select with the input, textarea and :placeholder */
+select {
+    padding-left: 0.5rem;
+}
+
+input, textarea, textarea::placeholder {
+    padding-left: 12px;
+}
+
+textarea::placeholder, input::placeholder {
+    padding-left: 0;
+}
+
+
+
+/* Error messages */
+.select-container .error-message, .input-container .error-message{
+    color: var(--clr-error);
+    font-size: var(--fs-s);
+}
+
+.error-message {
+    height: 1rem;
+}
+
+/* Information */
+.info-text {
+    font-size: var(--fs-n);
+    text-align: center;
+    padding: 1rem;
+}
+
+
+
+/* Navigation buttons */
+.navigation{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    font-size: var(--fs-n);
+    gap: 0.5rem;
+}
+
+.link-button{
+    display: inline-block;
+    padding: 0.5rem 0.5rem;
+    color: white;
+    text-decoration: none;
+    transition: transform 0.5s ease, background-color 0.5s ease;
+
+}
+
+
+.link-button:nth-child(2) {
+    background-color: var(--clr-dark-blue);
+    border-radius: 5px;
+
+}
+
+
+
+/* Progress bar and steps */
+.progress-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.8rem, 3vw, 3rem);
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.step-number {
+    width: calc(var(--fs-n)*2.25);
+    height: calc(var(--fs-n)*2.25);
+    background-color: white;
+    border-radius: 50%;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--fs-n);
+    font-weight: var(--fw-normal);
+    transition: transform 0.3s ease-in-out;
+    border: 3px solid var(--clr-dark-blue);
+}
+
+.step-name {
+    margin-top: 0.5rem;
+    font-size: var(--fs-s);
+}
+
+.current-step .step-number {
+    border: 0;
+    background-color: var(--clr-dark-blue);
+    color: white;
+    font-weight: var(--fw-semi-bold);
+
+
+}
+
+.step:hover .step-number, .link-button:hover {
+    transform: scale(1.1);
+}
+
+
+
+
+@keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.current-step .step-number{
+    animation: pop 2s ease-out;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
