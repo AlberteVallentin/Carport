@@ -9,7 +9,6 @@ const setError = (element, message) => {
     const inputControl = element.parentElement;
     const errorDisplay = inputControl.querySelector('.error-message');
     errorDisplay.innerText = message;
-    inputControl.classList.add('error');
 };
 
 const validateSelect = (selectElement, errorMessage) => {
@@ -32,13 +31,7 @@ const validateInputs = () => {
 validateLink.addEventListener('click', e => {
     e.preventDefault();  // Forhindrer linket i at følge sin href
 
-    if (validateInputs()) {  // Hvis validering er succesfuld, gem data
-        localStorage.setItem('carport-width', carportWidth.options[carportWidth.selectedIndex].text);
-        localStorage.setItem('carport-length', carportLength.options[carportLength.selectedIndex].text);
-        localStorage.setItem('carport-roof', carportRoof.options[carportRoof.selectedIndex].text);
-        localStorage.setItem('shed-width', shedWidth.options[shedWidth.selectedIndex].text);
-        localStorage.setItem('shed-length', shedLength.options[shedLength.selectedIndex].text);
-
-        window.location.href = 'contactinfo.html';  // Skift til din ønskede bekræftelsesside
+    if (validateInputs()) {
+        window.location.href = 'contact-details.html';  // Skift til din ønskede bekræftelsesside
     }
 });
