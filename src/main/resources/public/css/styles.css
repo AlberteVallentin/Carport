@@ -65,6 +65,7 @@ nav {
     top: 0;
     padding: 0;
     background: white;
+    z-index: 100;
 }
 
 nav a img {
