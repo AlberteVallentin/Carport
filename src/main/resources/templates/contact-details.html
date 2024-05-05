@@ -6,7 +6,8 @@
     <title>Contact Details</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+          rel="stylesheet">
 
 
     <link href="../public/css/reset.css" th:href="@{/css/reset.css}" rel="stylesheet"/>
@@ -25,7 +26,7 @@
 <main>
     <div class="container">
         <section>
-            <p class="info-text">Nedstående er dine kontaktoplysninger baseret på din konto
+            <p class="info-text">Nedstående er dine kontaktoplysninger baseret på din konto.
                 Felter markeret med * SKAL være udfyldt!
             </p>
         </section>
@@ -49,72 +50,71 @@
 
 
         <section>
-            <h2>Redskabsrum</h2>
-            <p>NB! Der skal beregnes 15 cm tagudhæng på hver side af redskabsrummet*</p>
-            <div class="select-container">
-                <h3>Redskabsrum bredde*</h3>
-                <label for="shed-width"></label>
-                <select name="shed-width" id="shed-width">
-                    <option>Vælg en bredde</option>
-                    <option value="210">210 cm</option>
-                    <option value="240">240 cm</option>
-                    <option value="270">270 cm</option>
-                    <option value="300">300 cm</option>
-                    <option value="330">330 cm</option>
-                    <option value="360">360 cm</option>
-                    <option value="390">390 cm</option>
-                    <option value="420">420 cm</option>
-                    <option value="450">450 cm</option>
-                    <option value="480">480 cm</option>
-                    <option value="510">510 cm</option>
-                    <option value="540">540 cm</option>
-                    <option value="570">570 cm</option>
-                    <option value="600">600 cm</option>
-                    <option value="630">630 cm</option>
-                    <option value="660">660 cm</option>
-                    <option value="690">690 cm</option>
-                    <option value="720">720 cm</option>
-                </select>
+            <h2>Kontakt</h2>
+            <div class="text-container">
+                <h3>Fornavn*</h3>
+                <p class="selected-text">Fornavn</p>
                 <div class="error-message">
                 </div>
             </div>
-            <div class="select-container">
-                <h3>Redskabsrum længde*</h3>
-                <label for="shed-length"></label>
-                <select name="shed-length" id="shed-length">
-                    <option>Vælg en længde</option>
-                    <option value="150">150 cm</option>
-                    <option value="180">180 cm</option>
-                    <option value="210">210 cm</option>
-                    <option value="240">240 cm</option>
-                    <option value="270">270 cm</option>
-                    <option value="300">300 cm</option>
-                    <option value="330">330 cm</option>
-                    <option value="360">360 cm</option>
-                    <option value="390">390 cm</option>
-                    <option value="420">420 cm</option>
-                    <option value="450">450 cm</option>
-                    <option value="480">480 cm</option>
-                    <option value="510">510 cm</option>
-                    <option value="540">540 cm</option>
-                    <option value="570">570 cm</option>
-                    <option value="600">600 cm</option>
-                    <option value="630">630 cm</option>
-                </select>
+            <div class="text-container">
+                <h3>Efternavn*</h3>
+                <p class="selected-text">Efternavn</p>
                 <div class="error-message">
+                </div>
+            </div>
+            <div>
+                <div class="text-container">
+                    <h3>E-mail*</h3>
+                    <p class="selected-text">E-mail</p>
+                    <div class="error-message">
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="text-container">
+                    <h3>Telefonnummer*</h3>
+                    <p class="selected-text">E-mail</p>
+                    <div class="error-message">
+                    </div>
                 </div>
             </div>
         </section>
+
         <section>
-            <h2>Evt. bemærkning / særlige ønsker</h2>
-            <div class="input-container">
-                <label for="comment">
-                    <textarea name="comment" id="comment" placeholder="Skriv dine bemærkninger / ønsker her"></textarea>
-                </label>
+            <h2>Adresse</h2>
+            <p>NB! Dette skal være leveringsadressen*</p>
+            <div class="text-container">
+                <h3>Vejnavn og husnummer*</h3>
+                <p class="selected-text">Vejnavn og husnummer</p>
                 <div class="error-message">
                 </div>
             </div>
+            <div class="text-container">
+                <h3>Etage- og dørbetegnelse</h3>
+                <p class="selected-text">Etage- og dørbetegnelse</p>
+                <div class="error-message">
+                </div>
+            </div>
+            <div>
+                <div class="text-container two-rows">
+                    <div>
+                        <h3>By*</h3>
+                        <p class="selected-text">By</p>
+                        <div class="error-message">
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Postnummer*</h3>
+                        <p class="selected-text">Postnummer</p>
+                        <div class="error-message">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
+
+
         <section>
             <div class="navigation">
                 <a href="carport-order.html" class="link-button">Tilbage</a>
@@ -122,8 +122,6 @@
             </div>
 
         </section>
-
-
 
 
     </div>

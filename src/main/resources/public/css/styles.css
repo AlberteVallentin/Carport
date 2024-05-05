@@ -99,14 +99,16 @@ section {
     border-radius: 5px;
 }
 
-.select-container, .input-container{
+.select-container, .input-container, .text-container{
     display: flex;
     flex-direction: column;
     margin: 0.5rem;
 
 }
 
-select, input, textarea {
+
+
+select, input, textarea, .selected-text {
     width: 100%;
     border: 1px solid;
     border-radius: 5px;
@@ -114,12 +116,28 @@ select, input, textarea {
     height: calc(var(--fs-n) * 2);
     line-height: calc(var(--fs-n) * 2);
 }
+.two-rows{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0.5rem;
+    gap: 1rem;
 
-textarea {
+}
+
+.two-rows > div {
+    width: 50%;
+}
+
+.selected-text{
+    background-color: white;
+}
+
+textarea{
     height: calc(var(--fs-n) * 6);
 }
 
-select, input, textarea:focus {
+select, input, .selected-text, textarea:focus {
     outline:none;
 }
 
@@ -128,7 +146,7 @@ select {
     padding-left: 0.5rem;
 }
 
-input, textarea, textarea::placeholder {
+input, textarea, .selected-text, textarea::placeholder {
     padding-left: 12px;
 }
 
@@ -251,6 +269,11 @@ textarea::placeholder, input::placeholder {
 .current-step .step-number{
     animation: pop 2s ease-out;
 }
+
+
+
+
+
 
 
 
