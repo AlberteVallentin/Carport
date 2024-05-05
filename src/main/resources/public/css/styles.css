@@ -210,6 +210,14 @@ textarea::placeholder, input::placeholder {
     gap: clamp(0.8rem, 3vw, 3rem);
 }
 
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
 .step-number {
     width: calc(var(--fs-n)*2.25);
     height: calc(var(--fs-n)*2.25);
@@ -261,6 +269,16 @@ textarea::placeholder, input::placeholder {
 .current-step .step-number{
     animation: pop 2s ease-out;
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
