@@ -17,7 +17,7 @@
     --fs-n: clamp(1rem, 0.913rem + 0.4348vi, 1.25rem);
     --fs-m: clamp(1.2rem, 1.0739rem + 0.6304vi, 1.5625rem);
     --fs-l: clamp(1.44rem, 1.2615rem + 0.8924vi, 1.9531rem);
-    --fs-xl: clamp(2.0736rem, 1.7334rem + 1.7011vi, 3.0518rem);
+    --fs-xl: clamp(1.728rem, 1.4799rem + 1.2407vi, 2.4414rem);
 }
 
 /* Font weigth */
