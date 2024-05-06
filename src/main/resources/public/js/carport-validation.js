@@ -55,11 +55,13 @@ const validateInputs = () => {
     return isValidWidth && isValidLength && isValidRoof && isValidShedWidth && isValidShedLength;  // Returner 'true' kun hvis alle er gyldige
 };
 
-// Event listener på linket, der validerer data før navigation
 validateLink.addEventListener('click', e => {
-    e.preventDefault();  // Forhindrer linket i at følge sin href
-
-    if (validateInputs()) {
-        window.location.href = 'contact-details.html';  // Skift til din ønskede bekræftelsesside
+    // Prøv at validere indtastninger først
+    if (!validateInputs()) {
+        e.preventDefault();  // Kun forhindre standardadfærd hvis valideringen fejler
+        // Her kan du også indsætte yderligere logik, fx vise fejlmeddelelser
+    } else {
+        // Hvis alt er gyldigt, tillad normal navigation
+        window.location.href = validateLink.getAttribute('href');  // Brug den rigtige URL fra href attribut
     }
 });
