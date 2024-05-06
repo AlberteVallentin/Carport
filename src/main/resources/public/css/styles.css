@@ -116,6 +116,9 @@ select, input, textarea, .selected-text {
     height: calc(var(--fs-n) * 2);
     line-height: calc(var(--fs-n) * 2);
 }
+
+
+
 .two-rows{
     display: flex;
     flex-direction: row;
@@ -133,7 +136,7 @@ select, input, textarea, .selected-text {
     background-color: white;
 }
 
-textarea{
+textarea, .comment{
     height: calc(var(--fs-n) * 6);
 }
 

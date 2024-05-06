@@ -17,13 +17,13 @@
     </a>
 </nav>
 
-<h1> Kontaktoplysninger </h1>
+<h1>Din ordre</h1>
 
 <main>
     <div class="container">
         <section>
-            <p class="info-text">Nedstående er dine kontaktoplysninger baseret på din konto
-                Felter markeret med * SKAL være udfyldt!
+            <p class="info-text">Nedstående er en oversigt over dine valg for carporten.
+                Tryk “bekræft” for at gennemføre ordren eller “ret ordre” for at gå tilbage og rette i din ordre
             </p>
         </section>
 
@@ -33,63 +33,69 @@
                     <div class="step-number">1</div>
                     <div class="step-name">Bestilling</div>
                 </div>
-                <div class="step current-step">
+                <div class="step">
                     <div class="step-number">2</div>
                     <div class="step-name">Kontaktoplysninger</div>
                 </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-name">Kvittering</div>
+                <div class="step current-step">
+                    <div class="step-number ">3</div>
+                    <div class="step-name">Din ordre</div>
                 </div>
             </div>
         </section>
 
 
         <section>
-            <h2>Redskabsrum</h2>
-            <p>NB! Der skal beregnes 15 cm tagudhæng på hver side af redskabsrummet*</p>
-            <div class="select-container">
-                <h3>Redskabsrum bredde*</h3>
-                <label for="shed-width"></label>
-                <select name="shed-width" id="shed-width">
-                    <option>Vælg en bredde</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
+            <h2>Carport</h2>
+            <div class="text-container">
+                <h3>Carport bredde</h3>
+                <p class="selected-text">Carport bredde</p>
                 <div class="error-message">
                 </div>
             </div>
-            <div class="select-container">
-                <h3>Redskabsrum længde*</h3>
-                <label for="shed-length"></label>
-                <select name="shed-length" id="shed-length">
-                    <option>Vælg en længde</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
+            <div class="text-container">
+                <h3>Carport længde</h3>
+                <p class="selected-text">Carport længde</p>
+                <div class="error-message">
+                </div>
+            </div>
+            <div>
+                <div class="text-container">
+                    <h3>Carport trapeztag</h3>
+                    <p class="selected-text">Carport trapeztag</p>
+                    <div class="error-message">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Adresse</h2>
+            <p>NB! Der skal beregnes 15 cm tagudhæng på hver side af redskabsrummet</p>
+            <div class="text-container">
+                <h3>Redskabsrum længde</h3>
+                <p class="selected-text">Redskabsrum længde</p>
+                <div class="error-message">
+                </div>
+            </div>
+            <div class="text-container">
+                <h3>Redskabsrum bredde</h3>
+                <p class="selected-text">Redskabsrum bredde</p>
                 <div class="error-message">
                 </div>
             </div>
         </section>
         <section>
-            <h2>Evt. bemærkning / særlige ønsker</h2>
-            <div class="input-container">
-                <label for="comment">
-                    <textarea name="comment" id="comment" placeholder="Skriv dine bemærkninger / ønsker her"></textarea>
-                </label>
+            <h2>Evt. bemærkninger / særlige ønsker</h2>
+            <div class="text-container">
+                <p class="selected-text comment">Bemærkninger / særlige ønsker</p>
                 <div class="error-message">
                 </div>
             </div>
         </section>
         <section>
             <div class="navigation">
-                <a href="carport-order.html" class="link-button">Tilbage</a>
+                <a href="carport-order.html" class="link-button">Ret ordre</a>
                 <a href="confirmation.html" class="link-button">Videre</a>
             </div>
 
