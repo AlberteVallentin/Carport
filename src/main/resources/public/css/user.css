@@ -1,0 +1,98 @@
+/* Colors */
+:root{
+    --clr-bg:#F5F5F5;
+    --clr-light-blue: #C0DCF4;
+    --clr-dark-blue: #003D76;
+    --clr-error: #FF0000;
+}
+
+/* Font family */
+:root{
+    font-family: Montserrat, sans-serif;
+}
+
+/* Font sizes*/
+:root {
+    --fs-s: clamp(0.8333rem, 0.7754rem + 0.2899vi, 1rem);
+    --fs-n: clamp(1rem, 0.913rem + 0.4348vi, 1.25rem);
+    --fs-m: clamp(1.2rem, 1.0739rem + 0.6304vi, 1.5625rem);
+    --fs-l: clamp(1.44rem, 1.2615rem + 0.8924vi, 1.9531rem);
+    --fs-xl: clamp(1.728rem, 1.4799rem + 1.2407vi, 2.4414rem);
+}
+
+/* Font weigth */
+:root {
+    --fw-ligth: 300;
+    --fw-normal: 400;
+    --fw-medium: 500;
+    --fw-semi-bold: 600;
+    --fw-bold: 700;
+}
+
+/* Text and background */
+html {
+    background-color: var(--clr-bg);
+}
+h1, h2, h3{
+    margin: 0.25rem 0;
+}
+
+h1 {
+    font-size: var(--fs-xl);
+    font-weight: var(--fw-bold);
+    text-align: center;
+    margin: 1rem;
+}
+
+h2 {
+    font-size: var(--fs-l);
+    font-weight: var(--fw-semi-bold);
+}
+
+h3 {
+    font-size: var(--fs-m);
+    font-weight: var(--fw-medium);
+}
+
+p, select, option, input, label, textarea {
+    font-size: var(--fs-n);
+    font-weight: var(--fw-normal);
+}
+
+.login-container h2 {
+    text-align: center;
+
+}
+
+/* Login button */
+.login{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.submit-button {
+    background-color: var(--clr-dark-blue);
+    font-size: var(--fs-n);
+    border-radius: 5px;
+    padding: 0.5rem 2rem;
+    color: white;
+    text-decoration: none;
+    transition: transform 0.5s ease, background-color 0.5s ease;
+
+}
+
+.link {
+    font-size: var(--fs-s);
+    color: black;
+    border-radius: 5px;
+    padding: 0.5rem 2rem;
+    transition: transform 0.5s ease, background-color 0.5s ease;
+
+}
+
+.submit-button:hover {
+    transform: scale(1.1);
+}

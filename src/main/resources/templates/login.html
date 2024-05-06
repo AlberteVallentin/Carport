@@ -3,25 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Summary</title>
+    <title>Login</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link href="../public/css/reset.css" th:href="@{/css/reset.css}" rel="stylesheet"/>
     <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link href="../public/css/user.css" th:href="@{/css/user.css}" rel="stylesheet">
+
 </head>
 <body>
 <nav>
-    <a href="index.html" th:href="@{/}">
-        <img class="logo" src="../public/images/logo.svg" th:src="@{/images/logo.svg}"/>
-    </a>
+    <div>
+        <a href="index.html" th:href="@{/}">
+            <img class="logo" src="../public/images/logo.svg" th:src="@{/images/logo.svg}"/>
+        </a>
+    </div>
+    <div class="account-container">
+        <a href="login.html" th:href="@{/}">
+            <img class="account" src="../public/images/person.svg" th:src="@{/images/person.svg}"/>
+        </a>
+        <a href="login.html" class="account">Konto</a>
+
+    </div>
+
+
 </nav>
 
 <h1>Login</h1>
 
 <main>
     <div class="container">
-        <section>
+        <section class="login-container">
             <h2>Her kan du logge ind</h2>
             <div class="input-container">
                 <h3>E-mail</h3>
@@ -37,9 +50,9 @@
             </div>
         </section>
         <section>
-            <div class="navigation">
-                <a href="carport-order.html" class="link-button">Ret ordre</a>
-                <a href="confirmation.html" class="link-button">Videre</a>
+            <div class="login">
+                <button type="submit" class="submit-button" formaction="/login">Login</button>
+                <a href="create-account.html" class="link" th:href="@{/}">Opret en konto</a>
             </div>
 
         </section>
