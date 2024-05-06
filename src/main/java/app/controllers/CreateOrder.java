@@ -1,19 +1,20 @@
 package app.controllers;
 
 import app.entities.Materials;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
+import app.persistence.ConnectionPool;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import io.javalin.http.Context;
 
-import java.io.IOException;
 
 
-public class CreateOrder extends HttpServlet {
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // Kalder GetCarportData-metoden
-        GetCarportData(request, response);
+public class CreateOrder  {
+
+
+    private static void index(Context ctx , ConnectionPool connectionPool){
+
+
     }
 
     protected void GetCarportData(HttpServletRequest request, HttpServletResponse response){
