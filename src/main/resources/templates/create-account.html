@@ -16,6 +16,7 @@
 
     <link href="../public/css/reset.css" th:href="@{/css/reset.css}" rel="stylesheet"/>
     <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link href="../public/css/user.css" th:href="@{/css/user.css}" rel="stylesheet">
 </head>
 <body>
 <nav>
@@ -39,6 +40,7 @@
 
 <main>
     <div class="container">
+
         <section>
             <p class="info-text">Felter markeret med * SKAL være udfyldt!
             </p>
@@ -107,7 +109,6 @@
                     <label for="ship-address">
                         <input name="ship-address"
                                id="ship-address"
-                               required
                                autocomplete="off"
                                type="text"
                                placeholder="Indtast dit vejnavn">
@@ -118,7 +119,7 @@
                 </div>
 
                 <div class="input-container">
-                    <h3>Husnummer</h3>
+                    <h3>Husnummer*</h3>
                     <label for="house-number">
                         <input name="house-number" id="house-number" placeholder="Indtast dit husnummer" type="text">
                     </label>
@@ -130,7 +131,8 @@
                 <div class="input-container">
                     <h3>Etage- og dørbetegnelse</h3>
                     <label for="floor-and-door">
-                        <input name="floor-and-door" id="floor-and-door" placeholder="Indtast etage- og dørbetegnelse" type="text">
+                        <input name="floor-and-door" id="floor-and-door" placeholder="Indtast din etage- og dørbetegnelse"
+                               type="text">
                     </label>
                     <div class="error-message">
                     </div>
@@ -139,7 +141,7 @@
                 <div class="input-container">
                     <h3>By*</h3>
                     <label for="locality">
-                        <input id="locality" name="locality" required placeholder="Indtast din by" type="text">
+                        <input id="locality" name="locality" placeholder="Indtast din by" type="text">
                     </label>
                     <div class="error-message">
                     </div>
@@ -148,46 +150,30 @@
                 <div class="input-container">
                     <h3>Postnummer*</h3>
                     <label for="postal-code">
-                        <input id="postcode" name="postcode" required placeholder="Indtast dit postnummer" type="text"/>
+                        <input id="postcode" name="postcode" placeholder="Indtast dit postnummer"
+                               type="number"/>
                     </label>
                     <div class="error-message">
                     </div>
                 </div>
 
-                <div class="input-container">
-                    <h3>Land*</h3>
-                    <label for="country">
-                        <input name="country" id="country" required placeholder="Indtast land" type="text">
-                    </label>
-                    <div class="error-message">
+                <section>
+                    <div class="create-account">
+                        <a href="login.html" class="link-button">Tilbage til login</a>
+                        <button type="submit" class="submit-button" formaction="/createaccount">Opret bruger</button>
                     </div>
-                </div>
 
-                <button type="button" class="my-button">Gem adresse</button>
-
+                </section>
 
 
             </section>
-                <!-- Reset button provided for development testing convenience.
-            Not recommended for user-facing forms due to risk of mis-click when aiming for Submit button. -->
-                <input type="reset" value="Clear form"/>
+
 
         </form>
 
 
         <script async defer
                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7_G5wmAANaWqlZfLHPMlCZbt53hrvbKY&libraries=places&callback=initAutocomplete"></script>
-
-
-
-
-        <section>
-            <div class="navigation">
-                <a href="carport-order.html" class="link-button">Tilbage</a>
-                <a href="order-summary.html" class="link-button">Videre</a>
-            </div>
-
-        </section>
 
 
     </div>
