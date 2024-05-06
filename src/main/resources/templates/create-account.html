@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Details</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
           rel="stylesheet">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="../public/js/carport-validation.js" th:src="@{/js/carport-validation.js}"></script>
+    <script src="../public/js/address-validation.js" th:src="@{/js/address-validation.js}"></script>
 
 
     <link href="../public/css/reset.css" th:href="@{/css/reset.css}" rel="stylesheet"/>
@@ -40,91 +44,141 @@
             </p>
         </section>
 
-        <section>
-            <h2>Kontakt</h2>
-            <div class="input-container">
-                <h3>Fornavn*</h3>
-                <label for="first-name">
-                    <input name="first-name" id="first-name" placeholder="Indtast dit fornavn" type="text">
-                </label>
-                <div class="error-message">
-                </div>
-            </div>
-            <div class="input-container">
-                <h3>Efternavn*</h3>
-                <label for="last-name">
-                    <input name="last-name" id="last-name" placeholder="Indtast dit efternavn" type="text">
-                </label>
-                <div class="error-message">
-                </div>
-            </div>
-            <div class="input-container">
-                <h3>E-mail*</h3>
-                <label for="email">
-                    <input name="email" id="email" placeholder="Indtast din e-mail" type="email">
-                </label>
-                <div class="error-message">
-                </div>
-            </div>
-            <div class="input-container">
-                <h3>Telefonnummer*</h3>
-                <label for="phone">
-                    <input name="phone" id="phone" placeholder="Indtast dit telefonnummer" type="tel">
-                </label>
-                <div class="error-message">
-                </div>
-            </div>
-            <div class="input-container">
-                <h3>Kodeord*</h3>
-                <label for="password1">
-                    <input name="password1" id="password1" placeholder="Indtast dit kodeord" type="password">
-                </label>
-                <div class="error-message">
-                </div>
-            </div>
-            <div class="input-container">
-                <h3>Bekræft kodeord*</h3>
-                <label for="password2">
-                    <input name="password2" id="password2" placeholder="Gentag dit kodeord" type="password">
-                </label>
-                <div class="error-message">
-                </div>
-            </div>
+        <form method="post" autocomplete="off">
+            <section>
+                <h2>Kontakt</h2>
 
-        </section>
-
-        <section>
-            <h2>Adresse</h2>
-            <p>NB! Dette skal være leveringsadressen</p>
-            <div class="text-container">
-                <h3>Vejnavn og husnummer*</h3>
-                <p class="selected-text">Vejnavn og husnummer</p>
-                <div class="error-message">
-                </div>
-            </div>
-            <div class="text-container">
-                <h3>Etage- og dørbetegnelse</h3>
-                <p class="selected-text">Etage- og dørbetegnelse</p>
-                <div class="error-message">
-                </div>
-            </div>
-            <div>
-                <div class="text-container two-rows">
-                    <div>
-                        <h3>By*</h3>
-                        <p class="selected-text">By</p>
-                        <div class="error-message">
-                        </div>
-                    </div>
-                    <div>
-                        <h3>Postnummer*</h3>
-                        <p class="selected-text">Postnummer</p>
-                        <div class="error-message">
-                        </div>
+                <div class="input-container">
+                    <h3>Fornavn*</h3>
+                    <label for="first-name">
+                        <input name="first-name" id="first-name" placeholder="Indtast dit fornavn" type="text">
+                    </label>
+                    <div class="error-message">
                     </div>
                 </div>
-            </div>
-        </section>
+                <div class="input-container">
+                    <h3>Efternavn*</h3>
+                    <label for="last-name">
+                        <input name="last-name" id="last-name" placeholder="Indtast dit efternavn" type="text">
+                    </label>
+                    <div class="error-message">
+                    </div>
+                </div>
+                <div class="input-container">
+                    <h3>E-mail*</h3>
+                    <label for="email">
+                        <input name="email" id="email" placeholder="Indtast din e-mail" type="email">
+                    </label>
+                    <div class="error-message">
+                    </div>
+                </div>
+                <div class="input-container">
+                    <h3>Telefonnummer*</h3>
+                    <label for="phone">
+                        <input name="phone" id="phone" placeholder="Indtast dit telefonnummer" type="tel">
+                    </label>
+                    <div class="error-message">
+                    </div>
+                </div>
+                <div class="input-container">
+                    <h3>Kodeord*</h3>
+                    <label for="password1">
+                        <input name="password1" id="password1" placeholder="Indtast dit kodeord" type="password">
+                    </label>
+                    <div class="error-message">
+                    </div>
+                </div>
+                <div class="input-container">
+                    <h3>Bekræft kodeord*</h3>
+                    <label for="password2">
+                        <input name="password2" id="password2" placeholder="Gentag dit kodeord" type="password">
+                    </label>
+                    <div class="error-message">
+                    </div>
+                </div>
+
+            </section>
+
+
+            <section>
+                <h2>Adresse</h2>
+                <div class="input-container">
+                    <h3>Vejnavn*</h3>
+                    <label for="ship-address">
+                        <input name="ship-address"
+                               id="ship-address"
+                               required
+                               autocomplete="off"
+                               type="text"
+                               placeholder="Indtast dit vejnavn">
+                    </label>
+                    <div class="error-message">
+                    </div>
+
+                </div>
+
+                <div class="input-container">
+                    <h3>Husnummer</h3>
+                    <label for="house-number">
+                        <input name="house-number" id="house-number" placeholder="Indtast dit husnummer" type="text">
+                    </label>
+                    <div class="error-message">
+                    </div>
+                </div>
+
+
+                <div class="input-container">
+                    <h3>Etage- og dørbetegnelse</h3>
+                    <label for="floor-and-door">
+                        <input name="floor-and-door" id="floor-and-door" placeholder="Indtast etage- og dørbetegnelse" type="text">
+                    </label>
+                    <div class="error-message">
+                    </div>
+                </div>
+
+                <div class="input-container">
+                    <h3>By*</h3>
+                    <label for="locality">
+                        <input id="locality" name="locality" required placeholder="Indtast din by" type="text">
+                    </label>
+                    <div class="error-message">
+                    </div>
+                </div>
+
+                <div class="input-container">
+                    <h3>Postnummer*</h3>
+                    <label for="postal-code">
+                        <input id="postcode" name="postcode" required placeholder="Indtast dit postnummer" type="text"/>
+                    </label>
+                    <div class="error-message">
+                    </div>
+                </div>
+
+                <div class="input-container">
+                    <h3>Land*</h3>
+                    <label for="country">
+                        <input name="country" id="country" required placeholder="Indtast land" type="text">
+                    </label>
+                    <div class="error-message">
+                    </div>
+                </div>
+
+                <button type="button" class="my-button">Gem adresse</button>
+
+
+
+            </section>
+                <!-- Reset button provided for development testing convenience.
+            Not recommended for user-facing forms due to risk of mis-click when aiming for Submit button. -->
+                <input type="reset" value="Clear form"/>
+
+        </form>
+
+
+        <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7_G5wmAANaWqlZfLHPMlCZbt53hrvbKY&libraries=places&callback=initAutocomplete"></script>
+
+
 
 
         <section>
@@ -137,6 +191,7 @@
 
 
     </div>
+
 </main>
 </body>
 </html>
