@@ -66,13 +66,37 @@ nav {
     padding: 0;
     background: white;
     z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-nav a img {
+nav a .logo {
     width: 60px;
     height: auto;
     margin: 0;
     padding: 0;
+}
+
+nav a .account  {
+    width: 30px;
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.account-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-right: 1rem;
+}
+
+.account {
+    font-size: var(--fs-s);
+    font-weight: var(--fw-normal);
+    text-decoration: none;
+    color: black;
 }
 
 /* Main */
