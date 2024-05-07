@@ -142,20 +142,6 @@ select, input, textarea, .selected-text {
 }
 
 
-
-.two-rows{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 0.5rem;
-    gap: 1rem;
-
-}
-
-.two-rows > div {
-    width: 50%;
-}
-
 .selected-text{
     background-color: white;
 }

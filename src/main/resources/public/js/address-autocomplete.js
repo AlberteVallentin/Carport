@@ -21,8 +21,7 @@ function initAutocomplete() {
         componentRestrictions: { country: ["dk"] },
         fields: ["address_components", "geometry"],
         types: ["address"],
-    });
-    address1Field.focus();
+    });//address1Field.focus();
     // When the user selects an address from the drop-down, populate the
     // address fields in the form.
     autocomplete.addListener("place_changed", fillInAddress);
