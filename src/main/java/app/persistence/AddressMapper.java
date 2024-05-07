@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class AddressMapper {
 
     public static int createAddress(String streetName, String houseNumber, String floorAndDoor, String postalCode, String city, ConnectionPool connectionPool) throws SQLException {
-        String sql = "INSERT INTO addresses (street_name, house_number, floor_and_door, postal_code, city) VALUES (?, ?, ?, ?, ?) RETURNING id";
+        String sql = "INSERT INTO address (street_name, house_number, floor_and_door, postal_code, city) VALUES (?, ?, ?, ?, ?) RETURNING id";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
