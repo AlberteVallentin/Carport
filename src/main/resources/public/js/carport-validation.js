@@ -59,7 +59,6 @@ validateLink.addEventListener('click', e => {
     // Prøv at validere indtastninger først
     if (!validateInputs()) {
         e.preventDefault();  // Kun forhindre standardadfærd hvis valideringen fejler
-        // Her kan du også indsætte yderligere logik, fx vise fejlmeddelelser
     } else {
         // Hvis alt er gyldigt, tillad normal navigation
         window.location.href = validateLink.getAttribute('href');  // Brug den rigtige URL fra href attribut
