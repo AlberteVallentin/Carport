@@ -1,5 +1,7 @@
 package app.controllers;
 
+import app.entities.Address;
+import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.AddressMapper;
 import app.persistence.ConnectionPool;
@@ -8,6 +10,7 @@ import io.javalin.Javalin;
 import io.javalin.http.Context;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class UserController {
 
@@ -32,10 +35,10 @@ public class UserController {
 
         if (password1.equals(password2)) {
             try {
-                // Opret adresse og få dens ID
-                int addressId = AddressMapper.createAddress(streetName, houseNumber, floorAndDoor, postalCode, city, connectionPool);
+                AddressMapper.createAddress(streetName, houseNumber, floorAndDoor, postalCode, city, connectionPool);
 
-                // Brug adresse ID til at oprette brugerkontoen
+                List<Address> addressList = AddressMapper.getAllAddresses(connectionPool);
+                ctx.attribute("addressList", addressList);
                 UserMapper.createUser(firstName, lastName, email, phone, password1, addressId, connectionPool);
 
                 ctx.attribute("message", "Hermed oprettet med email: " + email + ". Log på.");
