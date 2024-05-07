@@ -4,16 +4,16 @@ public class Address {
     private int addressId;
     private String streetName;
     private String houseNumber;
-    private String floorAndDoor;
+    private String floorAndDoorDescription;
     private String city;
     private int postalCode;
 
 
-    public Address(int addressId, String streetName, String houseNumber, String floorAndDoor, int postalCode, String city) {
+    public Address(int addressId, String streetName, String houseNumber, String floorAndDoorDescription, int postalCode, String city) {
         this.addressId = addressId;
         this.streetName = streetName;
         this.houseNumber = houseNumber;
-        this.floorAndDoor = floorAndDoor;
+        this.floorAndDoorDescription = floorAndDoorDescription;
         this.postalCode = postalCode;
         this.city = city;
     }
@@ -34,12 +34,12 @@ public class Address {
         this.city = city;
     }
 
-    public String getFloorAndDoor() {
-        return floorAndDoor;
+    public String getFloorAndDoorDescription() {
+        return floorAndDoorDescription;
     }
 
-    public void setFloorAndDoor(String floorAndDoor) {
-        this.floorAndDoor = floorAndDoor;
+    public void setFloorAndDoorDescription(String floorAndDoorDescription) {
+        this.floorAndDoorDescription = floorAndDoorDescription;
     }
 
     public String getHouseNumber() {
@@ -72,7 +72,7 @@ public class Address {
                 "addressId=" + addressId +
                 ", streetName='" + streetName + '\'' +
                 ", houseNumber='" + houseNumber + '\'' +
-                ", floorAndDoor='" + floorAndDoor + '\'' +
+                ", floorAndDoor='" + floorAndDoorDescription + '\'' +
                 ", city='" + city + '\'' +
                 ", postalCode=" + postalCode +
                 '}';

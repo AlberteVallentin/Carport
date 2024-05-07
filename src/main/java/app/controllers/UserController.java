@@ -23,13 +23,13 @@ public class UserController {
         String firstName = ctx.formParam("first-name");
         String lastName = ctx.formParam("last-name");
         String email = ctx.formParam("email");
-        String phone = ctx.formParam("phone");
+        int phone = Integer.parseInt(ctx.formParam("phone"));
         String password1 = ctx.formParam("password1");
         String password2 = ctx.formParam("password2");
         String streetName = ctx.formParam("ship-address");
         String houseNumber = ctx.formParam("house-number");
         String floorAndDoor = ctx.formParam("floor-and-door");
-        String postalCode = ctx.formParam("postcode");
+        int postalCode = Integer.parseInt(ctx.formParam("postcode"));
         String city = ctx.formParam("locality");
 
 
