@@ -35,13 +35,10 @@ public class UserController {
 
         if (password1.equals(password2)) {
             try {
-                AddressMapper.createAddress(streetName, houseNumber, floorAndDoor, postalCode, city, connectionPool);
-
-                List<Address> addressList = AddressMapper.getAllAddresses(connectionPool);
-                ctx.attribute("addressList", addressList);
+               int addressId = AddressMapper.createAddress(streetName, houseNumber, floorAndDoor, postalCode, city, connectionPool);
                 UserMapper.createUser(firstName, lastName, email, phone, password1, addressId, connectionPool);
 
-                ctx.attribute("message", "Hermed oprettet med email: " + email + ". Log på.");
+                ctx.attribute("message", "Hermed oprettet med e-mailen: " + email + ". Log på.");
                 ctx.render("login.html");
             } catch (DatabaseException e) {
                 ctx.attribute("message", "Brugernavn findes allerede - prøv igen eller log ind.");
