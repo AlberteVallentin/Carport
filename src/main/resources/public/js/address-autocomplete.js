@@ -70,7 +70,7 @@ function fillInAddress() {
                 break;
             }
             case "country":
-                document.querySelector("#country").value = component.long_name;
+                //document.querySelector("#country").value = component.long_name;
                 break;
         }
     }
