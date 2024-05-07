@@ -2,7 +2,7 @@ package app;
 import app.config.ThymeleafConfig;
 import app.config.SessionConfig;
 import app.controllers.ContactController;
-import app.controllers.CreateOrderController;
+import app.controllers.OrderController;
 import app.persistence.ConnectionPool;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
@@ -12,7 +12,7 @@ import io.javalin.rendering.template.JavalinThymeleaf;
 public class Main {
 
 
-    private static final ConnectionPool connectionPool = ConnectionPool.getInstance(
+    public static final ConnectionPool connectionPool = ConnectionPool.getInstance(
             System.getenv("JDBC_USER"),
             System.getenv("JDBC_PASSWORD"),
             System.getenv("JDBC_CONNECTION_STRING"),
@@ -32,8 +32,8 @@ public class Main {
         // Routing
 
 
-
-        CreateOrderController.addRoutes(app,connectionPool );
         ContactController.addRoutes(app,connectionPool);
+        OrderController.addRoutes(app,connectionPool );
+
     }
 }

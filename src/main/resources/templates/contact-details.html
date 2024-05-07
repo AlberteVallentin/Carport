@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="da">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +15,7 @@
 </head>
 <body>
 <nav>
-    <a href="index.html" th:href="@{/}">
+    <a href="index.html" th:href="@{/public}">
         <img class="logo" src="../public/images/logo.svg" th:src="@{/images/logo.svg}"/>
     </a>
 
@@ -117,7 +117,7 @@
 
         <section>
             <div class="navigation">
-                <a href="carport-order.html" class="link-button">Tilbage</a>
+                <a href="carport-order.html" th:href="@{/backToOrder}"  class="link-button">Tilbage</a>
                 <a href="order-summary.html" class="link-button">Videre</a>
             </div>
 
