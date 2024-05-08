@@ -1,0 +1,10 @@
+.form-control{
+    justify-content: flex-start;
+
+}
+
+.container-fluid{
+    flex-direction: column;
+    align-content: center;
+justify-content: flex-start;
+}
