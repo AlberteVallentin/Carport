@@ -27,15 +27,12 @@ public class Main {
         }).start(7070);
 
         // Routing
-       // app.get("/", ctx -> ctx.render("index.html"));
-        //UserController.addRoutes(app, connectionPool);
-        ContactController.addRoutes(app,connectionPool);
+        app.get("/", ctx -> ctx.render("index.html"));
         OrderController.addRoutes(app, connectionPool);
-
-
+        ContactController.addRoutes(app, connectionPool);
+        UserController.addRoutes(app, connectionPool);
 
         // Controllers
-
 
     }
 }

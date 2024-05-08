@@ -15,8 +15,8 @@ import java.util.List;
 public class UserController {
 
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
-        app.get("createaccount", ctx -> ctx.render("create-account.html"));
-        app.post("createaccount", ctx -> createAccount(ctx, connectionPool));
+        app.get("/createAccount", ctx -> ctx.render("create-account.html"));
+        app.post("/createAccount", ctx -> createAccount(ctx, connectionPool));
     }
 
     private static void createAccount(Context ctx, ConnectionPool connectionPool) {
