@@ -25,14 +25,16 @@ public class UserController {
         String email = ctx.formParam("email");
         int phone = Integer.parseInt(ctx.formParam("phone"));
         String password1 = ctx.formParam("password1");
+        String password2 = ctx.formParam("password2");
         String streetName = ctx.formParam("ship-address");
         String houseNumber = ctx.formParam("house-number");
         String floorAndDoor = ctx.formParam("floor-and-door");
         int postalCode = Integer.parseInt(ctx.formParam("postcode"));
         String city = ctx.formParam("locality");
 
+        if (password1.equals(password2)) {
             try {
-               int addressId = AddressMapper.createAddress(streetName, houseNumber, floorAndDoor, postalCode, city, connectionPool);
+                int addressId = AddressMapper.createAddress(streetName, houseNumber, floorAndDoor, postalCode, city, connectionPool);
                 UserMapper.createUser(firstName, lastName, email, phone, password1, addressId, connectionPool);
 
                 ctx.attribute("message", "Du er nu oprettet med e-mailen: " + email + ". Log på.");
@@ -53,5 +55,21 @@ public class UserController {
 
                 ctx.render("create-account.html");
             }
+        } else {
+            ctx.attribute("message", "De to adgangskoder er ikke ens. Prøv igen.");
+
+            // Sæt attributter for tidligere indtastede værdier
+            ctx.attribute("firstName", firstName);
+            ctx.attribute("lastName", lastName);
+            ctx.attribute("email", email);
+            ctx.attribute("phone", phone);
+            ctx.attribute("streetName", streetName);
+            ctx.attribute("houseNumber", houseNumber);
+            ctx.attribute("floorAndDoor", floorAndDoor);
+            ctx.attribute("postalCode", postalCode);
+            ctx.attribute("city", city);
+
+            ctx.render("create-account.html");
+        }
     }
 }
