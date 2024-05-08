@@ -53,10 +53,10 @@ public class UserMapper {
 
                 return new User(userId, firstName, lastName, phoneNumber, email, password,isAdmin , addressId);
             } else {
-                throw new DatabaseException("Login failed. Please try again.");
+                throw new DatabaseException("Login fejlede. Prøv igen.");
             }
         } catch (SQLException e) {
-            throw new DatabaseException("Error logging in: " + e.getMessage());
+            throw new DatabaseException("Problemer med databasen. " + e.getMessage());
         }
     }
 }

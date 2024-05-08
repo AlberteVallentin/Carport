@@ -17,17 +17,18 @@ public class UserController {
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
         app.get("/createaccount", ctx -> ctx.render("create-account.html"));
         app.post("/createaccount", ctx -> createAccount(ctx, connectionPool));
+        app.get("/login", ctx -> ctx.render("login.html"));
+        app.post("/login", ctx -> login(ctx, connectionPool));
     }
 
     public static void login(Context ctx, ConnectionPool connectionPool) {
         String mail = ctx.formParam("email");
         String password = ctx.formParam("password");
 
+        // Check om bruger findes i DB med de angivne username + password
         try {
             User user = UserMapper.login(mail, password, connectionPool);
             ctx.sessionAttribute("currentUser", user);
-            ctx.render("index.html");
-
         } catch (DatabaseException e) {
             //hvis nej send tilbage til login side med fejl
             ctx.attribute("message", "Forkert login, Prøv venligst igen.");
