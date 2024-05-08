@@ -11,11 +11,12 @@ import io.javalin.http.Context;
 public class OrderController {
 
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
-        app.get("/", ctx -> currentOrder(ctx, connectionPool));
+        app.get("/carportOrder", ctx -> carportOrder(ctx, connectionPool));
         app.post("/contactDetails", ctx -> contactDetails(ctx, connectionPool));
     }
 
-    private static void currentOrder(Context ctx, ConnectionPool connectionPool) {
+    private static void carportOrder(Context ctx, ConnectionPool connectionPool) {
+
         ctx.render("carport-order.html");
     }
 
