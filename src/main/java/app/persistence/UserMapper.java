@@ -8,7 +8,7 @@ import java.sql.*;
 public class UserMapper {
 
 
-    public static void createUser(String firstName, String lastName, String email, int phone, String password1, int addressId, ConnectionPool connectionPool) throws DatabaseException {
+    public static void createUser(String firstName, String lastName, String email, String phone, String password1, int addressId, ConnectionPool connectionPool) throws DatabaseException {
         String sql = "INSERT INTO users (first_name, last_name, email, phone_number, password, address_id) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (
@@ -17,7 +17,7 @@ public class UserMapper {
             ps.setString(1, firstName);
             ps.setString(2, lastName);
             ps.setString(3, email);
-            ps.setInt(4, phone);
+            ps.setString(4, phone);
             ps.setString(5, password1);
             ps.setInt(6, addressId);
 

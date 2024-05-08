@@ -9,8 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
           rel="stylesheet">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script src="../public/js/carport-validation.js" th:src="@{/js/carport-validation.js}"></script>
     <script src="../public/js/address-autocomplete.js" th:src="@{/js/address-autocomplete.js}"></script>
+    <script src="../public/js/account-validation.js" th:src="@{/js/create-account-validation.js}"></script>
+
     <link href="../public/css/reset.css" th:href="@{/css/reset.css}" rel="stylesheet"/>
     <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
     <link href="../public/css/user.css" th:href="@{/css/user.css}" rel="stylesheet">
@@ -44,7 +45,7 @@
             </div>
         </section>
 
-        <form method="post" autocomplete="off">
+        <form method="post" id="accountForm" autocomplete="off">
             <section>
                 <h2>Kontakt</h2>
                 <div class="input-container">
@@ -100,7 +101,7 @@
             <section>
                 <div class="create-account">
                     <a href="login.html" class="link-button">Tilbage til login</a>
-                    <button type="submit" class="submit-button" formaction="/createaccount">Opret bruger</button>
+                    <button type="submit" class="submit-button"  formaction="/createaccount">Opret bruger</button>
                 </div>
             </section>
 
@@ -110,7 +111,6 @@
 
         <script async defer
                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7_G5wmAANaWqlZfLHPMlCZbt53hrvbKY&libraries=places&callback=initAutocomplete"></script>
-
 
 
 

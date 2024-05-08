@@ -40,7 +40,7 @@ public class UserController {
         String firstName = ctx.formParam("first-name");
         String lastName = ctx.formParam("last-name");
         String email = ctx.formParam("email");
-        int phone = Integer.parseInt(ctx.formParam("phone"));
+        String phone = ctx.formParam("phone");
         String password1 = ctx.formParam("password1");
         String password2 = ctx.formParam("password2");
         String streetName = ctx.formParam("ship-address");
