@@ -36,6 +36,9 @@
     <div class="container">
         <section class="login-container">
             <h2>Her kan du logge ind</h2>
+            <div class="error-message center">
+                <p th:text="${message}"></p>
+            </div>
             <div class="input-container">
                 <h3>E-mail</h3>
                 <input name="email" placeholder="Indtast din e-mail" type="text">
@@ -52,7 +55,7 @@
         <section>
             <div class="login">
                 <button type="submit" class="submit-button" formaction="/login">Login</button>
-                <a href="create-account.html" class="link" th:href="@{/}">Opret en konto</a>
+                <a href="create-account.html" class="link" th:href="@{/createaccount}">Opret en konto</a>
             </div>
 
         </section>

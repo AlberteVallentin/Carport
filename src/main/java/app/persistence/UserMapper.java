@@ -1,5 +1,6 @@
 package app.persistence;
 
+import app.entities.User;
 import app.exceptions.DatabaseException;
 
 import java.sql.*;
@@ -30,6 +31,32 @@ public class UserMapper {
                 msg = "E-mailen findes allerede. Vælg en anden e-mail eller log ind";
             }
             throw new DatabaseException(msg, e.getMessage());
+        }
+    }
+
+    public static User login(String email, String password, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
+
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, email);
+            ps.setString(2, password);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int userId = rs.getInt("user_id");
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                boolean isAdmin = rs.getBoolean("admin");
+                String phoneNumber = rs.getString("phone_number");
+                int addressId = rs.getInt("address_id");
+
+                return new User(userId, firstName, lastName, phoneNumber, email, password,isAdmin , addressId);
+            } else {
+                throw new DatabaseException("Login failed. Please try again.");
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Error logging in: " + e.getMessage());
         }
     }
 }

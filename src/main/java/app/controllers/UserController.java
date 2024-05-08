@@ -19,6 +19,22 @@ public class UserController {
         app.post("/createaccount", ctx -> createAccount(ctx, connectionPool));
     }
 
+    public static void login(Context ctx, ConnectionPool connectionPool) {
+        String mail = ctx.formParam("email");
+        String password = ctx.formParam("password");
+
+        try {
+            User user = UserMapper.login(mail, password, connectionPool);
+            ctx.sessionAttribute("currentUser", user);
+            ctx.render("index.html");
+
+        } catch (DatabaseException e) {
+            //hvis nej send tilbage til login side med fejl
+            ctx.attribute("message", "Forkert login, Prøv venligst igen.");
+            ctx.render("login.html");
+        }
+    }
+
     private static void createAccount(Context ctx, ConnectionPool connectionPool) {
         String firstName = ctx.formParam("first-name");
         String lastName = ctx.formParam("last-name");
