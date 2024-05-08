@@ -1,0 +1,23 @@
+.two-rows{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0.5rem;
+    gap: 1rem;
+
+}
+
+.two-rows > div {
+    width: 50%;
+}
+
+.admin-container {
+    width: min(100% - 2rem, 1000px);
+    margin: 1rem;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--clr-light-blue);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
