@@ -40,8 +40,10 @@
 <main>
     <div class="container">
         <section>
-            <p class="info-text">Felter markeret med * SKAL være udfyldt!
-            </p>
+            <p class="info-text">Felter markeret med * SKAL være udfyldt! </p>
+            <div class="error-message center">
+                <p th:text="${message}"></p>
+            </div>
         </section>
 
         <form method="post" autocomplete="off">
@@ -166,6 +168,7 @@
                     <a href="login.html" class="link-button">Tilbage til login</a>
                     <button type="submit" class="submit-button" formaction="/createaccount">Opret bruger</button>
                 </div>
+
 
             </section>
 

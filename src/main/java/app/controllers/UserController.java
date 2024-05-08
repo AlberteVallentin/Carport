@@ -38,17 +38,15 @@ public class UserController {
                int addressId = AddressMapper.createAddress(streetName, houseNumber, floorAndDoor, postalCode, city, connectionPool);
                 UserMapper.createUser(firstName, lastName, email, phone, password1, addressId, connectionPool);
 
-                ctx.attribute("message", "Hermed oprettet med e-mailen: " + email + ". Log på.");
+                ctx.attribute("message", "Du er nu oprettet med e-mailen: " + email + ". Log på.");
                 ctx.render("login.html");
-            } catch (DatabaseException e) {
-                ctx.attribute("message", "Brugernavn findes allerede - prøv igen eller log ind.");
-                ctx.render("login.html");
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+            } catch (DatabaseException | SQLException e) {
+                ctx.attribute("message", e.getMessage());
+                ctx.render("create-account.html");
             }
         } else {
-            ctx.attribute("message", "passwords matcher ikke - prøv igen.");
-            ctx.render("login.html");
+            ctx.attribute("message", "Dine passwords matcher ikke - prøv igen.");
+            ctx.render("create-account.html");
         }
     }
 }
