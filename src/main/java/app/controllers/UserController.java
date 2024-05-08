@@ -31,7 +31,7 @@ public class UserController {
             ctx.sessionAttribute("currentUser", user);
         } catch (DatabaseException e) {
             //hvis nej send tilbage til login side med fejl
-            ctx.attribute("message", "Forkert login, Prøv venligst igen.");
+            ctx.attribute("message", "Forkert login. Prøv venligst igen.");
             ctx.render("login.html");
         }
     }
