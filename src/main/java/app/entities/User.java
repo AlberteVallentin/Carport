@@ -1,32 +1,32 @@
 package app.entities;
 
 public class User {
-    private int UserId;
+    private int userId;
     private String firstName;
     private String lastName;
-    private int phoneNumber;
+    private String phoneNumber;
     private String email;
-    private boolean admin = false;
-    private int addressId;
     private String password;
+    private boolean isAdmin;
+    private int addressId;
 
-    public User(int userId, String firstName, String lastName, int phoneNumber, String email, boolean admin, int addressId, String password) {
-        UserId = userId;
+    public User(int userId, String firstName, String lastName, String phoneNumber, String email, String password, boolean isAdmin, int addressId) {
+        this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.admin = admin;
-        this.addressId = addressId;
         this.password = password;
+        this.isAdmin = isAdmin;
+        this.addressId = addressId;
     }
 
     public int getUserId() {
-        return UserId;
+        return userId;
     }
 
     public void setUserId(int userId) {
-        UserId = userId;
+        this.userId = userId;
     }
 
     public String getFirstName() {
@@ -45,11 +45,11 @@ public class User {
         this.lastName = lastName;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -61,12 +61,20 @@ public class User {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public boolean isAdmin() {
-        return admin;
+        return isAdmin;
     }
 
     public void setAdmin(boolean admin) {
-        this.admin = admin;
+        isAdmin = admin;
     }
 
     public int getAddressId() {
@@ -77,11 +85,17 @@ public class User {
         this.addressId = addressId;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", isAdmin=" + isAdmin +
+                ", addressId=" + addressId +
+                '}';
     }
 }
