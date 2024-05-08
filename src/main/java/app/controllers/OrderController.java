@@ -11,8 +11,8 @@ import io.javalin.http.Context;
 public class OrderController {
 
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
-        app.get("/carportOrder", ctx -> carportOrder(ctx, connectionPool));
-        app.post("/contactDetails", ctx -> contactDetails(ctx, connectionPool));
+        app.get("/carportorder", ctx -> carportOrder(ctx, connectionPool));
+        app.post("/contactdetails", ctx -> contactDetails(ctx, connectionPool));
     }
 
     private static void carportOrder(Context ctx, ConnectionPool connectionPool) {
