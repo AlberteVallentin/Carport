@@ -3,7 +3,7 @@ const firstName = document.getElementById('first-name');
 const lastName = document.getElementById('last-name');
 const email = document.getElementById('email');
 const phoneNumber = document.getElementById('phone');
-const password = document.getElementById('password1');
+const password1 = document.getElementById('password1');
 const password2 = document.getElementById('password2');
 const streetName = document.getElementById('ship-address');
 const houseNumber = document.getElementById('house-number');
@@ -39,7 +39,7 @@ const validateInputs = () => {
     const isValidLastName = validateInput(lastName, 'Skriv dit efternavn');
     const isValidEmail = validateInput(email, 'Skriv din e-mail');
     const isValidPhoneNumber = validateInput(phoneNumber, 'Skriv dit telefonnummer');
-    const isValidPassword = validateInput(password, 'Skriv en adgangskode');
+    const isValidPassword1 = validateInput(password1, 'Skriv en adgangskode');
     const isValidPassword2 = validateInput(password2, 'Gentag din adgangskode');
     const isValidStreetName = validateInput(streetName, 'Skriv dit vejnavn');
     const isValidHouseNumber = validateInput(houseNumber, 'Skriv dit husnummer');
