@@ -1,0 +1,53 @@
+
+/* Login container */
+.login-container h2 {
+    text-align: center;
+
+}
+
+/* Login button */
+.login{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.submit-button {
+    background-color: var(--clr-dark-blue);
+    font-size: var(--fs-n);
+    border-radius: 5px;
+    padding: 0.5rem 2rem;
+    color: white;
+    text-decoration: none;
+    transition: transform 0.5s ease, background-color 0.5s ease;
+
+}
+
+.link {
+    font-size: var(--fs-s);
+    color: black;
+    border-radius: 5px;
+    padding: 0.5rem 2rem;
+    transition: transform 0.5s ease, background-color 0.5s ease;
+
+}
+
+.submit-button:hover {
+    transform: scale(1.1);
+}
+
+.create-account {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    font-size: var(--fs-n);
+    gap: 0.5rem;
+}
+
+.create-account .submit-button {
+    padding: 0.5rem 0.5rem;
+
+
+}
