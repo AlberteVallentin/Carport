@@ -2,10 +2,13 @@ package app.controllers;
 
 import app.entities.Order;
 import app.entities.OrderLine;
+import app.entities.Svg;
 import app.entities.User;
 import app.persistence.ConnectionPool;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+
+import java.util.Locale;
 
 
 public class OrderController {
@@ -39,5 +42,4 @@ public class OrderController {
 
         ctx.render("contact-details.html");
     }
-
 }
