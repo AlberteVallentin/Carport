@@ -55,14 +55,22 @@ public class SvgController {
         innerSvg.addRectangle(length+35,0,5,width,"stroke-width:1px; stroke:#000000; fill:#ffffff");
 
         //Pæle
-        innerSvg.addRectangle(60,20,15,15,"stroke-width:1px; stroke:#000000; fill:#ffffff");
-        innerSvg.addRectangle(length/2+40,20,15,15,"stroke-width:1px; stroke:#000000; fill:#ffffff");
-        innerSvg.addRectangle(length+5,20,15,15,"stroke-width:1px; stroke:#000000; fill:#ffffff");
+        if (length<=420) {
+            innerSvg.addRectangle(60, 20, 15, 15, "stroke-width:1px; stroke:#000000; fill:#ffffff");
+            innerSvg.addRectangle(length + 5, 20, 15, 15, "stroke-width:1px; stroke:#000000; fill:#ffffff");
 
-        innerSvg.addRectangle(60,width-35,15,15,"stroke-width:1px; stroke:#000000; fill:#ffffff");
-        innerSvg.addRectangle(length/2+40,width-35,15,15,"stroke-width:1px; stroke:#000000; fill:#ffffff");
-        innerSvg.addRectangle(length+5,width-35,15,15,"stroke-width:1px; stroke:#000000; fill:#ffffff");
+            innerSvg.addRectangle(60, width - 35, 15, 15, "stroke-width:1px; stroke:#000000; fill:#ffffff");
+            innerSvg.addRectangle(length + 5, width - 35, 15, 15, "stroke-width:1px; stroke:#000000; fill:#ffffff");
+        }
+        else {
+            innerSvg.addRectangle(60, 20, 15, 15, "stroke-width:1px; stroke:#000000; fill:#ffffff");
+            innerSvg.addRectangle(length / 2 + 40, 20, 15, 15, "stroke-width:1px; stroke:#000000; fill:#ffffff");
+            innerSvg.addRectangle(length + 5, 20, 15, 15, "stroke-width:1px; stroke:#000000; fill:#ffffff");
 
+            innerSvg.addRectangle(60, width - 35, 15, 15, "stroke-width:1px; stroke:#000000; fill:#ffffff");
+            innerSvg.addRectangle(length / 2 + 40, width - 35, 15, 15, "stroke-width:1px; stroke:#000000; fill:#ffffff");
+            innerSvg.addRectangle(length + 5, width - 35, 15, 15, "stroke-width:1px; stroke:#000000; fill:#ffffff");
+        }
         //wire\
         innerSvg.addLine(length/10+40,30, (int) (length/1.4),width-30,"stroke:#000000; stroke-dasharray:5 5");
         //wire/
@@ -86,11 +94,16 @@ public class SvgController {
         //Draw area:
         innerSvgSide.addRectangle(40,0,length,height,"stroke-width:1px; stroke:#000000; fill:#ffffff");
 
-        //Pæle
-        innerSvgSide.addRectangle(60,0,15,height,"stroke-width:1px; stroke:#000000; fill:#ffffff");
-        innerSvgSide.addRectangle(length/2+40,0,15,height,"stroke-width:1px; stroke:#000000; fill:#ffffff");
-        innerSvgSide.addRectangle(length+5,0,15,height,"stroke-width:1px; stroke:#000000; fill:#ffffff");
-
+        if (length<=420) {
+            //Pæle
+            innerSvgSide.addRectangle(60, 0, 15, height, "stroke-width:1px; stroke:#000000; fill:#ffffff");
+            innerSvgSide.addRectangle(length + 5, 0, 15, height, "stroke-width:1px; stroke:#000000; fill:#ffffff");
+        }
+        else {
+            innerSvgSide.addRectangle(60, 0, 15, height, "stroke-width:1px; stroke:#000000; fill:#ffffff");
+            innerSvgSide.addRectangle(length / 2 + 40, 0, 15, height, "stroke-width:1px; stroke:#000000; fill:#ffffff");
+            innerSvgSide.addRectangle(length + 5, 0, 15, height, "stroke-width:1px; stroke:#000000; fill:#ffffff");
+        }
         //Vandret bjælke top
         innerSvgSide.addRectangle(40,0,length,15,"stroke-width:1px; stroke:#000000; fill:#ffffff");
 
