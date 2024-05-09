@@ -11,16 +11,18 @@ public class SvgController {
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
         app.get("/showCarportDrawing", ctx -> SvgController.showCarportDrawing(ctx));
     }
-    private static int length = 600;
-    private static int width = 400;
-    private static int height = 225;
-    private static String viewBox = "0 0 "+String.valueOf(length+50)+" "+String.valueOf(width+50);
 
-    private static String viewBoxSide = "0 0 "+String.valueOf(length+50)+" "+String.valueOf(height+50);
-    private static String innerviewBox = "0 0 "+String.valueOf(length)+" "+String.valueOf(width);
+
 
 
     public static void showCarportDrawing(Context ctx){
+        int length = 780;
+        int width = 600;
+        int height = 225;
+
+        String viewBox = "0 0 "+String.valueOf(length+50)+" "+String.valueOf(width+50);
+        String viewBoxSide = "0 0 "+String.valueOf(length+50)+" "+String.valueOf(height+50);
+        String innerviewBox = "0 0 "+String.valueOf(length)+" "+String.valueOf(width);
 
         Locale.setDefault(new Locale("US"));
 
