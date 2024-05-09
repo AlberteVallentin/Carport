@@ -36,7 +36,7 @@
 <main>
     <div class="container" >
 
-
+<form method="post">
 
         <section>
             <p class="info-text">Nedstående er dine kontaktoplysninger baseret på din konto.
@@ -127,15 +127,13 @@
 
         <section>
             <div class="navigation">
-
-
-                <a href="carport-order.html" th:href="@{/backtoorder}" class="link-button">Tilbage</a>
+                <button type="submit" formaction="/backtoorder"  class="link-button">Tilbage</button>
                 <a href="order-summary.html" class="link-button">Videre</a>
             </div>
 
         </section>
 
-
+        </form>
     </div>
 </main>
 </body>

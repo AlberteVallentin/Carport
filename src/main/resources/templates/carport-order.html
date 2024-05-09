@@ -67,20 +67,21 @@
                     <h3>Carport bredde*</h3>
                     <label for="carport-width"></label>
                     <select name="carport-width" id="carport-width">
-                        <option th:value="0" th:selected="${session.currentWidth == '0'}">Vælg en bredde</option>
-                        <option th:value="240" th:selected="${session.currentWidth == '240'}">240 cm</option>
-                        <option th:value="270" th:selected="${session.currentWidth == '270'}">270 cm</option>
-                        <option th:value="300" th:selected="${session.currentWidth == '300'}">300 cm</option>
-                        <option th:value="330" th:selected="${session.currentWidth == '330'}">330 cm</option>
-                        <option th:value="360" th:selected="${session.currentWidth == '360'}">360 cm</option>
-                        <option th:value="390" th:selected="${session.currentWidth == '390'}">390 cm</option>
-                        <option th:value="420" th:selected="${session.currentWidth == '420'}">420 cm</option>
-                        <option th:value="450" th:selected="${session.currentWidth == '450'}">450 cm</option>
-                        <option th:value="480" th:selected="${session.currentWidth == '480'}">480 cm</option>
-                        <option th:value="510" th:selected="${session.currentWidth == '510'}">510 cm</option>
-                        <option th:value="540" th:selected="${session.currentWidth == '540'}">540 cm</option>
-                        <option th:value="570" th:selected="${session.currentWidth == '570'}">570 cm</option>
-                        <option th:value="600" th:selected="${session.currentWidth == '600'}">600 cm</option>
+                        <option th:value="0" th:selected="${Order.Width == 0}">Vælg en bredde</option>
+                        <option th:value="240" th:selected="${Order.Width == 240}">240 cm</option>
+                        <option th:value="270" th:selected="${Order.Width == 270}">270 cm</option>
+                        <option th:value="300" th:selected="${order.Width == 300}">300 cm</option>
+                        <option th:value="330" th:selected="${order.Width == 330}">330 cm</option>
+                        <option th:value="360" th:selected="${order.Width == 360}">360 cm</option>
+                        <option th:value="390" th:selected="${order.Width == 390}">390 cm</option>
+                        <option th:value="420" th:selected="${order.Width == 420}">420 cm</option>
+                        <option th:value="450" th:selected="${order.Width == 450}">450 cm</option>
+                        <option th:value="480" th:selected="${order.Width == 480}">480 cm</option>
+                        <option th:value="510" th:selected="${order.Width == 510}">510 cm</option>
+                        <option th:value="540" th:selected="${order.Width == 540}">540 cm</option>
+                        <option th:value="570" th:selected="${order.Width == 570}">570 cm</option>
+                        <option th:value="600" th:selected="${order.Width == 600}">600 cm</option>
+
 
                     </select>
                     <div class="error-message">
@@ -198,14 +199,8 @@
         </section>
         <section>
             <div class="navigation">
-                <input type="hidden" name="carport-width" th:value="${session.currentWidth}" />
-                <input type="hidden" name="carport-length" th:value="${session.currentLength}" />
-                <input type="hidden" name="carport-roof" th:value="${session.currentRoof}" />
-                <input type="hidden" name="shed-width" th:value="${session.currentShedWidth}" />
-                <input type="hidden" name="shed-length" th:value="${session.currentShedLength}" />
-                <input type="hidden" name="comment" th:value="${session.comment}" />
                 <a href="index.html" th:href="@{/}" class="link-button">Tilbage</a>
-                <button type="submit" formaction="/contactdetails" id="validateLink" class="link-button">Videre</button>
+                <button type="submit" formaction="/orderdetails" id="validateLink" class="link-button">Videre</button>
 
             </div>
 

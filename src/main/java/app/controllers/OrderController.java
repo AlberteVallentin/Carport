@@ -12,20 +12,21 @@ public class OrderController {
 
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
         app.get("/carportorder", ctx -> carportOrder(ctx, connectionPool));
-        app.post("/contactdetails", ctx -> contactDetails(ctx, connectionPool));
+        app.post("/orderdetails", ctx -> orderDetails(ctx, connectionPool));
     }
 
     private static void carportOrder(Context ctx, ConnectionPool connectionPool) {
 
 
-            ctx.render("carport-order.html"); // Redirect to the carport order page
+            ctx.render("carport-order.html");
+
 
     }
 
-    private static void contactDetails(Context ctx, ConnectionPool connectionPool) {
+    private static void orderDetails(Context ctx, ConnectionPool connectionPool) {
         User user = ctx.sessionAttribute("currentUser");
 
-
+        try {
         // Retrieve form parameters
         int cpWidth = Integer.parseInt(ctx.formParam("carport-width"));
         int cpLength = Integer.parseInt(ctx.formParam("carport-length"));
@@ -35,33 +36,26 @@ public class OrderController {
         String comment = ctx.formParam("comment");
 
 
-        // Create an Order object to store the form values
-        Order order = new Order(0, 0.0, 0, comment, 0, cpLength, cpWidth, shLength, shWidth, 0);
-        // Set session attribute to store the order
-        ctx.sessionAttribute("Order", order);
+
+        Order order = ctx.sessionAttribute("Order");
+
+        if(order == null) {
+            order = new Order(0, 0.0, 0,"" , 0, 0, 0, 0, 0, 0);
+        }
+
+            order = new Order(0, 0.0, 0, comment, 0, cpLength, cpWidth, shLength, shWidth, 0);
+
+
+            ctx.sessionAttribute("Order", order);
+        } catch (NumberFormatException e) {
+            ctx.attribute("message", "Ugyldigt format for top, bund eller antal.");
+        }
+
+
 
         ctx.render("contact-details.html");
     }
-private static void saveCarportSelection(Context ctx, ConnectionPool connectionPool) {
-
-        String cpWidth = ctx.formParam("carport-width");
-        String cpLength = ctx.formParam("carport-length");
-        String cpRoof = ctx.formParam("carport-roof");
-        String shWidth = ctx.formParam("shed-width");
-        String shLength = ctx.formParam("shed-length");
-        String comment = ctx.formParam("comment");
 
 
-        ctx.sessionAttribute("currentWidth",cpWidth);
-        ctx.sessionAttribute("currentLength",cpLength);
-        ctx.sessionAttribute("currentRoof",cpRoof);
-        ctx.sessionAttribute("currentShedWidth",shWidth);
-        ctx.sessionAttribute("currentShedLength",shLength);
-        ctx.sessionAttribute("currentComment",comment);
-
-
-        ctx.render("carport-selection.html");
-
-    }
 
 }
