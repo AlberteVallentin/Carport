@@ -47,7 +47,7 @@ const validateInputs = () => {
     const isValidCity = validateInput(city, 'Skriv din by');
 
     // Returner 'true' hvis alle inputs er gyldige, ellers 'false'
-    return isValidFirstName && isValidLastName && isValidEmail && isValidPhoneNumber && isValidPassword && isValidPassword2 && isValidStreetName && isValidHouseNumber && isValidPostalCode && isValidCity;
+    return isValidFirstName && isValidLastName && isValidEmail && isValidPhoneNumber && isValidPassword1 && isValidPassword2 && isValidStreetName && isValidHouseNumber && isValidPostalCode && isValidCity;
 }
 
 // Tilføj event listener til formularindsendelse

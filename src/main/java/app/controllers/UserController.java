@@ -11,6 +11,7 @@ import io.javalin.http.Context;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 public class UserController {
 
@@ -46,8 +47,15 @@ public class UserController {
         String streetName = ctx.formParam("ship-address");
         String houseNumber = ctx.formParam("house-number");
         String floorAndDoor = ctx.formParam("floor-and-door");
-        int postalCode = Integer.parseInt(ctx.formParam("postcode"));
+        int postalCode = Integer.parseInt(Objects.requireNonNull(ctx.formParam("postcode")));
         String city = ctx.formParam("locality");
+
+        if(firstName == null || lastName == null || email == null || phone == null || password1 == null || password2 == null || streetName == null || houseNumber == null || floorAndDoor == null || city == null) {
+            ctx.attribute("message", "Alle felter skal udfyldes.");
+            ctx.render("create-account.html");
+            return;
+        }
+
 
         if (password1.equals(password2)) {
             try {
