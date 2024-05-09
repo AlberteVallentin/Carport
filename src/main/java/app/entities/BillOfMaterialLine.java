@@ -3,11 +3,11 @@ package app.entities;
 public class BillOfMaterialLine {
     private int billOfMaterialLineId;
     private Order order;
-    private MaterialVariants materialVariant;
+    private MaterialVariant materialVariant;
     private int quantity;
     private int functionalDescriptionId;
 
-    public BillOfMaterialLine(int billOfMaterialLineId, Order order, MaterialVariants materialVariant, int quantity, int functionalDescriptionId) {
+    public BillOfMaterialLine(int billOfMaterialLineId, Order order, MaterialVariant materialVariant, int quantity, int functionalDescriptionId) {
         this.billOfMaterialLineId = billOfMaterialLineId;
         this.order = order;
         this.materialVariant = materialVariant;
@@ -31,11 +31,11 @@ public class BillOfMaterialLine {
         this.order = order;
     }
 
-    public MaterialVariants getMaterialVariant() {
+    public MaterialVariant getMaterialVariant() {
         return materialVariant;
     }
 
-    public void setMaterialVariant(MaterialVariants materialVariant) {
+    public void setMaterialVariant(MaterialVariant materialVariant) {
         this.materialVariant = materialVariant;
     }
 

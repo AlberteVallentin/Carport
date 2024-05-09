@@ -2,7 +2,6 @@ package app;
 
 import app.config.ThymeleafConfig;
 import app.config.SessionConfig;
-import app.controllers.ContactController;
 import app.controllers.OrderController;
 import app.controllers.SvgController;
 import app.controllers.UserController;
@@ -30,7 +29,6 @@ public class Main {
         // Routing
         app.get("/", ctx -> ctx.render("index.html"));
         OrderController.addRoutes(app, connectionPool);
-        ContactController.addRoutes(app, connectionPool);
         UserController.addRoutes(app, connectionPool);
         SvgController.addRoutes(app, connectionPool);
         // Controllers

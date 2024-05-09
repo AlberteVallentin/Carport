@@ -8,11 +8,12 @@ public class Order {
     private int shippingId;
     private int cpLength;
     private int cpWidth;
+    private String cpRoof;
     private int shedLength;
     private int shedWidth;
     private int statusId;
 
-    public Order(int orderId, double price, User user, String comment, int shippingId, int cpLength, int cpWidth, int shedLength, int shedWidth, int statusId) {
+    public Order(int orderId, double price, User user, String comment, int shippingId, int cpLength, int cpWidth, String cpRoof, int shedLength, int shedWidth, int statusId) {
         this.orderId = orderId;
         this.price = price;
         this.user = user;
@@ -20,6 +21,7 @@ public class Order {
         this.shippingId = shippingId;
         this.cpLength = cpLength;
         this.cpWidth = cpWidth;
+        this.cpRoof = cpRoof;
         this.shedLength = shedLength;
         this.shedWidth = shedWidth;
         this.statusId = statusId;
@@ -81,6 +83,14 @@ public class Order {
         this.cpWidth = cpWidth;
     }
 
+    public String getCpRoof() {
+        return cpRoof;
+    }
+
+    public void setCpRoof(String cpRoof) {
+        this.cpRoof = cpRoof;
+    }
+
     public int getShedLength() {
         return shedLength;
     }
@@ -106,7 +116,6 @@ public class Order {
     }
 
     public String toString() {
-        return "Order ID: " + orderId + ", Price: " + price + ", User: " + user + ", Comment: " + comment + ", Shipping ID: " + shippingId + ", Carport Length: " + cpLength + ", Carport Width: " + cpWidth + ", Shed Length: " + shedLength + ", Shed Width: " + shedWidth + ", Status ID: " + statusId;
+        return "Order ID: " + orderId + " Price: " + price + " User: " + user + " Comment: " + comment + " Shipping ID: " + shippingId + " Carport Length: " + cpLength + " Carport Width: " + cpWidth + " Carport Roof: " + cpRoof + " Shed Length: " + shedLength + " Shed Width: " + shedWidth + " Status ID: " + statusId;
     }
 }
-
