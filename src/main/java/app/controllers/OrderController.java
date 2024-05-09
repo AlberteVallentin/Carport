@@ -41,5 +41,7 @@ public class OrderController {
         ctx.sessionAttribute("Order", order);
 
         ctx.render("contact-details.html");
+        System.out.println(cpWidth);
+        System.out.println(cpLength);
     }
 }

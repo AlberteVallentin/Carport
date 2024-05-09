@@ -80,7 +80,7 @@
                         <option value="510">510 cm</option>
                         <option value="540">540 cm</option>
                         <option value="570">570 cm</option>
-                        <option value="600">600 cm</option>
+                        <option th:value="600" th:selected="${session.currentWidth == '600'}">600 cm</option>
                     </select>
                     <div class="error-message">
                     </div>
@@ -108,7 +108,7 @@
                         <option value="690">690 cm</option>
                         <option value="720">720 cm</option>
                         <option value="750">750 cm</option>
-                        <option value="780">780 cm</option>
+                        <option value="780" th:selected="${session.currentLength == '780'}">780 cm</option>
                     </select>
                     <div class="error-message">
                     </div>
@@ -197,7 +197,8 @@
         <section>
             <div class="navigation">
                 <a href="index.html" th:href="@{/}" class="link-button">Tilbage</a>
-                <a href="contact-details.html" th:href="@{/contactdetails}" id="validateLink" class="link-button">Videre</a>
+                <!-- <a href="contact-details.html" th:href="@{/contactdetails}" id="validateLink" class="link-button">Videre</a> -->
+                <button type="submit" formaction="/contactdetails" id="validateLink" class="link-button">Videre</button>
             </div>
 
         </section>

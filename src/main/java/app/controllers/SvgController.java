@@ -10,14 +10,15 @@ import java.util.Locale;
 public class SvgController {
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
         app.get("/showCarportDrawing", ctx -> SvgController.showCarportDrawing(ctx));
+
     }
 
 
 
 
     public static void showCarportDrawing(Context ctx){
-        int length = 780;
-        int width = 600;
+        int length = Integer.parseInt(ctx.formParam("carport-length"));
+        int width = Integer.parseInt(ctx.formParam("carport-width"));
         int height = 225;
 
         String viewBox = "0 0 "+String.valueOf(length+50)+" "+String.valueOf(width+50);
