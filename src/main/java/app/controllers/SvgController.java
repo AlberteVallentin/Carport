@@ -80,12 +80,12 @@ public class SvgController {
 
 
         //Draw area:
-        innerSvgSide.addRectangle(40,0,length,height,"stroke-width:1px; stroke:#000000; fill:#ffffff");
+        innerSvgSide.addRectangle(40,0,length, height,"stroke-width:1px; stroke:#000000; fill:#ffffff");
 
         //Pæle
-        innerSvgSide.addRectangle(60,0,15,height,"stroke-width:1px; stroke:#000000; fill:#ffffff");
-        innerSvgSide.addRectangle(length/2+40,0,15,height,"stroke-width:1px; stroke:#000000; fill:#ffffff");
-        innerSvgSide.addRectangle(length+5,0,15,height,"stroke-width:1px; stroke:#000000; fill:#ffffff");
+        innerSvgSide.addRectangle(60,0,15, height,"stroke-width:1px; stroke:#000000; fill:#ffffff");
+        innerSvgSide.addRectangle(length/2+40,0,15, height,"stroke-width:1px; stroke:#000000; fill:#ffffff");
+        innerSvgSide.addRectangle(length+5,0,15, height,"stroke-width:1px; stroke:#000000; fill:#ffffff");
 
         //Vandret bjælke top
         innerSvgSide.addRectangle(40,0,length,15,"stroke-width:1px; stroke:#000000; fill:#ffffff");
