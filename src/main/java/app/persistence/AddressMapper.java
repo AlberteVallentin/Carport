@@ -1,5 +1,6 @@
 package app.persistence;
 
+import app.entities.Address;
 import app.exceptions.DatabaseException;
 
 import java.sql.Connection;
@@ -27,6 +28,27 @@ public class AddressMapper {
             }
         } catch (SQLException | DatabaseException e) {
             throw new DatabaseException("Der er sket en fejl ved indsættelse af adresse", e.getMessage());
+        }
+    }
+
+    public static Address getAddressById(int addressId, ConnectionPool connectionPool) throws SQLException, DatabaseException {
+        String sql = "SELECT * FROM address WHERE address_id = ?";
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, addressId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String streetName = rs.getString("street_name");
+                String houseNumber = rs.getString("house_number");
+                String floorAndDoorDescription = rs.getString("floor_and_door_description");
+                int postalCode = rs.getInt("postal_code");
+                String city = rs.getString("city");
+                return new Address(addressId, streetName, houseNumber, floorAndDoorDescription, postalCode, city);
+            } else {
+                throw new DatabaseException("Ingen adresse fundet med ID: " + addressId);
+            }
+        } catch (SQLException | DatabaseException e) {
+            throw new DatabaseException("Der er sket en fejl ved hentning af adresse", e.getMessage());
         }
     }
 }

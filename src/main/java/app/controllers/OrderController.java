@@ -15,7 +15,7 @@ public class OrderController {
 
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
         app.get("/carportorder", ctx -> carportOrder(ctx, connectionPool));
-        app.post("/contactdetails", ctx -> contactDetails(ctx, connectionPool));
+        app.post("/carportdetails", ctx -> carportdetails(ctx, connectionPool));
     }
 
     private static void carportOrder(Context ctx, ConnectionPool connectionPool) {
@@ -23,7 +23,7 @@ public class OrderController {
         ctx.render("carport-order.html");
     }
 
-    private static void contactDetails(Context ctx, ConnectionPool connectionPool) {
+    private static void carportdetails(Context ctx, ConnectionPool connectionPool) {
         User user = ctx.sessionAttribute("currentUser");
 
         // Retrieve form parameters

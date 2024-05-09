@@ -9,7 +9,7 @@ import java.util.Locale;
 
 public class SvgController {
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
-        app.get("/showCarportDrawing", ctx -> SvgController.showCarportDrawing(ctx));
+        app.get("/showCarportDrawing", SvgController::showCarportDrawing);
     }
 
 
