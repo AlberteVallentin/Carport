@@ -9,11 +9,11 @@ public class Order {
     private int cpLength;
     private int cpWidth;
     private String cpRoof;
-    private int shedLength;
-    private int shedWidth;
+    private Integer shedLength;
+    private Integer shedWidth;
     private int statusId;
 
-    public Order(int orderId, double price, User user, String comment, int shippingId, int cpLength, int cpWidth, String cpRoof, int shedLength, int shedWidth, int statusId) {
+    public Order(int orderId, double price, User user, String comment, int shippingId, int cpLength, int cpWidth, String cpRoof, Integer shedLength, Integer shedWidth, int statusId) {
         this.orderId = orderId;
         this.price = price;
         this.user = user;
@@ -91,19 +91,19 @@ public class Order {
         this.cpRoof = cpRoof;
     }
 
-    public int getShedLength() {
+    public Integer getShedLength() {
         return shedLength;
     }
 
-    public void setShedLength(int shedLength) {
+    public void setShedLength(Integer shedLength) {
         this.shedLength = shedLength;
     }
 
-    public int getShedWidth() {
+    public Integer getShedWidth() {
         return shedWidth;
     }
 
-    public void setShedWidth(int shedWidth) {
+    public void setShedWidth(Integer shedWidth) {
         this.shedWidth = shedWidth;
     }
 
