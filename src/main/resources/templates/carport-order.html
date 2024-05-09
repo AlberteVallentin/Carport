@@ -35,7 +35,8 @@
 
 <main>
     <div class="container">
-        <section>
+        <form method="post" action="/saveCarportSelection">
+            <section>
             <p class="info-text">Nedstående er dine kontaktoplysninger baseret på din konto
                 Felter markeret med * SKAL være udfyldt!
             </p>
@@ -60,25 +61,27 @@
         </section>
 
         <section>
+
                 <h2>Carport</h2>
                 <div class="select-container">
                     <h3>Carport bredde*</h3>
                     <label for="carport-width"></label>
                     <select name="carport-width" id="carport-width">
-                        <option>Vælg en bredde</option>
-                        <option value="240">240 cm</option>
-                        <option value="270">270 cm</option>
-                        <option value="300">300 cm</option>
-                        <option value="330">330 cm</option>
-                        <option value="360">360 cm</option>
-                        <option value="390">390 cm</option>
-                        <option value="420">420 cm</option>
-                        <option value="450">450 cm</option>
-                        <option value="480">480 cm</option>
-                        <option value="510">510 cm</option>
-                        <option value="540">540 cm</option>
-                        <option value="570">570 cm</option>
-                        <option value="600">600 cm</option>
+                        <option th:value="0" th:selected="${session.currentWidth == '0'}">Vælg en bredde</option>
+                        <option th:value="240" th:selected="${session.currentWidth == '240'}">240 cm</option>
+                        <option th:value="270" th:selected="${session.currentWidth == '270'}">270 cm</option>
+                        <option th:value="300" th:selected="${session.currentWidth == '300'}">300 cm</option>
+                        <option th:value="330" th:selected="${session.currentWidth == '330'}">330 cm</option>
+                        <option th:value="360" th:selected="${session.currentWidth == '360'}">360 cm</option>
+                        <option th:value="390" th:selected="${session.currentWidth == '390'}">390 cm</option>
+                        <option th:value="420" th:selected="${session.currentWidth == '420'}">420 cm</option>
+                        <option th:value="450" th:selected="${session.currentWidth == '450'}">450 cm</option>
+                        <option th:value="480" th:selected="${session.currentWidth == '480'}">480 cm</option>
+                        <option th:value="510" th:selected="${session.currentWidth == '510'}">510 cm</option>
+                        <option th:value="540" th:selected="${session.currentWidth == '540'}">540 cm</option>
+                        <option th:value="570" th:selected="${session.currentWidth == '570'}">570 cm</option>
+                        <option th:value="600" th:selected="${session.currentWidth == '600'}">600 cm</option>
+
                     </select>
                     <div class="error-message">
                     </div>
@@ -87,26 +90,27 @@
                     <h3>Carport længde*</h3>
                     <label for="carport-length"></label>
                     <select name="carport-length" id="carport-length">
-                        <option>Vælg en længde</option>
-                        <option value="240">240 cm</option>
-                        <option value="270">270 cm</option>
-                        <option value="300">300 cm</option>
-                        <option value="330">330 cm</option>
-                        <option value="360">360 cm</option>
-                        <option value="390">390 cm</option>
-                        <option value="420">420 cm</option>
-                        <option value="450">450 cm</option>
-                        <option value="480">480 cm</option>
-                        <option value="510">510 cm</option>
-                        <option value="540">540 cm</option>
-                        <option value="570">570 cm</option>
-                        <option value="600">600 cm</option>
-                        <option value="630">630 cm</option>
-                        <option value="660">660 cm</option>
-                        <option value="690">690 cm</option>
-                        <option value="720">720 cm</option>
-                        <option value="750">750 cm</option>
-                        <option value="780">780 cm</option>
+                        <option value="0" th:selected="${session.currentLength == '0'}">Vælg en længde</option>
+                        <option value="240" th:selected="${session.currentLength == '240'}">240 cm</option>
+                        <option value="270" th:selected="${session.currentLength == '270'}">270 cm</option>
+                        <option value="300" th:selected="${session.currentLength == '300'}">300 cm</option>
+                        <option value="330" th:selected="${session.currentLength == '330'}">330 cm</option>
+                        <option value="360" th:selected="${session.currentLength == '360'}">360 cm</option>
+                        <option value="390" th:selected="${session.currentLength == '390'}">390 cm</option>
+                        <option value="420" th:selected="${session.currentLength == '420'}">420 cm</option>
+                        <option value="450" th:selected="${session.currentLength == '450'}">450 cm</option>
+                        <option value="480" th:selected="${session.currentLength == '480'}">480 cm</option>
+                        <option value="510" th:selected="${session.currentLength == '510'}">510 cm</option>
+                        <option value="540" th:selected="${session.currentLength == '540'}">540 cm</option>
+                        <option value="570" th:selected="${session.currentLength == '570'}">570 cm</option>
+                        <option value="600" th:selected="${session.currentLength == '600'}">600 cm</option>
+                        <option value="630" th:selected="${session.currentLength == '630'}">630 cm</option>
+                        <option value="660" th:selected="${session.currentLength == '660'}">660 cm</option>
+                        <option value="690" th:selected="${session.currentLength == '690'}">690 cm</option>
+                        <option value="720" th:selected="${session.currentLength == '720'}">720 cm</option>
+                        <option value="750" th:selected="${session.currentLength == '750'}">750 cm</option>
+                        <option value="780" th:selected="${session.currentLength == '780'}">780 cm</option>
+
                     </select>
                     <div class="error-message">
                     </div>
@@ -116,8 +120,8 @@
                     <label for="carport-roof"></label>
                     <select name="carport-roof" id="carport-roof">
                         <option>Vælg et tag</option>
-                        <option value="Uden tagplader">Uden tagplader</option>
-                        <option value="2">Plasttrapeztag</option>
+                        <option >Uden tagplader</option>
+                        <option  >Plasttrapeztag</option>
                     </select>
                     <div class="error-message">
                     </div>
@@ -130,26 +134,26 @@
                 <h3>Redskabsrum bredde*</h3>
                 <label for="shed-width"></label>
                 <select name="shed-width" id="shed-width">
-                    <option>Vælg en bredde</option>
-                    <option>Uden redskabsrum</option>
-                    <option value="210">210 cm</option>
-                    <option value="240">240 cm</option>
-                    <option value="270">270 cm</option>
-                    <option value="300">300 cm</option>
-                    <option value="330">330 cm</option>
-                    <option value="360">360 cm</option>
-                    <option value="390">390 cm</option>
-                    <option value="420">420 cm</option>
-                    <option value="450">450 cm</option>
-                    <option value="480">480 cm</option>
-                    <option value="510">510 cm</option>
-                    <option value="540">540 cm</option>
-                    <option value="570">570 cm</option>
-                    <option value="600">600 cm</option>
-                    <option value="630">630 cm</option>
-                    <option value="660">660 cm</option>
-                    <option value="690">690 cm</option>
-                    <option value="720">720 cm</option>
+                    <option >Vælg en bredde</option>
+                    <option th:value="0">Uden redskabsrum</option>
+                    <option th:value="210">210 cm</option>
+                    <option th:value="240">240 cm</option>
+                    <option th:value="270">270 cm</option>
+                    <option th:value="300">300 cm</option>
+                    <option th:value="330">330 cm</option>
+                    <option th:value="360">360 cm</option>
+                    <option th:value="390">390 cm</option>
+                    <option th:value="420">420 cm</option>
+                    <option th:value="450">450 cm</option>
+                    <option th:value="480">480 cm</option>
+                    <option th:value="510">510 cm</option>
+                    <option th:value="540">540 cm</option>
+                    <option th:value="570">570 cm</option>
+                    <option th:value="600">600 cm</option>
+                    <option th:value="630">630 cm</option>
+                    <option th:value="660">660 cm</option>
+                    <option th:value="690">690 cm</option>
+                    <option th:value="720">720 cm</option>
                 </select>
                 <div class="error-message">
                 </div>
@@ -159,24 +163,24 @@
                 <label for="shed-length"></label>
                 <select name="shed-length" id="shed-length">
                     <option>Vælg en længde</option>
-                    <option>Uden redskabsrum</option>
-                    <option value="150">150 cm</option>
-                    <option value="180">180 cm</option>
-                    <option value="210">210 cm</option>
-                    <option value="240">240 cm</option>
-                    <option value="270">270 cm</option>
-                    <option value="300">300 cm</option>
-                    <option value="330">330 cm</option>
-                    <option value="360">360 cm</option>
-                    <option value="390">390 cm</option>
-                    <option value="420">420 cm</option>
-                    <option value="450">450 cm</option>
-                    <option value="480">480 cm</option>
-                    <option value="510">510 cm</option>
-                    <option value="540">540 cm</option>
-                    <option value="570">570 cm</option>
-                    <option value="600">600 cm</option>
-                    <option value="630">630 cm</option>
+                    <option th:value="0">Uden redskabsrum</option>
+                    <option th:value="150">150 cm</option>
+                    <option th:value="180">180 cm</option>
+                    <option th:value="210">210 cm</option>
+                    <option th:value="240">240 cm</option>
+                    <option th:value="270">270 cm</option>
+                    <option th:value="300">300 cm</option>
+                    <option th:value="330">330 cm</option>
+                    <option th:value="360">360 cm</option>
+                    <option th:value="390">390 cm</option>
+                    <option th:value="420">420 cm</option>
+                    <option th:value="450">450 cm</option>
+                    <option th:value="480">480 cm</option>
+                    <option th:value="510">510 cm</option>
+                    <option th:value="540">540 cm</option>
+                    <option th:value="570">570 cm</option>
+                    <option th:value="600">600 cm</option>
+                    <option th:value="630">630 cm</option>
                 </select>
                 <div class="error-message">
                 </div>
@@ -194,13 +198,20 @@
         </section>
         <section>
             <div class="navigation">
+                <input type="hidden" name="carport-width" th:value="${session.currentWidth}" />
+                <input type="hidden" name="carport-length" th:value="${session.currentLength}" />
+                <input type="hidden" name="carport-roof" th:value="${session.currentRoof}" />
+                <input type="hidden" name="shed-width" th:value="${session.currentShedWidth}" />
+                <input type="hidden" name="shed-length" th:value="${session.currentShedLength}" />
+                <input type="hidden" name="comment" th:value="${session.comment}" />
                 <a href="index.html" th:href="@{/}" class="link-button">Tilbage</a>
-                <a href="contact-details.html" id="validateLink" class="link-button">Videre</a>
+                <button type="submit" formaction="/contactdetails" id="validateLink" class="link-button">Videre</button>
+
             </div>
 
         </section>
 
-
+        </form>
 
 
     </div>

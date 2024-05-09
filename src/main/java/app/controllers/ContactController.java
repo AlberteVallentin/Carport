@@ -8,13 +8,14 @@ public class ContactController {
 
 
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
-       app.get("/contactDetails", ctx -> contactDetails(ctx, connectionPool));
-       app.get("/backToOrder", ctx -> backToOrder(ctx, connectionPool));
+        app.get("/contactdetails", ctx -> contactDetails(ctx, connectionPool));
+        app.get("/backtoorder", ctx -> backToOrder(ctx, connectionPool));
+        app.post("/backtoorder", ctx -> backToOrder(ctx, connectionPool));
     }
 
     private static void backToOrder(Context ctx, ConnectionPool connectionPool) {
 
-        ctx.redirect("carport-order.html");
+            ctx.redirect("/carportorder");
     }
 
     private static void contactDetails(Context ctx, ConnectionPool connectionPool) {

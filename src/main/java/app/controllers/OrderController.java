@@ -11,17 +11,20 @@ import io.javalin.http.Context;
 public class OrderController {
 
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
-        app.get("/carportOrder", ctx -> carportOrder(ctx, connectionPool));
-        app.post("/contactDetails", ctx -> contactDetails(ctx, connectionPool));
+        app.get("/carportorder", ctx -> carportOrder(ctx, connectionPool));
+        app.post("/contactdetails", ctx -> contactDetails(ctx, connectionPool));
     }
 
     private static void carportOrder(Context ctx, ConnectionPool connectionPool) {
 
-        ctx.render("carport-order.html");
+
+            ctx.render("carport-order.html"); // Redirect to the carport order page
+
     }
 
     private static void contactDetails(Context ctx, ConnectionPool connectionPool) {
         User user = ctx.sessionAttribute("currentUser");
+
 
         // Retrieve form parameters
         int cpWidth = Integer.parseInt(ctx.formParam("carport-width"));
@@ -38,6 +41,27 @@ public class OrderController {
         ctx.sessionAttribute("Order", order);
 
         ctx.render("contact-details.html");
+    }
+private static void saveCarportSelection(Context ctx, ConnectionPool connectionPool) {
+
+        String cpWidth = ctx.formParam("carport-width");
+        String cpLength = ctx.formParam("carport-length");
+        String cpRoof = ctx.formParam("carport-roof");
+        String shWidth = ctx.formParam("shed-width");
+        String shLength = ctx.formParam("shed-length");
+        String comment = ctx.formParam("comment");
+
+
+        ctx.sessionAttribute("currentWidth",cpWidth);
+        ctx.sessionAttribute("currentLength",cpLength);
+        ctx.sessionAttribute("currentRoof",cpRoof);
+        ctx.sessionAttribute("currentShedWidth",shWidth);
+        ctx.sessionAttribute("currentShedLength",shLength);
+        ctx.sessionAttribute("currentComment",comment);
+
+
+        ctx.render("carport-selection.html");
+
     }
 
 }
