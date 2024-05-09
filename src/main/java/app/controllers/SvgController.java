@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.entities.Order;
 import app.entities.Svg;
 import app.persistence.ConnectionPool;
 import io.javalin.Javalin;
@@ -17,8 +18,10 @@ public class SvgController {
 
 
     public static void showCarportDrawing(Context ctx){
-        int length = Integer.parseInt(ctx.formParam("carport-length"));
-        int width = Integer.parseInt(ctx.formParam("carport-width"));
+
+        Order order = ctx.sessionAttribute("Order");
+        int length = order.getCpLength();
+        int width = order.getCpWidth();
         int height = 225;
 
         String viewBox = "0 0 "+String.valueOf(length+50)+" "+String.valueOf(width+50);
