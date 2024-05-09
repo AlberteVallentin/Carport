@@ -170,9 +170,14 @@ textarea::placeholder, input::placeholder {
 
 
 /* Error messages */
-.select-container .error-message, .input-container .error-message{
+.select-container .error-message, .input-container .error-message, .error-message p{
     color: var(--clr-error);
     font-size: var(--fs-s);
+}
+
+.center {
+    text-align: center;
+    align-items: center;
 }
 
 .error-message {
