@@ -61,13 +61,13 @@
             <h2>Carport</h2>
             <div class="text-container">
                 <h3>Carport bredde</h3>
-                <p class="selected-text">Carport bredde</p>
+                <p class="selected-text" th:text="${session.currentWidth + ' cm'}">Carport bredde</p>
                 <div class="error-message">
                 </div>
             </div>
             <div class="text-container">
                 <h3>Carport længde</h3>
-                <p class="selected-text">Carport længde</p>
+                <p class="selected-text" th:text="${session.currentLength + ' cm'}">Carport længde</p>
                 <div class="error-message">
                 </div>
             </div>
@@ -81,26 +81,28 @@
             </div>
         </section>
 
+        <!-- Display 'Uden redskabsrum' if currentShedWidth is 0, otherwise display width in centimeters -->
         <section>
             <h2>Adresse</h2>
             <p>NB! Der skal beregnes 15 cm tagudhæng på hver side af redskabsrummet</p>
             <div class="text-container">
                 <h3>Redskabsrum længde</h3>
-                <p class="selected-text" th:text="${session.currentShedLength + ' cm'}">Redskabsrum længde</p>
-                <div class="error-message">
-                </div>
+                <p class="selected-text" th:if="${session.currentShedLength == 0}">Uden redskabsrum</p>
+                <p class="selected-text" th:if="${session.currentShedLength != 0}" th:text="${session.currentShedLength + ' cm'}">Redskabsrum længde</p>
+                <div class="error-message"></div>
             </div>
             <div class="text-container">
                 <h3>Redskabsrum bredde</h3>
-                <p class="selected-text" th:text="${session.currentShedWidth + ' cm'}">Redskabsrum bredde</p>
-                <div class="error-message">
-                </div>
+                <p class="selected-text" th:if="${session.currentShedWidth == 0}">Uden redskabsrum</p>
+                <p class="selected-text" th:if="${session.currentShedWidth != 0}" th:text="${session.currentShedWidth + ' cm'}">Redskabsrum bredde</p>
+                <div class="error-message"></div>
             </div>
         </section>
+
         <section>
             <h2>Evt. bemærkninger / særlige ønsker</h2>
             <div class="text-container">
-                <p class="selected-text comment">Bemærkninger / særlige ønsker</p>
+                <p class="selected-text comment" th:text="${session.currentComment}">Bemærkninger / særlige ønsker</p>
                 <div class="error-message">
                 </div>
             </div>
