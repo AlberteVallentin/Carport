@@ -57,18 +57,19 @@ public class UserController {
         try {
             User user = UserMapper.login(mail, password, connectionPool);
             ctx.sessionAttribute("currentUser", user);
+
+            Boolean hasAnOrder = ctx.sessionAttribute("hasAnOrder");
+            if(hasAnOrder != null && hasAnOrder){
+                contactDetails(ctx, connectionPool);
+            } else {
+                ctx.render("index.html");
+            }
         } catch (DatabaseException e) {
             //hvis nej send tilbage til login side med fejl
             ctx.attribute("message", "Forkert login. Prøv venligst igen.");
             ctx.render("login.html");
         }
 
-        Boolean hasAnOrder = ctx.sessionAttribute("hasAnOrder");
-        if(hasAnOrder != null && hasAnOrder){
-            contactDetails(ctx, connectionPool);
-        } else {
-            ctx.render("index.html");
-        }
     }
 
     private static void createAccount(Context ctx, ConnectionPool connectionPool) {
