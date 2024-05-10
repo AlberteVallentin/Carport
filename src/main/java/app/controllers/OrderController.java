@@ -23,6 +23,7 @@ public class OrderController {
     }
 
     private static void carportOrder(Context ctx, ConnectionPool connectionPool) {
+        ctx.sessionAttribute("isOrdering", true);
         ctx.render("carport-order.html"); // Redirect to the carport order page
 
     }
@@ -51,6 +52,7 @@ public class OrderController {
         ctx.sessionAttribute("currentShedLength",shLength);
         ctx.sessionAttribute("currentComment",comment);
 
+        ctx.sessionAttribute("isOrdering", null);
         ctx.sessionAttribute("hasAnOrder", true);
 
         contactDetails(ctx, connectionPool);

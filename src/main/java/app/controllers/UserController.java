@@ -58,9 +58,13 @@ public class UserController {
             User user = UserMapper.login(mail, password, connectionPool);
             ctx.sessionAttribute("currentUser", user);
 
+
             Boolean hasAnOrder = ctx.sessionAttribute("hasAnOrder");
-            if(hasAnOrder != null && hasAnOrder){
+            Boolean isOrdering = ctx.sessionAttribute("isOrdering");
+            if(hasAnOrder != null && hasAnOrder) {
                 contactDetails(ctx, connectionPool);
+            }else if(isOrdering != null && isOrdering) {
+                ctx.redirect("/carportorder");
             } else {
                 ctx.render("index.html");
             }
