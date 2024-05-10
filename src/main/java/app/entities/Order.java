@@ -6,14 +6,14 @@ public class Order {
     private User user;
     private String comment;
     private int shippingId;
-    private int cpLength;
-    private int cpWidth;
+    private Integer cpLength;
+    private Integer cpWidth;
     private String cpRoof;
     private Integer shedLength;
     private Integer shedWidth;
     private int statusId;
 
-    public Order(int orderId, double price, User user, String comment, int shippingId, int cpLength, int cpWidth, String cpRoof, Integer shedLength, Integer shedWidth, int statusId) {
+    public Order(int orderId, double price, User user, String comment, int shippingId, Integer cpLength, Integer cpWidth, String cpRoof, Integer shedLength, Integer shedWidth, int statusId) {
         this.orderId = orderId;
         this.price = price;
         this.user = user;
@@ -25,6 +25,7 @@ public class Order {
         this.shedLength = shedLength;
         this.shedWidth = shedWidth;
         this.statusId = statusId;
+
     }
 
     public int getOrderId() {
@@ -67,19 +68,19 @@ public class Order {
         this.shippingId = shippingId;
     }
 
-    public int getCpLength() {
+    public Integer getCpLength() {
         return cpLength;
     }
 
-    public void setCpLength(int cpLength) {
+    public void setCpLength(Integer cpLength) {
         this.cpLength = cpLength;
     }
 
-    public int getCpWidth() {
+    public Integer getCpWidth() {
         return cpWidth;
     }
 
-    public void setCpWidth(int cpWidth) {
+    public void setCpWidth(Integer cpWidth) {
         this.cpWidth = cpWidth;
     }
 
@@ -113,9 +114,5 @@ public class Order {
 
     public void setStatusId(int statusId) {
         this.statusId = statusId;
-    }
-
-    public String toString() {
-        return "Order ID: " + orderId + " Price: " + price + " User: " + user + " Comment: " + comment + " Shipping ID: " + shippingId + " Carport Length: " + cpLength + " Carport Width: " + cpWidth + " Carport Roof: " + cpRoof + " Shed Length: " + shedLength + " Shed Width: " + shedWidth + " Status ID: " + statusId;
     }
 }
