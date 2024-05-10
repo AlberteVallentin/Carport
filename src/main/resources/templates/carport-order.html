@@ -91,26 +91,26 @@
                     <h3>Carport længde*</h3>
                     <label for="carport-length"></label>
                     <select name="carport-length" id="carport-length">
-                        <option value="0" th:selected="${session.currentLength == '0'}">Vælg en længde</option>
-                        <option value="240" th:selected="${session.currentLength == '240'}">240 cm</option>
-                        <option value="270" th:selected="${session.currentLength == '270'}">270 cm</option>
-                        <option value="300" th:selected="${session.currentLength == '300'}">300 cm</option>
-                        <option value="330" th:selected="${session.currentLength == '330'}">330 cm</option>
-                        <option value="360" th:selected="${session.currentLength == '360'}">360 cm</option>
-                        <option value="390" th:selected="${session.currentLength == '390'}">390 cm</option>
-                        <option value="420" th:selected="${session.currentLength == '420'}">420 cm</option>
-                        <option value="450" th:selected="${session.currentLength == '450'}">450 cm</option>
-                        <option value="480" th:selected="${session.currentLength == '480'}">480 cm</option>
-                        <option value="510" th:selected="${session.currentLength == '510'}">510 cm</option>
-                        <option value="540" th:selected="${session.currentLength == '540'}">540 cm</option>
-                        <option value="570" th:selected="${session.currentLength == '570'}">570 cm</option>
-                        <option value="600" th:selected="${session.currentLength == '600'}">600 cm</option>
-                        <option value="630" th:selected="${session.currentLength == '630'}">630 cm</option>
-                        <option value="660" th:selected="${session.currentLength == '660'}">660 cm</option>
-                        <option value="690" th:selected="${session.currentLength == '690'}">690 cm</option>
-                        <option value="720" th:selected="${session.currentLength == '720'}">720 cm</option>
-                        <option value="750" th:selected="${session.currentLength == '750'}">750 cm</option>
-                        <option value="780" th:selected="${session.currentLength == '780'}">780 cm</option>
+                        <option th:value="0" th:selected="${session.currentLength == '0'}">Vælg en længde</option>
+                        <option th:value="240" th:selected="${session.currentLength == '240'}">240 cm</option>
+                        <option th:value="270" th:selected="${session.currentLength == '270'}">270 cm</option>
+                        <option th:value="300" th:selected="${session.currentLength == '300'}">300 cm</option>
+                        <option th:value="330" th:selected="${session.currentLength == '330'}">330 cm</option>
+                        <option th:value="360" th:selected="${session.currentLength == '360'}">360 cm</option>
+                        <option th:value="390" th:selected="${session.currentLength == '390'}">390 cm</option>
+                        <option th:value="420" th:selected="${session.currentLength == '420'}">420 cm</option>
+                        <option th:value="450" th:selected="${session.currentLength == '450'}">450 cm</option>
+                        <option th:value="480" th:selected="${session.currentLength == '480'}">480 cm</option>
+                        <option th:value="510" th:selected="${session.currentLength == '510'}">510 cm</option>
+                        <option th:value="540" th:selected="${session.currentLength == '540'}">540 cm</option>
+                        <option th:value="570" th:selected="${session.currentLength == '570'}">570 cm</option>
+                        <option th:value="600" th:selected="${session.currentLength == '600'}">600 cm</option>
+                        <option th:value="630" th:selected="${session.currentLength == '630'}">630 cm</option>
+                        <option th:value="660" th:selected="${session.currentLength == '660'}">660 cm</option>
+                        <option th:value="690" th:selected="${session.currentLength == '690'}">690 cm</option>
+                        <option th:value="720" th:selected="${session.currentLength == '720'}">720 cm</option>
+                        <option th:value="750" th:selected="${session.currentLength == '750'}">750 cm</option>
+                        <option th:value="780" th:selected="${session.currentLength == '780'}">780 cm</option>
 
                     </select>
                     <div class="error-message">
@@ -121,8 +121,8 @@
                     <label for="carport-roof"></label>
                     <select name="carport-roof" id="carport-roof">
                         <option>Vælg et tag</option>
-                        <option  >Uden tagplader</option>
-                        <option  >Plasttrapeztag</option>
+                        <option  th:selected="${session.currentRoof=='Uden tagplader'}">Uden tagplader</option>
+                        <option  th:selected="${session.currentRoof=='Plasttrapeztag'}" >Plasttrapeztag</option>
                     </select>
                     <div class="error-message">
                     </div>
