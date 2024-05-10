@@ -11,8 +11,6 @@ import io.javalin.http.Context;
 
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 
 public class UserController {
 
@@ -21,6 +19,34 @@ public class UserController {
         app.post("/createaccount", ctx -> createAccount(ctx, connectionPool));
         app.get("/login", ctx -> ctx.render("login.html"));
         app.post("/login", ctx -> login(ctx, connectionPool));
+        app.get("/contactdetails", ctx -> contactDetails(ctx, connectionPool));
+    }
+
+    static void contactDetails(Context ctx, ConnectionPool connectionPool) {
+        User currentUser = ctx.sessionAttribute("currentUser");
+        if (currentUser == null) {
+            ctx.redirect("/login");
+        } else {
+            try {
+                User user = UserMapper.getUserById(currentUser.getUserId(), connectionPool);
+                Address address = AddressMapper.getAddressById(user.getAddressId(), connectionPool);
+                ctx.attribute("firstName", user.getFirstName());
+                ctx.attribute("lastName", user.getLastName());
+                ctx.attribute("email", user.getEmail());
+                ctx.attribute("phoneNumber", user.getPhoneNumber());
+                ctx.attribute("streetName", address.getStreetName());
+                ctx.attribute("houseNumber", address.getHouseNumber());
+                ctx.attribute("floorAndDoor", address.getFloorAndDoorDescription());
+                ctx.attribute("postalCode", address.getPostalCode());
+                ctx.attribute("city", address.getCity());
+                ctx.render("contact-details.html");
+            } catch (DatabaseException e) {
+                ctx.attribute("message", e.getMessage());
+                ctx.render("contact-details.html");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public static void login(Context ctx, ConnectionPool connectionPool) {
@@ -36,6 +62,7 @@ public class UserController {
             ctx.attribute("message", "Forkert login. Prøv venligst igen.");
             ctx.render("login.html");
         }
+
     }
 
     private static void createAccount(Context ctx, ConnectionPool connectionPool) {
@@ -54,7 +81,7 @@ public class UserController {
 
         // Fejlmeddelelse og attribut opsætning
         if (isAnyFieldEmpty(new String[]{firstName, lastName, email, phone, password1, password2, streetName, houseNumber, postalCodeString, city})) {
-            setAttributesAndRenderForm(ctx, "Alle de påkrævede felter skal være udfyldt.", firstName, lastName, email, phone, streetName, houseNumber, floorAndDoor, postalCodeString, city);
+            setAttributesAndRenderForm(ctx, "Alle de påkrævet felter skal være udfyldt.", firstName, lastName, email, phone, streetName, houseNumber, floorAndDoor, postalCodeString, city);
             return;
         }
 

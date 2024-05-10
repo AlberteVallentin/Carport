@@ -59,4 +59,29 @@ public class UserMapper {
             throw new DatabaseException("Problemer med databasen. " + e.getMessage());
         }
     }
+
+    public static User getUserById(int userId, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "SELECT * FROM users WHERE user_id = ?";
+
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                String email = rs.getString("email");
+                String phoneNumber = rs.getString("phone_number");
+                boolean isAdmin = rs.getBoolean("admin");
+                int addressId = rs.getInt("address_id");
+
+                return new User(userId, firstName, lastName, phoneNumber, email, null, isAdmin, addressId);
+            } else {
+                throw new DatabaseException("Brugeren er ikke fundet");
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Problemer med databasen. " + e.getMessage());
+        }
+    }
 }

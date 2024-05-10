@@ -1,11 +1,11 @@
 package app.entities;
 
-public class MaterialVariants {
+public class MaterialVariant {
 private int materialVariantId;
 private int length;
 private int materialId;
 
-    public MaterialVariants(int materialVariantId, int length, int materialId) {
+    public MaterialVariant(int materialVariantId, int length, int materialId) {
         this.materialVariantId = materialVariantId;
         this.length = length;
         this.materialId = materialId;
