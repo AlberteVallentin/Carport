@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Logout</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
@@ -30,37 +30,21 @@
 
 </nav>
 
-<h1>Login</h1>
+<h1>Log ud</h1>
 
 <main>
     <div class="container">
         <form method="post">
-        <section class="login-container">
-            <h2>Her kan du logge ind</h2>
-            <div class="error-message center">
-                <p th:text="${message}"></p>
-            </div>
-            <div class="input-container">
-                <h3>E-mail</h3>
-                <input name="email" placeholder="Indtast din e-mail" type="text">
-                <div class="error-message">
+            <section class="login-container">
+                <h2>Tak for denne gang</h2>
+            </section>
+            <section>
+                <div class="login">
+                    <a href="index.html" class="submit-button" th:href="@{/logout}">Log ud</a>
+                    <a href="index.html" class="link" th:href="@{/}">Tilbage til forsiden</a>
                 </div>
-            </div>
-            <div class="text-container">
-                <h3>Kodeord</h3>
-                <input name="password" placeholder="Indtast dit kodeord" type="password">
-                <div class="error-message">
-                </div>
-            </div>
 
-        </section>
-        <section>
-            <div class="login">
-                <button type="submit" class="submit-button" formaction="/login" >Login</button>
-                <a href="create-account.html" class="link" th:href="@{/createaccount}">Opret en konto</a>
-            </div>
-
-        </section>
+            </section>
         </form>
     </div>
 </main>

@@ -20,6 +20,24 @@ public class UserController {
         app.get("/login", ctx -> ctx.render("login.html"));
         app.post("/login", ctx -> login(ctx, connectionPool));
         app.get("/contactdetails", ctx -> contactDetails(ctx, connectionPool));
+        app.get("/logout", ctx -> logout(ctx));
+        app.get("/loginorout", ctx -> loginOrOut(ctx));
+
+    }
+
+    private static void loginOrOut(Context ctx) {
+        User currentUser = ctx.sessionAttribute("currentUser");
+        if (currentUser == null) {
+            ctx.render("login.html");
+        } else {
+            ctx.render("/logout.html");
+        }
+    }
+
+    private static void logout(Context ctx) {
+        ctx.req().getSession().invalidate();
+        ctx.redirect("/");
+
     }
 
     static void contactDetails(Context ctx, ConnectionPool connectionPool) {
