@@ -6,14 +6,14 @@ public class Order {
     private User user;
     private String comment;
     private int shippingId;
-    private Integer cpLength;
-    private Integer cpWidth;
+    private int cpLength;
+    private int cpWidth;
     private String cpRoof;
-    private Integer shedLength;
-    private Integer shedWidth;
+    private int shedLength;
+    private int shedWidth;
     private int statusId;
 
-    public Order(int orderId, double price, User user, String comment, int shippingId, Integer cpLength, Integer cpWidth, String cpRoof, Integer shedLength, Integer shedWidth, int statusId) {
+public Order(int orderId, double price, User user, String comment, int shippingId, int cpLength, int cpWidth, String cpRoof, int shedLength, int shedWidth, int statusId) {
         this.orderId = orderId;
         this.price = price;
         this.user = user;
@@ -25,7 +25,6 @@ public class Order {
         this.shedLength = shedLength;
         this.shedWidth = shedWidth;
         this.statusId = statusId;
-
     }
 
     public int getOrderId() {
@@ -68,19 +67,19 @@ public class Order {
         this.shippingId = shippingId;
     }
 
-    public Integer getCpLength() {
+    public int getCpLength() {
         return cpLength;
     }
 
-    public void setCpLength(Integer cpLength) {
+    public void setCpLength(int cpLength) {
         this.cpLength = cpLength;
     }
 
-    public Integer getCpWidth() {
+    public int getCpWidth() {
         return cpWidth;
     }
 
-    public void setCpWidth(Integer cpWidth) {
+    public void setCpWidth(int cpWidth) {
         this.cpWidth = cpWidth;
     }
 
@@ -92,19 +91,19 @@ public class Order {
         this.cpRoof = cpRoof;
     }
 
-    public Integer getShedLength() {
+    public int getShedLength() {
         return shedLength;
     }
 
-    public void setShedLength(Integer shedLength) {
+    public void setShedLength(int shedLength) {
         this.shedLength = shedLength;
     }
 
-    public Integer getShedWidth() {
+    public int getShedWidth() {
         return shedWidth;
     }
 
-    public void setShedWidth(Integer shedWidth) {
+    public void setShedWidth(int shedWidth) {
         this.shedWidth = shedWidth;
     }
 
@@ -114,5 +113,21 @@ public class Order {
 
     public void setStatusId(int statusId) {
         this.statusId = statusId;
+    }
+
+    public String toString() {
+        return "Order{" +
+                "orderId=" + orderId +
+                ", price=" + price +
+                ", user=" + user +
+                ", comment='" + comment + '\'' +
+                ", shippingId=" + shippingId +
+                ", cpLength=" + cpLength +
+                ", cpWidth=" + cpWidth +
+                ", cpRoof='" + cpRoof + '\'' +
+                ", shedLength=" + shedLength +
+                ", shedWidth=" + shedWidth +
+                ", statusId=" + statusId +
+                '}';
     }
 }

@@ -33,11 +33,11 @@ public class OrderController {
 
 
         // Retrieve form parameters
-        Integer cpWidth = Integer.parseInt(ctx.formParam("carport-width"));
-        Integer cpLength = Integer.parseInt(ctx.formParam("carport-length"));
+        int cpWidth = Integer.parseInt(ctx.formParam("carport-width"));
+        int cpLength = Integer.parseInt(ctx.formParam("carport-length"));
         String cpRoof = ctx.formParam("carport-roof");
-        Integer shWidth = Integer.parseInt(ctx.formParam("shed-width"));
-        Integer shLength = Integer.parseInt(ctx.formParam("shed-length"));
+        int shWidth = Integer.parseInt(ctx.formParam("shed-width"));
+        int shLength = Integer.parseInt(ctx.formParam("shed-length"));
         String comment = ctx.formParam("comment");
 
 
