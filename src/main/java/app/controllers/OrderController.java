@@ -6,6 +6,8 @@ import app.persistence.ConnectionPool;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
+import static app.controllers.UserController.contactDetails;
+
 
 public class OrderController {
 
@@ -49,8 +51,8 @@ public class OrderController {
         ctx.sessionAttribute("currentShedLength",shLength);
         ctx.sessionAttribute("currentComment",comment);
 
+        contactDetails(ctx, connectionPool);
 
-        ctx.render("contact-details.html");
     }
 
 

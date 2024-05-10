@@ -22,7 +22,7 @@ public class UserController {
         app.get("/contactdetails", ctx -> contactDetails(ctx, connectionPool));
     }
 
-    private static void contactDetails(Context ctx, ConnectionPool connectionPool) {
+    static void contactDetails(Context ctx, ConnectionPool connectionPool) {
         User currentUser = ctx.sessionAttribute("currentUser");
         if (currentUser == null) {
             ctx.redirect("/login");
@@ -62,6 +62,7 @@ public class UserController {
             ctx.attribute("message", "Forkert login. Prøv venligst igen.");
             ctx.render("login.html");
         }
+
     }
 
     private static void createAccount(Context ctx, ConnectionPool connectionPool) {
