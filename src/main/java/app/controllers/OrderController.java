@@ -51,6 +51,8 @@ public class OrderController {
         ctx.sessionAttribute("currentShedLength",shLength);
         ctx.sessionAttribute("currentComment",comment);
 
+        ctx.sessionAttribute("hasAnOrder", true);
+
         contactDetails(ctx, connectionPool);
 
     }

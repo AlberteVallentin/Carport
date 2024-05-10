@@ -63,6 +63,12 @@ public class UserController {
             ctx.render("login.html");
         }
 
+        Boolean hasAnOrder = ctx.sessionAttribute("hasAnOrder");
+        if(hasAnOrder != null && hasAnOrder){
+            contactDetails(ctx, connectionPool);
+        } else {
+            ctx.render("index.html");
+        }
     }
 
     private static void createAccount(Context ctx, ConnectionPool connectionPool) {

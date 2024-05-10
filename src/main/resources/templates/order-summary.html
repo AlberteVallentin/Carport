@@ -85,13 +85,13 @@
             <p>NB! Der skal beregnes 15 cm tagudhæng på hver side af redskabsrummet</p>
             <div class="text-container">
                 <h3>Redskabsrum længde</h3>
-                <p class="selected-text">Redskabsrum længde</p>
+                <p class="selected-text" th:text="${session.currentShedLength + ' cm'}">Redskabsrum længde</p>
                 <div class="error-message">
                 </div>
             </div>
             <div class="text-container">
                 <h3>Redskabsrum bredde</h3>
-                <p class="selected-text">Redskabsrum bredde</p>
+                <p class="selected-text" th:text="${session.currentShedWidth + ' cm'}">Redskabsrum bredde</p>
                 <div class="error-message">
                 </div>
             </div>
