@@ -16,4 +16,41 @@ public class MailController {
             System.out.println("Error sending mail: " + e.getMessage());
         }
     }
+
+    public static void sendOffer(Order order, double shippingCost, double price) {
+        User user = order.getUser();
+        try {
+            MailServer.sendOffer(user.getFirstName(), user.getLastName(), user.getEmail(), shippingCost, price);
+        } catch (IOException e) {
+            System.out.println("Error sending mail: " + e.getMessage());
+        }
+    }
+
+    public static void sendNewOffer(Order order, double shippingCost, double price) {
+        User user = order.getUser();
+        try {
+            MailServer.sendNewOffer(user.getFirstName(), user.getLastName(), user.getEmail(), shippingCost, price);
+        } catch (IOException e) {
+            System.out.println("Error sending mail: " + e.getMessage());
+        }
+    }
+
+    public static void paymentConfirmed(Order order) {
+        User user = order.getUser();
+        try {
+            MailServer.paymentConfirmed(user.getFirstName(), user.getLastName(), user.getEmail(), order.getOrderId(), order.getPrice());
+        } catch (IOException e) {
+            System.out.println("Error sending mail: " + e.getMessage());
+        }
+    }
+
+    public static void sendModifiedOrder(Order order) {
+        User user = order.getUser();
+        try {
+            MailServer.sendModifiedOrder(user.getFirstName(), user.getLastName(), user.getEmail(), order.getCpWidth(), order.getCpLength(), order.getCpRoof(), order.getShWidth(), order.getShLength());
+        } catch (IOException e) {
+            System.out.println("Error sending mail: " + e.getMessage());
+        }
+    }
+
 }
