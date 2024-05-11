@@ -19,7 +19,7 @@ public class MailServer {
         // Get the API key
         SendGrid sg = new SendGrid(API_KEY);
 
-
+        // Create the email
         Email from = new Email(companyMail);
         from.setName("Johannes Fog Byggemarked");
 
@@ -31,7 +31,7 @@ public class MailServer {
 
         personalization.addTo(new Email(email));
         personalization.addDynamicTemplateData("name", firstName + " " + lastName);
-        personalization.addDynamicTemplateData("orderId", "1234");
+        personalization.addDynamicTemplateData("orderId", orderId);
         mail.addPersonalization(personalization);
 
         mail.addCategory("carportapp");

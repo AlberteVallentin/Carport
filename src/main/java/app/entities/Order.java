@@ -130,4 +130,8 @@ public Order(int orderId, double price, User user, String comment, int shippingI
                 ", statusId=" + statusId +
                 '}';
     }
+
+    public int getUserId() {
+        return user.getUserId();
+    }
 }
