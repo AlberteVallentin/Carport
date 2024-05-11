@@ -5,7 +5,7 @@ public class Order {
     private double price;
     private User user;
     private String comment;
-    private int shippingId;
+    private Shipping shipping;
     private int cpLength;
     private int cpWidth;
     private String cpRoof;
@@ -13,12 +13,12 @@ public class Order {
     private int shWidth;
     private int statusId;
 
-    public Order(int orderId, double price, User user, String comment, int shippingId, int cpLength, int cpWidth, String cpRoof, int shLength, int shWidth, int statusId) {
+    public Order(int orderId, double price, User user, String comment, Shipping shipping, int cpLength, int cpWidth, String cpRoof, int shLength, int shWidth, int statusId) {
         this.orderId = orderId;
         this.price = price;
         this.user = user;
         this.comment = comment;
-        this.shippingId = shippingId;
+        this.shipping = shipping;
         this.cpLength = cpLength;
         this.cpWidth = cpWidth;
         this.cpRoof = cpRoof;
@@ -59,13 +59,6 @@ public class Order {
         this.comment = comment;
     }
 
-    public int getShippingId() {
-        return shippingId;
-    }
-
-    public void setShippingId(int shippingId) {
-        this.shippingId = shippingId;
-    }
 
     public int getCpLength() {
         return cpLength;
@@ -129,5 +122,9 @@ public class Order {
 
     public String getEmail() {
         return user.getEmail();
+    }
+
+    public double getShippingPrice() {
+        return shipping.getShippingRate();
     }
 }

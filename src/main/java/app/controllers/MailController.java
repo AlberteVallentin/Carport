@@ -17,10 +17,10 @@ public class MailController {
         }
     }
 
-    public static void sendOffer(Order order, double shippingCost, double price) {
+    public static void sendOffer(Order order) {
         User user = order.getUser();
         try {
-            MailServer.sendOffer(user.getFirstName(), user.getLastName(), user.getEmail(), shippingCost, price);
+            MailServer.sendOffer(user.getFirstName(), user.getLastName(), user.getEmail(), order.getShippingPrice(), order.getPrice());
         } catch (IOException e) {
             System.out.println("Error sending mail: " + e.getMessage());
         }
