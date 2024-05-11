@@ -127,4 +127,8 @@ public class Order {
     public double getShippingPrice() {
         return shipping.getShippingRate();
     }
+
+    public Shipping getShipping() {
+        return shipping;
+    }
 }

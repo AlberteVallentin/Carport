@@ -1,6 +1,7 @@
 package app.controllers;
 
 import app.entities.Order;
+import app.entities.Shipping;
 import app.entities.User;
 import app.utility.MailServer;
 
@@ -19,17 +20,19 @@ public class MailController {
 
     public static void sendOffer(Order order) {
         User user = order.getUser();
+        Shipping shipping = order.getShipping();
         try {
-            MailServer.sendOffer(user.getFirstName(), user.getLastName(), user.getEmail(), order.getShippingPrice(), order.getPrice());
+            MailServer.sendOffer(user.getFirstName(), user.getLastName(), user.getEmail(), shipping.getShippingRate(), order.getPrice());
         } catch (IOException e) {
             System.out.println("Error sending mail: " + e.getMessage());
         }
     }
 
-    public static void sendNewOffer(Order order, double shippingCost, double price) {
+    public static void sendNewOffer(Order order) {
         User user = order.getUser();
+        Shipping shipping = order.getShipping();
         try {
-            MailServer.sendNewOffer(user.getFirstName(), user.getLastName(), user.getEmail(), shippingCost, price);
+            MailServer.sendNewOffer(user.getFirstName(), user.getLastName(), user.getEmail(), shipping.getShippingRate(), order.getPrice());
         } catch (IOException e) {
             System.out.println("Error sending mail: " + e.getMessage());
         }
