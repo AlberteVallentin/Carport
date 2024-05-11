@@ -12,6 +12,12 @@
     text-align: center;
 }
 
+h1 span {
+    font-size: var(--fs-l);
+    font-weight: var(--fw-semi-bold);
+    font-style: italic;
+}
+
 .column {
     text-align: center;
 }
