@@ -3,12 +3,13 @@ package app.entities;
 public class MaterialVariant {
 private int materialVariantId;
 private int length;
-private int materialId;
 
-    public MaterialVariant(int materialVariantId, int length, int materialId) {
+private Material material;
+
+    public MaterialVariant(int materialVariantId, int length, Material material) {
         this.materialVariantId = materialVariantId;
         this.length = length;
-        this.materialId = materialId;
+        this.material = material;
     }
 
     public int getMaterialVariantId() {
@@ -19,7 +20,4 @@ private int materialId;
         return length;
     }
 
-    public int getMaterialId() {
-        return materialId;
-    }
 }
