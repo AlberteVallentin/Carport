@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class OrderMapper {
 
     public static void createOrder (Order order, User user, int shippingId, ConnectionPool connectionPool) throws SQLException {
-        String sql = "INSERT INTO orders(price, user_id, comment, shipping_id, cp_length, cp_width, shed_length, shed_width, status_id, cp_roof) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO orders(price, user_id, comment, shipping_id, cp_length, cp_width, shed_length, shed_width, status_id, cp_roof) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 
         try (Connection conn = connectionPool.getConnection();
