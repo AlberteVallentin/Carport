@@ -30,6 +30,9 @@ public class OrderController {
         try {
             int shippingId = ShippingMapper.createShipping(user.getAddressId(), connectionPool);
             OrderMapper.createOrder(order, user, shippingId, connectionPool);
+            int orderId = OrderMapper.getLastOrder(connectionPool);
+
+            MailController.sendOrderConfirmation(order, user, orderId);
             ctx.render("order-confirmation.html");
         } catch (SQLException | DatabaseException e) {
             ctx.status(500);

@@ -9,10 +9,9 @@ import java.io.IOException;
 
 public class MailController {
 
-    public static void sendOrderConfirmation(Order order) {
-        User user = order.getUser();
+    public static void sendOrderConfirmation(Order order, User user, int orderId) {
         try {
-            MailServer.sendOrderConfirmation(user.getFirstName(), user.getLastName(), user.getEmail(), order.getOrderId());
+            MailServer.sendOrderConfirmation(user.getFirstName(), user.getLastName(), user.getEmail(), orderId, order.getCpWidth(), order.getCpLength(), order.getCpRoof(), order.getShWidth(), order.getShLength());
         } catch (IOException e) {
             System.out.println("Error sending mail: " + e.getMessage());
         }

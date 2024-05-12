@@ -15,7 +15,7 @@ public class MailServer {
     private static final String companyMail = "albertevallentin@gmail.com";
 
 
-    public static void sendOrderConfirmation(String firstName, String lastName, String email, int orderId) throws IOException {
+    public static void sendOrderConfirmation(String firstName, String lastName, String email, int orderId, int cpWidth, int cpLength, String cpRoof, int shWidth, int shLength) throws IOException {
         // Get the API key
         SendGrid sg = new SendGrid(API_KEY);
 
@@ -32,6 +32,11 @@ public class MailServer {
         personalization.addTo(new Email(email));
         personalization.addDynamicTemplateData("name", firstName + " " + lastName);
         personalization.addDynamicTemplateData("orderId", orderId);
+        personalization.addDynamicTemplateData("cpWidth", cpWidth);
+        personalization.addDynamicTemplateData("cpLength", cpLength);
+        personalization.addDynamicTemplateData("cpRoof", cpRoof);
+        personalization.addDynamicTemplateData("shWidth", shWidth);
+        personalization.addDynamicTemplateData("shLength", shLength);
         mail.addPersonalization(personalization);
 
         mail.addCategory("carportapp");

@@ -2,14 +2,16 @@ package app.persistence;
 
 import app.entities.Order;
 import app.entities.User;
+import app.exceptions.DatabaseException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class OrderMapper {
 
-    public static void createOrder (Order order, User user, int shippingId, ConnectionPool connectionPool) throws SQLException {
+    public static void createOrder(Order order, User user, int shippingId, ConnectionPool connectionPool) throws SQLException {
         String sql = "INSERT INTO orders(price, user_id, comment, shipping_id, cp_length, cp_width, shed_length, shed_width, status_id, cp_roof) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 
@@ -27,5 +29,18 @@ public class OrderMapper {
             ps.setString(10, order.getCpRoof());
             ps.executeUpdate();
         }
+    }
+
+    public static int getLastOrder(ConnectionPool connectionPool) throws DatabaseException {
+        int orderId = 0;
+        String sql = "SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1";
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery();) {
+            if (rs.next()) {
+                orderId = rs.getInt("order_id");
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Error retrieving the latest order ID", e.getMessage());
+        }
+        return orderId;
     }
 }
