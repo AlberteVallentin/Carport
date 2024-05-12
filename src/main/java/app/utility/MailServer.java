@@ -142,8 +142,7 @@ public class MailServer {
         }
     }
 
-    public static void paymentConfirmed(String firstName, String lastName, String email, int orderId, double price) throws IOException {
-        // Get the API key
+    public static void paymentConfirmed(String firstName, String lastName, String email, int orderId, double price) throws IOException {// Get the API key
         SendGrid sg = new SendGrid(API_KEY);
 
         // Create the email
