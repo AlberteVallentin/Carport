@@ -157,7 +157,7 @@ public class OrderMapper {
                 {
                     ps.setInt(1, billOfMaterialLine.getBillOfMaterialLineId());
                     ps.setInt(2, billOfMaterialLine.getOrder().getOrderId());
-                    ps.setInt(3, billOfMaterialLine.getMaterialVariant().getMaterialId());
+                    ps.setInt(3, billOfMaterialLine.getMaterialVariant().getMaterialVariantId());
                     ps.setInt(4, billOfMaterialLine.getFunctionalDescriptionId());
                     ps.executeUpdate();
                 }
