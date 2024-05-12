@@ -1,6 +1,11 @@
 
 /* Login container */
-.login-container h2, h3 {
+.login-container h2 {
+    text-align: center;
+
+}
+
+.submit-container h2, .submit-container h3{
     text-align: center;
 
 }

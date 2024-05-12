@@ -15,7 +15,28 @@ public class OrderController {
         app.get("/carportorder", ctx -> carportOrder(ctx, connectionPool));
         app.post("/savecarportdetails", ctx -> saveCarportDetails(ctx, connectionPool));
         app.get("/backtoorder", ctx -> backToOrder(ctx, connectionPool));
+        app.post("/confirmorder", ctx -> confirmOrder(ctx, connectionPool));
 
+    }
+
+    private static void confirmOrder(Context ctx, ConnectionPool connectionPool) {
+        Order order = ctx.sessionAttribute("Order");
+        User user = ctx.sessionAttribute("currentUser");
+        // Save the order to the database
+        //OrderMapper.createOrder(order, connectionPool);
+        // Send an order confirmation email
+        //MailController.sendOrderConfirmation(order);
+        // Set session attributes to null
+        ctx.sessionAttribute("Order", null);
+        ctx.sessionAttribute("currentWidth",null);
+        ctx.sessionAttribute("currentLength",null);
+        ctx.sessionAttribute("currentRoof",null);
+        ctx.sessionAttribute("currentShedWidth",null);
+        ctx.sessionAttribute("currentShedLength",null);
+        ctx.sessionAttribute("currentComment",null);
+        ctx.sessionAttribute("hasAnOrder", null);
+        ctx.sessionAttribute("isOrdering", null);
+        ctx.render("order-confirmation.html");
     }
 
     private static void backToOrder(Context ctx, ConnectionPool connectionPool) {
