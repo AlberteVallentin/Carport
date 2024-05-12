@@ -22,34 +22,6 @@ public class StatusController {
 
     }
 
-    private static void offerConfirmed(Context ctx, ConnectionPool connectionPool) {
-        try {
-            // Hent orderId fra sessionen
-            Integer orderId = ctx.sessionAttribute("orderId");
-            if (orderId == null) {
-                System.out.println("No 'orderId' found in session"); // Logudskrift
-                ctx.attribute("message", "No 'orderId' found in session");
-                ctx.render("/confirm-offer.html");
-                return;
-            }
-
-            // Opdater status-ID'et for den pågældende ordre
-            OrderMapper.updateOrderStatusById(orderId, 5, connectionPool);
-
-            // TODO: Hent ordren fra databasen
-            Order order = OrderMapper.getOrderById(orderId, connectionPool);
-
-            // TODO: Send en bekræftelsesmail
-            MailController.paymentConfirmed(order);
-
-            ctx.redirect("/orderdone");
-        } catch (DatabaseException e) {
-            System.out.println("Error updating order status: " + e.getMessage()); // Logudskrift
-            ctx.attribute("message", "Error updating order status: " + e.getMessage());
-            ctx.render("confirm-offer.html");
-        }
-    }
-
     private static void statusRedirect(Context ctx, ConnectionPool connectionPool){
         try {
             String email = ctx.formParam("email");
@@ -103,4 +75,33 @@ public class StatusController {
             ctx.render("status.html");
         }
     }
+
+    private static void offerConfirmed(Context ctx, ConnectionPool connectionPool) {
+        try {
+            // Hent orderId fra sessionen
+            Integer orderId = ctx.sessionAttribute("orderId");
+            if (orderId == null) {
+                System.out.println("No 'orderId' found in session"); // Logudskrift
+                ctx.attribute("message", "No 'orderId' found in session");
+                ctx.render("/confirm-offer.html");
+                return;
+            }
+
+            // Opdater status-ID'et for den pågældende ordre
+            OrderMapper.updateOrderStatusById(orderId, 5, connectionPool);
+
+            // Hent ordren fra databasen
+            Order order = OrderMapper.getOrderById(orderId, connectionPool);
+
+            // Send mail til brugeren om at ordren er bekræftet
+            MailController.paymentConfirmed(order);
+
+            ctx.redirect("/orderdone");
+        } catch (DatabaseException e) {
+            System.out.println("Error updating order status: " + e.getMessage()); // Logudskrift
+            ctx.attribute("message", "Error updating order status: " + e.getMessage());
+            ctx.render("confirm-offer.html");
+        }
+    }
+
 }
