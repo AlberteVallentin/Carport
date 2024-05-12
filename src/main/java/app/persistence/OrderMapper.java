@@ -50,6 +50,8 @@ public class OrderMapper {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     statusId = rs.getInt("status_id");
+                } else {
+                    throw new DatabaseException("Vi kunne desværre ikke finde en ordre med følgende ordrenummer: " + orderId + ". Prøv igen og tjek evt din e-mail, hvor du kan se dit ordrenummer.");
                 }
             }
         } catch (SQLException e) {

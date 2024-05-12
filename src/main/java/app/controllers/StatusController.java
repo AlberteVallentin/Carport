@@ -19,7 +19,14 @@ public class StatusController {
 
     private static void statusRedirect(Context ctx, ConnectionPool connectionPool) {
         try {
-            int orderId = Integer.parseInt(ctx.formParam("order-id"));
+            String orderIdStr = ctx.formParam("order-id");
+            if (orderIdStr == null || orderIdStr.isEmpty()) {
+                ctx.attribute("message", "Missing or empty 'orderId' parameter");
+                ctx.render("status.html");
+                return;
+            }
+
+            int orderId = Integer.parseInt(orderIdStr);
             int statusId = OrderMapper.getOrderStatusByOrderId(orderId, connectionPool);
 
             switch (statusId) {
@@ -36,9 +43,13 @@ public class StatusController {
                     ctx.redirect("/statusUnknown.html");
                     break;
             }
+        } catch (NumberFormatException e) {
+            ctx.attribute("message", "Invalid 'orderId' parameter");
+            ctx.render("status.html");
         } catch (DatabaseException e) {
-            ctx.status(500);
-            ctx.result("Der er sket en fejl ved hentning af ordren: " + e.getMessage());
+            ctx.attribute("message", e.getMessage());
+            ctx.render("status.html");
         }
     }
 }
+
