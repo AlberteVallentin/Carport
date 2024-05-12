@@ -1,7 +1,7 @@
 package app.entities;
 // Here we have a object that get the type of materials
 
-public class Materials {
+public class Material {
     private int materialId;
     private int width;
     private int depth;
@@ -10,7 +10,7 @@ public class Materials {
     private String unit;
     private String materialDescription;
 
-    public Materials(int materialId, int width, int depth, String type, double materialPrice, String unit, String materialDescription) {
+    public Material(int materialId, int width, int depth, String type, double materialPrice, String unit, String materialDescription) {
         this.materialId = materialId;
         this.width = width;
         this.depth = depth;

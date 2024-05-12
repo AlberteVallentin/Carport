@@ -40,13 +40,13 @@ const validateInputs = () => {
     const isValidShedLength = validateSelect(shedLength, 'Vælg venligst en længde eller "Uden redskabsrum"');
 
     // Tjek om brugeren har valgt "Uden redskabsrum" i længde, men har valgt en bredde (tjekker først om der er valgt en bredde og længde)
-    if (isValidShedWidth && isValidShedLength && shedLength.value === "Uden redskabsrum" && shedWidth.value !== "Uden redskabsrum") {
+    if (isValidShedWidth && isValidShedLength && shedLength.value === "0" && shedWidth.value !== "0") {
         setError(shedLength, 'Vælg "Uden redskabsrum" eller både en længde og bredde for redskabsrummet');
         setError(shedWidth, 'Vælg "Uden redskabsrum" eller både en længde og bredde for redskabsrummet');
         return false;
     }
     // Tjek om brugeren har valgt "Uden redskabsrum" i bredde, men har valgt en længde (tjekker først om der er valgt en bredde og længde)
-    if (isValidShedWidth && isValidShedLength && shedWidth.value === "Uden redskabsrum" && shedLength.value !== "Uden redskabsrum") {
+    if (isValidShedWidth && isValidShedLength && shedWidth.value === "0" && shedLength.value !== "0") {
         setError(shedWidth, 'Vælg "Uden redskabsrum" eller både en længde og bredde for redskabsrummet');
         setError(shedLength, 'Vælg "Uden redskabsrum" eller både en længde og bredde for redskabsrummet');
         return false;

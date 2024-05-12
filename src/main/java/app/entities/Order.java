@@ -1,37 +1,38 @@
 package app.entities;
 
 public class Order {
-    private int orderID;
+    private int orderId;
     private double price;
-    private int userID;
+    private User user;
     private String comment;
     private int shippingId;
     private int cpLength;
     private int cpWidth;
+    private String cpRoof;
     private int shedLength;
     private int shedWidth;
-    private int statusID;
+    private int statusId;
 
-
-    public Order(int orderID, double price, int userID, String comment, int shippingId, int cpLength, int cpWidth, int shedLength, int shedWidth, int statusID) {
-        this.orderID = orderID;
+public Order(int orderId, double price, User user, String comment, int shippingId, int cpLength, int cpWidth, String cpRoof, int shedLength, int shedWidth, int statusId) {
+        this.orderId = orderId;
         this.price = price;
-        this.userID = userID;
+        this.user = user;
         this.comment = comment;
         this.shippingId = shippingId;
         this.cpLength = cpLength;
         this.cpWidth = cpWidth;
+        this.cpRoof = cpRoof;
         this.shedLength = shedLength;
         this.shedWidth = shedWidth;
-        this.statusID = statusID;
+        this.statusId = statusId;
     }
 
-    public int getOrderID() {
-        return orderID;
+    public int getOrderId() {
+        return orderId;
     }
 
-    public void setOrderID(int orderID) {
-        this.orderID = orderID;
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
     public double getPrice() {
@@ -42,12 +43,12 @@ public class Order {
         this.price = price;
     }
 
-    public int getUserID() {
-        return userID;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getComment() {
@@ -82,6 +83,14 @@ public class Order {
         this.cpWidth = cpWidth;
     }
 
+    public String getCpRoof() {
+        return cpRoof;
+    }
+
+    public void setCpRoof(String cpRoof) {
+        this.cpRoof = cpRoof;
+    }
+
     public int getShedLength() {
         return shedLength;
     }
@@ -98,11 +107,27 @@ public class Order {
         this.shedWidth = shedWidth;
     }
 
-    public int getStatusID() {
-        return statusID;
+    public int getStatusId() {
+        return statusId;
     }
 
-    public void setStatusID(int statusID) {
-        this.statusID = statusID;
+    public void setStatusId(int statusId) {
+        this.statusId = statusId;
+    }
+
+    public String toString() {
+        return "Order{" +
+                "orderId=" + orderId +
+                ", price=" + price +
+                ", user=" + user +
+                ", comment='" + comment + '\'' +
+                ", shippingId=" + shippingId +
+                ", cpLength=" + cpLength +
+                ", cpWidth=" + cpWidth +
+                ", cpRoof='" + cpRoof + '\'' +
+                ", shedLength=" + shedLength +
+                ", shedWidth=" + shedWidth +
+                ", statusId=" + statusId +
+                '}';
     }
 }

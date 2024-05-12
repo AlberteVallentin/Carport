@@ -170,9 +170,14 @@ textarea::placeholder, input::placeholder {
 
 
 /* Error messages */
-.select-container .error-message, .input-container .error-message{
+.select-container .error-message, .input-container .error-message, .error-message p{
     color: var(--clr-error);
     font-size: var(--fs-s);
+}
+
+.center {
+    text-align: center;
+    align-items: center;
 }
 
 .error-message {
@@ -212,6 +217,18 @@ textarea::placeholder, input::placeholder {
     border-radius: 5px;
 
 }
+
+.submit-order-button {
+    display: inline-block;
+    padding: 0.5rem 0.5rem;
+    color: white;
+    text-decoration: none;
+    transition: transform 0.5s ease, background-color 0.5s ease;
+    background-color: var(--clr-dark-blue);
+    border-radius: 5px;
+
+}
+
 
 
 
@@ -260,7 +277,7 @@ textarea::placeholder, input::placeholder {
 
 }
 
-.step:hover .step-number, .link-button:hover {
+.step:hover .step-number, .link-button:hover, .submit-order-button:hover {
     transform: scale(1.1);
 }
 

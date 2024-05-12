@@ -21,10 +21,10 @@
         </a>
     </div>
     <div class="account-container">
-        <a href="login.html" th:href="@{/}">
+        <a href="login.html" th:href="@{/loginorout}">
             <img class="account" src="../public/images/person.svg" th:src="@{/images/person.svg}"/>
         </a>
-        <a href="login.html" class="account">Konto</a>
+        <a href="login.html" th:href="@{/loginorout}" class="account">Konto</a>
 
     </div>
 
@@ -63,20 +63,20 @@
             <h2>Kontakt</h2>
             <div class="text-container">
                 <h3>Fornavn*</h3>
-                <p class="selected-text">Fornavn</p>
+                <p class="selected-text" th:text="${firstName}">Fornavn</p>
                 <div class="error-message">
                 </div>
             </div>
             <div class="text-container">
                 <h3>Efternavn*</h3>
-                <p class="selected-text">Efternavn</p>
+                <p class="selected-text" th:text="${lastName}">Efternavn</p>
                 <div class="error-message">
                 </div>
             </div>
             <div>
                 <div class="text-container">
                     <h3>E-mail*</h3>
-                    <p class="selected-text">E-mail</p>
+                    <p class="selected-text" th:text="${email}">E-mail</p>
                     <div class="error-message">
                     </div>
                 </div>
@@ -84,7 +84,7 @@
             <div>
                 <div class="text-container">
                     <h3>Telefonnummer*</h3>
-                    <p class="selected-text">E-mail</p>
+                    <p class="selected-text" th:text="${phoneNumber}">Telefonnummer</p>
                     <div class="error-message">
                     </div>
                 </div>
@@ -95,27 +95,33 @@
             <h2>Adresse</h2>
             <p>NB! Dette skal være leveringsadressen</p>
             <div class="text-container">
-                <h3>Vejnavn og husnummer*</h3>
-                <p class="selected-text">Vejnavn og husnummer</p>
+                <h3>Vejnavn*</h3>
+                <p class="selected-text" th:text="${streetName}">Vejnavn</p>
+                <div class="error-message">
+                </div>
+            </div>
+            <div class="text-container">
+                <h3>Husnummer*</h3>
+                <p class="selected-text" th:text="${houseNumber}">Husnummer</p>
                 <div class="error-message">
                 </div>
             </div>
             <div class="text-container">
                 <h3>Etage- og dørbetegnelse</h3>
-                <p class="selected-text">Etage- og dørbetegnelse</p>
+                <p class="selected-text" th:text="${floorAndDoor}">Etage- og dørbetegnelse</p>
                 <div class="error-message">
                 </div>
             </div>
             <div class="text-container">
                 <h3>Postnummer*</h3>
-                <p class="selected-text">Postnummer</p>
+                <p class="selected-text" th:text="${postalCode}">Postnummer</p>
                 <div class="error-message">
                 </div>
             </div>
 
             <div class="text-container">
                 <h3>By*</h3>
-                <p class="selected-text">By</p>
+                <p class="selected-text" th:text="${city}">By</p>
                 <div class="error-message">
                 </div>
             </div>
@@ -124,8 +130,8 @@
 
         <section>
             <div class="navigation">
-                <a href="carport-order.html" class="link-button">Tilbage</a>
-                <a href="order-summary.html" class="link-button">Videre</a>
+                <a href="carport-order.html" th:href="@{/backtoorder}" class="link-button">Tilbage</a>
+                <a href="order-summary.html" th:href="@{/showCarportDrawing}" class="link-button">Videre</a>
             </div>
 
         </section>
