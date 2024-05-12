@@ -3,10 +3,7 @@ package app.controllers;
 import app.entities.Order;
 import app.entities.User;
 import app.exceptions.DatabaseException;
-import app.persistence.AddressMapper;
-import app.persistence.ConnectionPool;
-import app.persistence.ShippingMapper;
-import app.persistence.UserMapper;
+import app.persistence.*;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -32,20 +29,13 @@ public class OrderController {
         // Forsøg at oprette ordren og shipping i databasen
         try {
             int shippingId = ShippingMapper.createShipping(user.getAddressId(), connectionPool);
-            UserMapper.createUser(firstName, lastName, email, phone, password1, addressId, connectionPool);
-            ctx.attribute("message", "Du er nu oprettet med e-mailen: " + email + ". Log på.");
-            ctx.render("login.html");
-        } catch (SQLException e) {
-            String msg = "Der er sket en fejl. Prøv igen";
-            if (e.getSQLState().equals("23505")) {
-                msg = "E-mailen findes allerede. Vælg en anden e-mail eller log ind";
-            }
-            handleDatabaseError(ctx, new DatabaseException(msg, e.getMessage()), firstName, lastName, email, phone, streetName, houseNumber, floorAndDoor, postalCode, city);
-        } catch (DatabaseException e) {
-            handleDatabaseError(ctx, e, firstName, lastName, email, phone, streetName, houseNumber, floorAndDoor, postalCode, city);
+            OrderMapper.createOrder(order, user, shippingId, connectionPool);
+            ctx.render("order-confirmation.html");
+        } catch (SQLException | DatabaseException e) {
+            ctx.status(500);
+            ctx.result("Der er sket en fejl ved oprettelse af ordren: " + e.getMessage());
         }
     }
-
 
     private static void backToOrder(Context ctx, ConnectionPool connectionPool) {
         ctx.render("carport-order.html");

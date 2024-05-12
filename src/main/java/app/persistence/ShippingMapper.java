@@ -20,7 +20,7 @@ public class ShippingMapper {
             ps.setDouble(2, shippingRate);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return rs.getInt(1); // Returnerer den genererede shipping ID
+                return rs.getInt(1); // Returnerer det genererede shipping ID
             } else {
                 throw new DatabaseException("Fejl ved oprettelse af shipping - ingen ID returneret");
             }
