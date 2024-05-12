@@ -38,10 +38,19 @@ public class Order {
         this.shWidth = shWidth;
     }
 
-    // Constructor with status
-    public Order (int statusId) {
+    // Constructor without comment and shipping
+    public Order(int orderId, double price, User user, int cpLength, int cpWidth, String cpRoof, int shLength, int shWidth, int statusId) {
+        this.orderId = orderId;
+        this.price = price;
+        this.user = user;
+        this.cpLength = cpLength;
+        this.cpWidth = cpWidth;
+        this.cpRoof = cpRoof;
+        this.shLength = shLength;
+        this.shWidth = shWidth;
         this.statusId = statusId;
     }
+
 
     public int getOrderId() {
         return orderId;

@@ -1,9 +1,11 @@
 package app.controllers;
 
 import app.entities.Order;
+import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.OrderMapper;
+import app.persistence.UserMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -50,30 +52,57 @@ public class StatusController {
         }
     }
 
-
-
     private static void statusRedirect(Context ctx, ConnectionPool connectionPool){
-            try {
-                String orderIdStr = ctx.formParam("order-id");
-                if (orderIdStr == null || orderIdStr.isEmpty()) {
-                    ctx.attribute("message", "Missing or empty 'orderId' parameter");
-                    ctx.render("status.html");
-                    return;
-                }
+        try {
+            String email = ctx.formParam("email");
+            String password = ctx.formParam("password");
+            String orderIdStr = ctx.formParam("order-id");
+            if (orderIdStr == null || orderIdStr.isEmpty() || email == null || email.isEmpty() || password == null || password.isEmpty()) {
+                ctx.attribute("message", "Udfyld venligst alle felter");
+                ctx.render("status.html");
+                return;
+            }
 
             int orderId = Integer.parseInt(orderIdStr);
-            int statusId = OrderMapper.getOrderStatusByOrderId(orderId, connectionPool);
-            ctx.sessionAttribute("orderId", orderId);
 
+            // Hent brugeren fra databasen
+            User user = UserMapper.getUserByEmailAndPassword(email, password, connectionPool);
+            if (user == null) {
+                ctx.attribute("message", "Din e-mail og kodeord stemmer ikke overens");
+                ctx.render("status.html");
+                return;
+            }
+
+            // Hent bruger-id'et fra sessionen
+            int userId = ctx.sessionAttribute("userId");
+            if (userId == 0 || !(userId == (user.getUserId()))) {
+                ctx.attribute("message", "User ID does not match the associated user ID");
+                ctx.render("status.html");
+                return;
+            }
+
+            // Hent ordren fra databasen
+            Order order = OrderMapper.getOrderById(orderId, connectionPool);
+            if (order == null) {
+                ctx.attribute("message", "Vi kunne ikke hente din ordre med følgende ordrenummer: " + orderId);
+                ctx.render("status.html");
+                return;
+            }
+
+            // Hent status-id'et fra ordren
+            int statusId = order.getStatusId();
+
+            // Switch-case på status-id'et
             switch (statusId) {
+                case 1:
+                    // Håndter status-id 1
+                    break;
                 case 2:
-                    ctx.redirect("/confirm-offer");
+                    // Håndter status-id 2
                     break;
-                case 3:
-                    ctx.redirect("/status3.html");
-                    break;
+                // Tilføj flere cases som nødvendigt...
                 default:
-                    ctx.redirect("/statusUnknown.html");
+                    // Håndter ukendt status-id
                     break;
             }
         } catch (NumberFormatException e) {
@@ -85,4 +114,3 @@ public class StatusController {
         }
     }
 }
-
