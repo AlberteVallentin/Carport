@@ -40,7 +40,7 @@ public class OrderController {
 
 
         // Create an Order object to store the form values
-        Order order = new Order(0, 0.0, user, comment, 0, cpLength, cpWidth, cpRoof,shLength, shWidth, 0);
+        Order order = new Order(user, comment, cpLength, cpWidth, cpRoof, shLength, shWidth);
         // Set session attribute to store the order
         ctx.sessionAttribute("Order", order);
         ctx.sessionAttribute("currentWidth",cpWidth);
@@ -49,7 +49,6 @@ public class OrderController {
         ctx.sessionAttribute("currentShedWidth",shWidth);
         ctx.sessionAttribute("currentShedLength",shLength);
         ctx.sessionAttribute("currentComment",comment);
-
         ctx.sessionAttribute("isOrdering", null);
         ctx.sessionAttribute("hasAnOrder", true);
 
