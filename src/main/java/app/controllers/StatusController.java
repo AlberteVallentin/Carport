@@ -34,11 +34,13 @@ public class StatusController {
             // Opdater status-ID'et for den pågældende ordre
             OrderMapper.updateOrderStatusById(orderId, 5, connectionPool);
 
+            // TODO: Hent ordren fra databasen
             // Hent ordren fra databasen
-            Order order = OrderMapper.getOrderById(orderId, connectionPool);
+            //Order order = OrderMapper.getOrderById(orderId, connectionPool);
 
+            // TODO: Send en bekræftelsesmail
             // Send en bekræftelsesmail
-            MailController.paymentConfirmed(order);
+            //MailController.paymentConfirmed(order);
 
             ctx.redirect("/orderdone");
         } catch (DatabaseException e) {
