@@ -28,4 +28,20 @@ public class ShippingMapper {
             throw new DatabaseException("Error inserting shipping", e.getMessage());
         }
     }
+
+    public double getShippingRate(int shippingId, ConnectionPool connectionPool) throws SQLException, DatabaseException {
+        String sql = "SELECT shipping_rate FROM shipping WHERE shipping_id = ?";
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, shippingId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble(1);
+            } else {
+                throw new DatabaseException("Error getting shipping rate - no rate returned");
+            }
+        } catch (SQLException | DatabaseException e) {
+            throw new DatabaseException("Error getting shipping rate", e.getMessage());
+        }
+    }
 }
