@@ -37,6 +37,9 @@
         <form method="post">
             <section class="submit-container">
                 <h3>Ved at bekræfte tilbuddet, vil du blive sendt videre til betalingen</h3>
+                <div class="error-message center">
+                    <p th:text="${message}"></p>
+                </div>
             </section>
             <section>
                 <div class="login">

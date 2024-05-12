@@ -99,4 +99,32 @@ public class OrderMapper {
         }
         return order;
     }
+
+    public static Order getOrderByIdAndUserId(int orderId, int userId, ConnectionPool connectionPool) throws DatabaseException {
+        Order order = null;
+        String sql = "SELECT * FROM orders WHERE order_id = ? AND user_id = ?";
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, orderId);
+            ps.setInt(2, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    User user = UserMapper.getUserById(userId, connectionPool);
+                    if (user == null) {
+                        throw new DatabaseException("No user found with the provided userId: " + userId);
+                    }
+                    int cpLength = rs.getInt("cp_length");
+                    int cpWidth = rs.getInt("cp_width");
+                    int shLength = rs.getInt("shed_length");
+                    int shWidth = rs.getInt("shed_width");
+                    int statusId = rs.getInt("status_id");
+                    String cpRoof = rs.getString("cp_roof");
+                    double price = rs.getDouble("price");
+                    order = new Order(orderId, price, user, cpLength, cpWidth, cpRoof, shLength, shWidth, statusId);
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Error retrieving order by ID", e.getMessage());
+        }
+        return order;
+    }
 }

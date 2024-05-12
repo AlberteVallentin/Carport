@@ -73,18 +73,11 @@ public class StatusController {
                 return;
             }
 
-            // Hent bruger-id'et fra sessionen
-            int userId = ctx.sessionAttribute("userId");
-            if (userId == 0 || !(userId == (user.getUserId()))) {
-                ctx.attribute("message", "User ID does not match the associated user ID");
-                ctx.render("status.html");
-                return;
-            }
-
             // Hent ordren fra databasen
-            Order order = OrderMapper.getOrderById(orderId, connectionPool);
+            Order order = OrderMapper.getOrderByIdAndUserId(orderId, user.getUserId(), connectionPool);
+            ctx.sessionAttribute("orderId", orderId);
             if (order == null) {
-                ctx.attribute("message", "Vi kunne ikke hente din ordre med følgende ordrenummer: " + orderId);
+                ctx.attribute("message", "Ud fra dine loginoplysninger samt ordrenummer, kunne vi ikke finde din ordre med følgende ordrenummer: " + orderId + ". Prøv igen og tjek evt. din e-mail, hvor du kan se dit ordrenummer.");
                 ctx.render("status.html");
                 return;
             }
@@ -94,15 +87,14 @@ public class StatusController {
 
             // Switch-case på status-id'et
             switch (statusId) {
-                case 1:
-                    // Håndter status-id 1
-                    break;
                 case 2:
-                    // Håndter status-id 2
+                    ctx.redirect("/confirm-offer");
                     break;
-                // Tilføj flere cases som nødvendigt...
+                case 3:
+                    ctx.redirect("/status3.html");
+                    break;
                 default:
-                    // Håndter ukendt status-id
+                    ctx.redirect("/statusUnknown.html");
                     break;
             }
         } catch (NumberFormatException e) {
