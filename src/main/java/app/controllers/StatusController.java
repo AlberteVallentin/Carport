@@ -34,6 +34,11 @@ public class StatusController {
             // Opdater status-ID'et for den pågældende ordre
             OrderMapper.updateOrderStatusById(orderId, 5, connectionPool);
 
+            // Hent ordren fra databasen
+            Order order = OrderMapper.getOrderById(orderId, connectionPool);
+
+            // Send en bekræftelsesmail
+            MailController.paymentConfirmed(order);
 
             ctx.redirect("/orderdone");
         } catch (DatabaseException e) {
@@ -59,9 +64,6 @@ public class StatusController {
             ctx.sessionAttribute("orderId", orderId);
 
             switch (statusId) {
-                case 1:
-                    ctx.redirect("/status1.html");
-                    break;
                 case 2:
                     ctx.redirect("/confirm-offer");
                     break;
