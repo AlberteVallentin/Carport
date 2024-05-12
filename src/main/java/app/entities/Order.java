@@ -11,9 +11,9 @@ public class Order {
     private String cpRoof;
     private int shLength;
     private int shWidth;
-    private Status status;
+    private int statusId;
 
-    public Order(int orderId, double price, User user, String comment, Shipping shipping, int cpLength, int cpWidth, String cpRoof, int shLength, int shWidth, Status status) {
+    public Order(int orderId, double price, User user, String comment, Shipping shipping, int cpLength, int cpWidth, String cpRoof, int shLength, int shWidth, int statusId) {
         this.orderId = orderId;
         this.price = price;
         this.user = user;
@@ -24,7 +24,7 @@ public class Order {
         this.cpRoof = cpRoof;
         this.shLength = shLength;
         this.shWidth = shWidth;
-        this.status = status;
+        this.statusId = statusId;
     }
 
     // Constructor without price, shipping, orderId and status
@@ -36,6 +36,11 @@ public class Order {
         this.cpRoof = cpRoof;
         this.shLength = shLength;
         this.shWidth = shWidth;
+    }
+
+    // Constructor with status
+    public Order (int statusId) {
+        this.statusId = statusId;
     }
 
     public int getOrderId() {
@@ -111,8 +116,8 @@ public class Order {
         this.shWidth = shWidth;
     }
 
-    public Status getStatus() {
-        return status;
+    public int getStatusId() {
+        return statusId;
     }
 
     public int getUserId() {

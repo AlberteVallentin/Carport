@@ -13,8 +13,6 @@ public class OrderMapper {
 
     public static void createOrder(Order order, User user, int shippingId, ConnectionPool connectionPool) throws SQLException {
         String sql = "INSERT INTO orders(price, user_id, comment, shipping_id, cp_length, cp_width, shed_length, shed_width, status_id, cp_roof) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-
         try (Connection conn = connectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setDouble(1, 100.00);
@@ -42,5 +40,21 @@ public class OrderMapper {
             throw new DatabaseException("Error retrieving the latest order ID", e.getMessage());
         }
         return orderId;
+    }
+
+    public static int getOrderStatusByOrderId(int orderId, ConnectionPool connectionPool) throws DatabaseException {
+        int statusId = 0;
+        String sql = "SELECT status_id FROM orders WHERE order_id = ?";
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, orderId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    statusId = rs.getInt("status_id");
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Error retrieving order status by ID", e.getMessage());
+        }
+        return statusId;
     }
 }

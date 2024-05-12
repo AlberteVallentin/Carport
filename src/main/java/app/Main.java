@@ -3,6 +3,7 @@ package app;
 import app.config.ThymeleafConfig;
 import app.config.SessionConfig;
 import app.controllers.OrderController;
+import app.controllers.StatusController;
 import app.controllers.SvgController;
 import app.controllers.UserController;
 import app.persistence.ConnectionPool;
@@ -40,6 +41,7 @@ public class Main {
         OrderController.addRoutes(app, connectionPool);
         UserController.addRoutes(app, connectionPool);
         SvgController.addRoutes(app, connectionPool);
+        StatusController.addRoutes(app, connectionPool);
 
     }
 }
