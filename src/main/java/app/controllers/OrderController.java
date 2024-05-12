@@ -2,9 +2,15 @@ package app.controllers;
 
 import app.entities.Order;
 import app.entities.User;
+import app.exceptions.DatabaseException;
+import app.persistence.AddressMapper;
 import app.persistence.ConnectionPool;
+import app.persistence.ShippingMapper;
+import app.persistence.UserMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+
+import java.sql.SQLException;
 
 import static app.controllers.UserController.contactDetails;
 
@@ -20,24 +26,26 @@ public class OrderController {
     }
 
     private static void confirmOrder(Context ctx, ConnectionPool connectionPool) {
-        Order order = ctx.sessionAttribute("Order");
+        Order order = ctx.sessionAttribute("currentOrder");
         User user = ctx.sessionAttribute("currentUser");
-        // Save the order to the database
-        //OrderMapper.createOrder(order, connectionPool);
-        // Send an order confirmation email
-        //MailController.sendOrderConfirmation(order);
-        // Set session attributes to null
-        ctx.sessionAttribute("Order", null);
-        ctx.sessionAttribute("currentWidth",null);
-        ctx.sessionAttribute("currentLength",null);
-        ctx.sessionAttribute("currentRoof",null);
-        ctx.sessionAttribute("currentShedWidth",null);
-        ctx.sessionAttribute("currentShedLength",null);
-        ctx.sessionAttribute("currentComment",null);
-        ctx.sessionAttribute("hasAnOrder", null);
-        ctx.sessionAttribute("isOrdering", null);
-        ctx.render("order-confirmation.html");
+
+        // Forsøg at oprette ordren og shipping i databasen
+        try {
+            int shippingId = ShippingMapper.createShipping(user.getAddressId(), connectionPool);
+            UserMapper.createUser(firstName, lastName, email, phone, password1, addressId, connectionPool);
+            ctx.attribute("message", "Du er nu oprettet med e-mailen: " + email + ". Log på.");
+            ctx.render("login.html");
+        } catch (SQLException e) {
+            String msg = "Der er sket en fejl. Prøv igen";
+            if (e.getSQLState().equals("23505")) {
+                msg = "E-mailen findes allerede. Vælg en anden e-mail eller log ind";
+            }
+            handleDatabaseError(ctx, new DatabaseException(msg, e.getMessage()), firstName, lastName, email, phone, streetName, houseNumber, floorAndDoor, postalCode, city);
+        } catch (DatabaseException e) {
+            handleDatabaseError(ctx, e, firstName, lastName, email, phone, streetName, houseNumber, floorAndDoor, postalCode, city);
+        }
     }
+
 
     private static void backToOrder(Context ctx, ConnectionPool connectionPool) {
         ctx.render("carport-order.html");
@@ -63,7 +71,7 @@ public class OrderController {
         // Create an Order object to store the form values
         Order order = new Order(user, comment, cpLength, cpWidth, cpRoof, shLength, shWidth);
         // Set session attribute to store the order
-        ctx.sessionAttribute("Order", order);
+        ctx.sessionAttribute("currentOrder", order);
         ctx.sessionAttribute("currentWidth",cpWidth);
         ctx.sessionAttribute("currentLength",cpLength);
         ctx.sessionAttribute("currentRoof",cpRoof);
