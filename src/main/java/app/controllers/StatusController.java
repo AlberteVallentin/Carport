@@ -15,19 +15,48 @@ public class StatusController {
         app.get("/status", ctx -> ctx.render("status.html"));
         app.post("/statusRedirect", ctx -> statusRedirect(ctx, connectionPool));
         app.get("/confirm-offer", ctx -> ctx.render("confirm-offer.html"));
+        app.post("/offerconfirmed", ctx -> offerConfirmed(ctx, connectionPool));
+        app.get("/orderdone", ctx -> ctx.render("order-done.html"));
+
     }
 
-    private static void statusRedirect(Context ctx, ConnectionPool connectionPool) {
+    private static void offerConfirmed(Context ctx, ConnectionPool connectionPool) {
         try {
-            String orderIdStr = ctx.formParam("order-id");
-            if (orderIdStr == null || orderIdStr.isEmpty()) {
-                ctx.attribute("message", "Missing or empty 'orderId' parameter");
-                ctx.render("status.html");
+            // Hent orderId fra sessionen
+            Integer orderId = ctx.sessionAttribute("orderId");
+            if (orderId == null) {
+                System.out.println("No 'orderId' found in session"); // Logudskrift
+                ctx.attribute("message", "No 'orderId' found in session");
+                ctx.render("/confirm-offer.html");
                 return;
             }
 
+            // Opdater status-ID'et for den pågældende ordre
+            OrderMapper.updateOrderStatusById(orderId, 5, connectionPool);
+
+
+            ctx.redirect("/orderdone");
+        } catch (DatabaseException e) {
+            System.out.println("Error updating order status: " + e.getMessage()); // Logudskrift
+            ctx.attribute("message", "Error updating order status: " + e.getMessage());
+            ctx.render("confirm-offer.html");
+        }
+    }
+
+
+
+    private static void statusRedirect(Context ctx, ConnectionPool connectionPool){
+            try {
+                String orderIdStr = ctx.formParam("order-id");
+                if (orderIdStr == null || orderIdStr.isEmpty()) {
+                    ctx.attribute("message", "Missing or empty 'orderId' parameter");
+                    ctx.render("status.html");
+                    return;
+                }
+
             int orderId = Integer.parseInt(orderIdStr);
             int statusId = OrderMapper.getOrderStatusByOrderId(orderId, connectionPool);
+            ctx.sessionAttribute("orderId", orderId);
 
             switch (statusId) {
                 case 1:

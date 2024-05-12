@@ -59,4 +59,16 @@ public class OrderMapper {
         }
         return statusId;
     }
+
+    public static void updateOrderStatusById(int orderId, int statusId, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "UPDATE orders SET status_id = ? WHERE order_id = ?";
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, statusId);
+            ps.setInt(2, orderId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException("Error updating order status", e.getMessage());
+        }
+    }
 }
