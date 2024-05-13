@@ -21,8 +21,12 @@ public class OrderController {
         app.post("/savecarportdetails", ctx -> saveCarportDetails(ctx, connectionPool));
         app.get("/backtoorder", ctx -> backToOrder(ctx, connectionPool));
         app.post("/confirmorder", ctx -> confirmOrder(ctx, connectionPool));
+        // TODO: Lav en deleteorder
+        //app.post("/deleteorder", ctx -> deleteOrder(ctx, connectionPool));
 
     }
+
+
 
     private static void confirmOrder(Context ctx, ConnectionPool connectionPool) {
         Order order = ctx.sessionAttribute("currentOrder");

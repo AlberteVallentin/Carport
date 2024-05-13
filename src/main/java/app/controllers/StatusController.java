@@ -18,6 +18,7 @@ public class StatusController {
         app.get("/confirm-offer", ctx -> ctx.render("confirm-offer.html"));
         app.post("/offerconfirmed", ctx -> offerConfirmed(ctx, connectionPool));
         app.get("/orderdone", ctx -> ctx.render("order-done.html"));
+        app.get("/deleteorder", ctx -> ctx.render("order-deleted.html"));
     }
 
     private static void statusRedirect(Context ctx, ConnectionPool connectionPool) {

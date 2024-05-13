@@ -30,6 +30,7 @@
 
 }
 
+
 .denied {
     background-color: white;
     font-size: var(--fs-s);
@@ -40,7 +41,6 @@
     transition: transform 0.5s ease, background-color 0.5s ease;
 
 }
-
 
 
 .link {
