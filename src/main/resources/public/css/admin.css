@@ -109,3 +109,16 @@ td:last-child{
     text-decoration: none;
     transition: transform 0.5s ease, background-color 0.5s ease;
 }
+
+.two-rows{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0.5rem;
+    gap: 1rem;
+
+}
+
+.two-rows > div {
+    width: 50%;
+}
