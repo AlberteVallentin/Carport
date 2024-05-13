@@ -133,3 +133,16 @@ td:last-child{
 .two-rows > div {
     width: 50%;
 }
+
+.three-rows{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0.5rem;
+    gap: 1rem;
+
+}
+
+.three-rows > div {
+    width: 33%;
+}

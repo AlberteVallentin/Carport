@@ -33,42 +33,41 @@
 
 </nav>
 
-<h1>Kontaktoplysninger</h1>
+<h1 th:text="${order.orderId}" >Ordre nummer </h1>
 
 <main>
   <div class="order-container">
-    <section>
-      <p class="info-text">Nedstående er dine kontaktoplysninger baseret på din konto.
-        Felter markeret med * SKAL være udfyldt!
-      </p>
-    </section>
 
     <section>
       <h2>Kontakt</h2>
-      <div class="text-container">
-        <h3>Fornavn*</h3>
-        <p class="selected-text">Fornavn</p>
-        <div class="error-message">
+      <div class="text-container two-rows">
+        <div>
+          <h3>Fornavn</h3>
+          <p class="selected-text">Fornavn</p>
+          <div class="error-message">
+          </div>
         </div>
-      </div>
-      <div class="text-container">
-        <h3>Efternavn*</h3>
-        <p class="selected-text">Efternavn</p>
-        <div class="error-message">
-        </div>
-      </div>
-      <div>
-        <div class="text-container">
-          <h3>E-mail*</h3>
-          <p class="selected-text">E-mail</p>
+
+        <div>
+          <h3>Efternavn</h3>
+          <p class="selected-text">Efternavn</p>
           <div class="error-message">
           </div>
         </div>
       </div>
-      <div>
-        <div class="text-container">
-          <h3>Telefonnummer*</h3>
+
+
+      <div class="text-container two-rows">
+        <div>
+          <h3>E-mail</h3>
           <p class="selected-text">E-mail</p>
+          <div class="error-message">
+          </div>
+        </div>
+
+        <div>
+          <h3>Postnummer</h3>
+          <p class="selected-text">Postnummer</p>
           <div class="error-message">
           </div>
         </div>
@@ -76,34 +75,92 @@
     </section>
 
     <section>
-      <h2>Adresse</h2>
-      <p>NB! Dette skal være leveringsadressen</p>
+      <h2>Evt. bemærkninger / særlige ønsker</h2>
       <div class="text-container">
-        <h3>Vejnavn og husnummer*</h3>
-        <p class="selected-text">Vejnavn og husnummer</p>
-        <div class="error-message">
-        </div>
-      </div>
-      <div class="text-container">
-        <h3>Etage- og dørbetegnelse</h3>
-        <p class="selected-text">Etage- og dørbetegnelse</p>
-        <div class="error-message">
-        </div>
-      </div>
-      <div class="text-container">
-        <h3>Postnummer*</h3>
-        <p class="selected-text">Postnummer</p>
-        <div class="error-message">
-        </div>
-      </div>
-
-      <div class="text-container">
-        <h3>By*</h3>
-        <p class="selected-text">By</p>
+        <p class="selected-text comment" th:text="${session.currentComment}">Bemærkninger / særlige ønsker</p>
         <div class="error-message">
         </div>
       </div>
     </section>
+
+    <section>
+      <form method = "post">
+      <h2>Carport og skur</h2>
+      <div class="text-container three-rows">
+        <div>
+          <h3>Carport længde</h3>
+          <p class="selected-text">Længde</p>
+          <div class="error-message">
+          </div>
+        </div>
+
+        <div>
+          <h3>Carport bredde</h3>
+          <p class="selected-text">Bredde</p>
+          <div class="error-message">
+          </div>
+        </div>
+        <div>
+          <h3>Tag</h3>
+          <p class="selected-text">E-mail</p>
+          <div class="error-message">
+          </div>
+        </div>
+      </div>
+      <div class="text-container two-rows">
+        <div>
+          <h3>Skur længde</h3>
+          <p class="selected-text">Længde</p>
+          <div class="error-message">
+          </div>
+        </div>
+
+        <div>
+          <h3>Skur bredde</h3>
+          <p class="selected-text">Bredde</p>
+          <div class="error-message">
+          </div>
+        </div>
+        </div>
+
+    <div class="login">
+      <button type="submit" class="submit-button" formaction="/changeorder" >Ændr mål</button>
+    </div>
+    </form>
+    </section>
+
+    <section>
+      <section>
+        <form method = "post">
+        <h2>Pris</h2>
+        <div class="text-container three-rows">
+          <div>
+            <h3>Pris på materialer</h3>
+            <p class="selected-text">Længde</p>
+            <div class="error-message">
+            </div>
+          </div>
+
+          <div>
+            <h3>Fragtomkostninger</h3>
+            <p class="selected-text">Bredde</p>
+            <div class="error-message">
+            </div>
+          </div>
+          <div>
+            <h3>Total pris</h3>
+            <p class="selected-text">E-mail</p>
+            <div class="error-message">
+            </div>
+          </div>
+        </div>
+
+        <div class="login">
+          <button type="submit" class="submit-button" formaction="/changeprice" >Ændr pris</button>
+        </div>
+        </form>
+        </section>
+
 
 
     <section>
@@ -111,11 +168,9 @@
         <a href="carport-order.html" class="link-button">Tilbage</a>
         <a href="order-summary.html" class="link-button">Videre</a>
       </div>
-
     </section>
 
 
-  </div>
 </main>
 </body>
 </html>
