@@ -42,6 +42,7 @@ public class AdminMapper
                 double price = rs.getDouble("price");
                 Order order = new Order(orderId, price, user, cpLength, cpWidth, cpRoof, shLength, shWidth, statusId);
                 orderList.add(order);
+
             }
 
         } catch (SQLException e) {
