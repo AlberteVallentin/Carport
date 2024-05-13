@@ -76,6 +76,11 @@ public class SvgController {
         //wire/
         innerSvg.addLine(length/10+40,width-30, (int) (length/1.4),30,"stroke:#000000; stroke-dasharray:5 5");
 
+        for(int cm = 40; cm<length+40;cm+=55){
+            innerSvg.addRectangle(cm,0,5,width,"stroke-width:1px; stroke:#000000; fill:#ffffff");
+            cm+=5;
+        }
+
         carportSvgTop.addSvg(innerSvg);
 
         //Carport sideview
