@@ -37,6 +37,16 @@ public class MailController {
         }
     }
 
+    public static void denyNewOffer(Order order) {
+        User user = order.getUser();
+        Shipping shipping = order.getShipping();
+        try {
+            MailServer.sendNewOffer(user.getFirstName(), user.getLastName(), user.getEmail(), shipping.getShippingRate(), order.getPrice());
+        } catch (IOException e) {
+            System.out.println("Error sending mail: " + e.getMessage());
+        }
+    }
+
     public static void paymentConfirmed(Order order) {
         User user = order.getUser();
         try {

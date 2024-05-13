@@ -142,6 +142,50 @@ public class MailServer {
         }
     }
 
+    public static void denyNewOffer(String firstName, String lastName, String email, double shippingCost, double price) throws IOException {
+        // Get the API key
+        SendGrid sg = new SendGrid(API_KEY);
+
+        // Create the email
+        Email from = new Email(companyMail);
+        from.setName("Johannes Fog Byggemarked");
+
+        Mail mail = new Mail();
+        mail.setFrom(from);
+
+
+        Personalization personalization = new Personalization();
+
+        personalization.addTo(new Email(email));
+        personalization.addDynamicTemplateData("name", firstName + " " + lastName);
+        personalization.addDynamicTemplateData("shippingCost", shippingCost);
+        personalization.addDynamicTemplateData("price", price);
+        mail.addPersonalization(personalization);
+
+        mail.addCategory("carportapp");
+
+        Request request = new Request();
+        try {
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+
+            // indsæt dit skabelonid herunder
+            mail.templateId = "d-30f2a8f4341a49ea910966629cd87694";
+            request.setBody(mail.build());
+            Response response = sg.api(request);
+            System.out.println(response.getStatusCode());
+            System.out.println(response.getBody());
+            System.out.println(response.getHeaders());
+        } catch (
+                IOException ex) {
+            System.out.println("Error sending mail");
+            throw ex;
+        }
+    }
+
+
+
+
     public static void paymentConfirmed(String firstName, String lastName, String email, int orderId, double price) throws IOException {// Get the API key
         SendGrid sg = new SendGrid(API_KEY);
 
