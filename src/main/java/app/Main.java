@@ -33,6 +33,7 @@ public class Main {
         UserController.addRoutes(app, connectionPool);
         SvgController.addRoutes(app, connectionPool);
 
+        Calculator calculator = new Calculator(550,0,connectionPool);
         // Controllers
 
     }
