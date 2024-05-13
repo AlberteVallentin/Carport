@@ -1,5 +1,6 @@
 package app.persistence;
 
+import app.entities.Order;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 
@@ -13,61 +14,9 @@ import java.util.List;
 public class AdminMapper
 {
 
-    public static User adminLoginCheck(String email, String password, ConnectionPool connectionPool) throws DatabaseException
-    {
-        String sql = "select * from users where email=? and password=?";
 
-        try (
 
-                Connection connection = connectionPool.getConnection();
-                PreparedStatement ps = connection.prepareStatement(sql)
-        ) {
-            ps.setString(1, email);
-            ps.setString(2, password);
-
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                int userId = rs.getInt("user_id");
-                String name = rs.getString("name");
-                boolean admin = rs.getBoolean("admin");
-
-                return new User(userId, name, password, email, admin);
-            } else {
-                throw new DatabaseException("Fejl i login. Prøv igen");
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException("DB fejl", e.getMessage());
-        }
-    }
-
-    public static List<User> getAllUsers(ConnectionPool connectionPool)
-    {
-        String sql = "SELECT * FROM users";
-        List<User> userList = new ArrayList<>();
-
-        try (
-                Connection connection = connectionPool.getConnection();
-                PreparedStatement ps = connection.prepareStatement(sql);
-        ) {
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-                int userId = rs.getInt("user_id");
-                String name = rs.getString("name");
-                String password = rs.getString("password");
-                String email = rs.getString("email");
-                boolean admin = rs.getBoolean("admin");
-
-                User user = new User(userId, name, password, email, admin);
-                userList.add(user);
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return userList;
-    }
-
-    public static List<Order> getAllOrders(ConnectionPool connectionPool)
+    public static List<Order> getAllOrders(ConnectionPool connectionPool) throws DatabaseException
     {
         String sql = "SELECT * FROM orders";
         List<Order> orderList = new ArrayList<>();
@@ -78,13 +27,25 @@ public class AdminMapper
         ) {
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-
-                Order order = new Order(rs.getInt("order_id"));
+                int userId = rs.getInt("user_id");
+                User user = UserMapper.getUserById(userId, connectionPool);
+                if (user == null) {
+                    throw new DatabaseException("No user found with the provided userId: " + userId);
+                }
+                int orderId = rs.getInt("order_id");
+                int cpLength = rs.getInt("cp_length");
+                int cpWidth = rs.getInt("cp_width");
+                int shLength = rs.getInt("shed_length");
+                int shWidth = rs.getInt("shed_width");
+                int statusId = rs.getInt("status_id");
+                String cpRoof = rs.getString("cp_roof");
+                double price = rs.getDouble("price");
+                Order order = new Order(orderId, price, user, cpLength, cpWidth, cpRoof, shLength, shWidth, statusId);
                 orderList.add(order);
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException("Fejl i getAllOrders");
         }
         return orderList;
     }

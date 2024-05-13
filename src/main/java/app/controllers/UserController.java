@@ -83,7 +83,10 @@ public class UserController {
                 contactDetails(ctx, connectionPool);
             }else if(isOrdering != null && isOrdering) {
                 ctx.redirect("/carportorder");
-            } else {
+            } else if (user.isAdmin())
+                {
+                    ctx.redirect("/adminpage");
+                } else {
                 ctx.render("index.html");
             }
         } catch (DatabaseException e) {
@@ -163,4 +166,6 @@ public class UserController {
         ctx.attribute("message", e.getMessage());
         setAttributesAndRenderForm(ctx, e.getMessage(), firstName, lastName, email, phone, streetName, houseNumber, floorAndDoor, String.valueOf(postalCode), city);
     }
+
+
 }

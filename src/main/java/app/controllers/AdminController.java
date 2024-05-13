@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdminController
@@ -32,81 +33,47 @@ public class AdminController
         ctx.render("adminpage.html");
     }
 
+    private static void viewOrders(Context ctx, ConnectionPool connectionPool){
 
-
-    public static void login(Context ctx, ConnectionPool connectionPool) {
-        // Hent form parametre
-        String email = ctx.formParam("email");
-        String password = ctx.formParam("password");
-
-        // Check om bruger findes i DB med de angivne username + password
-        try {
-            User user = AdminMapper.adminLoginCheck(email, password, connectionPool);
-
-            // Hvis ja, og brugeren er admin, send videre til admin page
-            if (AdminController.isAdmin(user)) {
-                ctx.sessionAttribute("currentUser", user);
-                ctx.redirect("/adminpage");
-
-              /*  List<User> userList = AdminMapper.getAllUsers(connectionPool);
-                ctx.attribute("userList", userList);
-                ctx.render("adminpage.html");
-
-               */
-
-                } else {
-                ctx.attribute("message","du er ikke autoriseret til denne side");
-                    ctx.render("login.html");
-                }
-            } catch (DatabaseException e)
-        { ctx.attribute("message", "Fejl i enten email eller kode, prøv igen");
-            ctx.render("login.html");
+        List<Order> orderList = null;
+        try
+        {
+            orderList = AdminMapper.getAllOrders(connectionPool);
+        } catch (DatabaseException e)
+        {
             throw new RuntimeException(e);
         }
+        ctx.attribute("orderList", orderList);
+            ctx.render("admin-order.html");
     }
 
-    public static User adminLoginCheck(String email, String password, ConnectionPool connectionPool) throws DatabaseException
+    public static List<User> getAllUsers(ConnectionPool connectionPool)
     {
-        String sql = "select * from users where email=? and password=?";
+        String sql = "SELECT * FROM users";
+        List<User> userList = new ArrayList<>();
 
         try (
                 Connection connection = connectionPool.getConnection();
-                PreparedStatement ps = connection.prepareStatement(sql)
+                PreparedStatement ps = connection.prepareStatement(sql);
         ) {
-            ps.setString(1, email);
-            ps.setString(2, password);
-
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            while(rs.next()){
                 int userId = rs.getInt("user_id");
-                String name = rs.getString("name");
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                String phoneNumber = rs.getString("phone_number");
+                String password = rs.getString("password");
+                String email = rs.getString("email");
                 boolean admin = rs.getBoolean("admin");
-
-                return new User(userId, name, password, email, admin);
-            } else {
-                throw new DatabaseException("Fejl i login. Prøv igen");
+                int addressId = rs.getInt("address");
+                User user = new User(userId, firstName, lastName, phoneNumber, password, email, admin, addressId);
+                userList.add(user);
             }
+
         } catch (SQLException e) {
-            throw new DatabaseException("DB fejl", e.getMessage());
+            throw new RuntimeException(e);
         }
-    }
-
-    private static void logout(Context ctx) {
-        ctx.req().getSession().invalidate();
-        ctx.redirect("/");
-    }
-
-
-    private static void BackToAdminPage(Context ctx, ConnectionPool connectionPool) {
-    ctx.render("adminpage.html");
-
-    }
-
-    private static void viewOrders(Context ctx, ConnectionPool connectionPool){
-
-            List<Order> orderList = OrdersMapper.getAllOrders(connectionPool);
-            ctx.attribute("orderList", orderList);
-            ctx.render("admin-order.html");
+        return userList;
     }
 
     private static void OffersSent(Context ctx, ConnectionPool connectionPool)
