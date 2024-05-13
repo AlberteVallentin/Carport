@@ -12,6 +12,7 @@ public class Order {
     private int shLength;
     private int shWidth;
     private int statusId;
+    private String status;  // fra status tabel
 
     public Order(int orderId, double price, User user, String comment, Shipping shipping, int cpLength, int cpWidth, String cpRoof, int shLength, int shWidth, int statusId) {
         this.orderId = orderId;
@@ -25,6 +26,7 @@ public class Order {
         this.shLength = shLength;
         this.shWidth = shWidth;
         this.statusId = statusId;
+
     }
 
     // Constructor without price, shipping, orderId and status
@@ -50,6 +52,22 @@ public class Order {
         this.shWidth = shWidth;
         this.statusId = statusId;
     }
+
+    // Constructor with status name
+    public Order(int orderId, double price, User user, int cpLength, int cpWidth, String cpRoof, int shLength, int shWidth, int statusId, String status) {
+        this.orderId = orderId;
+        this.price = price;
+        this.user = user;
+        this.cpLength = cpLength;
+        this.cpWidth = cpWidth;
+        this.cpRoof = cpRoof;
+        this.shLength = shLength;
+        this.shWidth = shWidth;
+        this.statusId = statusId;
+        this.status = status;
+    }
+
+
 
 
     public int getOrderId() {
@@ -151,5 +169,10 @@ public class Order {
 
     public Shipping getShipping() {
         return shipping;
+    }
+
+    public String getStatus()
+    {
+        return status;
     }
 }

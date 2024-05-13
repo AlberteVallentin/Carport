@@ -23,7 +23,7 @@ public class AdminMapper
 
         try (
                 Connection connection = connectionPool.getConnection();
-                PreparedStatement ps = connection.prepareStatement(sql);
+                PreparedStatement ps = connection.prepareStatement(sql)
         ) {
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
@@ -38,9 +38,10 @@ public class AdminMapper
                 int shLength = rs.getInt("shed_length");
                 int shWidth = rs.getInt("shed_width");
                 int statusId = rs.getInt("status_id");
+                String statusName = rs.getString("status");
                 String cpRoof = rs.getString("cp_roof");
                 double price = rs.getDouble("price");
-                Order order = new Order(orderId, price, user, cpLength, cpWidth, cpRoof, shLength, shWidth, statusId);
+                Order order = new Order(orderId, price, user, cpLength, cpWidth, cpRoof, shLength, shWidth, statusId, statusName);
                 orderList.add(order);
 
             }
