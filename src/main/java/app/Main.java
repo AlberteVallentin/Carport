@@ -6,6 +6,7 @@ import app.controllers.OrderController;
 import app.controllers.SvgController;
 import app.controllers.UserController;
 import app.persistence.ConnectionPool;
+import app.services.Calculator;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
@@ -31,6 +32,7 @@ public class Main {
         OrderController.addRoutes(app, connectionPool);
         UserController.addRoutes(app, connectionPool);
         SvgController.addRoutes(app, connectionPool);
+
         // Controllers
 
     }

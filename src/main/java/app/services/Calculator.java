@@ -1,11 +1,13 @@
 package app.services;
 
 import app.entities.BillOfMaterialLine;
+import app.entities.FunctionalDescription;
 import app.entities.MaterialVariant;
 import app.entities.Order;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.MaterialMapper;
+import app.persistence.MaterialVariantMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,27 +50,49 @@ public class Calculator {
         bomLine.add(billOfMaterialLine);
     }
 
-    public int calcPostQuantity(){
+    //Remme
+    public void calcBeams(Order order){
         int quantity;
-        if (length<=420){
+        int variantId=0;
+        //TODO: find functional description id for the material variant
+        int length = order.getCpLength();
+
+        //Beregn antal remme
+        if(length>600){
             quantity = 4;
         }
-        else {
-            quantity = 6;
+        else{
+            quantity = 2;
         }
-        return quantity;
-    }
-    //Remme
-    private void calcBeams(Order order){
-        //Beregn antal remme
+        int variantLengt = Integer.MAX_VALUE;
 
         //Find variant
+        List <MaterialVariant> materialVariants = MaterialVariantMapper.getAllVariantsByMaterialId(4, connectionPool);
 
+        if(length>600) {
+            for (MaterialVariant m : materialVariants) {
+                if (m.getLength() >= length/2 && m.getLength() < variantLengt) {
+                    variantLengt = m.getLength();
+                    variantId = m.getMaterialVariantId();
+                }
+            }
+        }
+        else{
+            for (MaterialVariant m : materialVariants) {
+                if (m.getLength() >= length && m.getLength() < variantLengt) {
+                    variantLengt = m.getLength();
+                    variantId = m.getMaterialVariantId();
+                }
+            }
+        }
+        System.out.println(variantLengt);
+        System.out.println(variantId);
     }
+
     //Spær
     private void calcRafters(Order order){
         //Beregn antal remme
-
+        int quantity = length/60;
         //Find variant
 
     }
