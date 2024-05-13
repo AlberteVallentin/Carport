@@ -1,6 +1,7 @@
 package app.controllers;
 
 import app.entities.Order;
+import app.entities.Shipping;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
@@ -85,39 +86,40 @@ public class OrderController {
 
     }
 
-    private static void sendRequest(Context ctx, ConnectionPool connectionPool)
-    {
-        // Get order details from front-end
-        int width = ctx.sessionAttribute("width");
-        int length = ctx.sessionAttribute("length");
-        int status = 1; // hardcoded for now
-        int totalPrice = 19999; // hardcoded for now
-        User user = new User(1, "malte", "12345678", "customer","malte@mail.dk","1234",false,6); // hardcoded for now
-
-        Order order = new Order(0, totalPrice, user, "tada", 5, length, width,"no roof", 600,600,5);
-
-        // TODO: Insert order in database
-        try
-        {
-            order = OrderMapper.insertOrder(order, connectionPool);
-
-            // TODO: Calculate order items (stykliste)
-            Calculator calculator = new Calculator(width, length, connectionPool);
-            calculator.calcCarport(order);
-
-            // TODO: Save order items in database (stykliste)
-            OrderMapper.insertOrderItems(calculator.getBomLine(), connectionPool);
-
-            // TODO: Create message to customer and render order / request confirmation
-
-            ctx.render("orderflow/requestconfirmation.html");
-        }
-        catch (DatabaseException e)
-        {
-            // TODO: handle exception later
-            throw new RuntimeException(e);
-        }
-    }
+//    private static void sendRequest(Context ctx, ConnectionPool connectionPool)
+//    {
+//        // Get order details from front-end
+//        int width = ctx.sessionAttribute("width");
+//        int length = ctx.sessionAttribute("length");
+//        int status = 1; // hardcoded for now
+//        int totalPrice = 19999; // hardcoded for now
+//        Shipping shipping = ShippingMapper.getShippingById(shippingId, connectionPool);
+//        User user = new User(1, "malte", "12345678", "customer","malte@mail.dk","1234",false,6); // hardcoded for now
+//
+//        Order order = new Order(0, totalPrice, user, "tada", sh, length, width,"no roof", 600,600,5);
+//
+//        // TODO: Insert order in database
+//        try
+//        {
+//            order = OrderMapper.insertOrder(order, connectionPool);
+//
+//            // TODO: Calculate order items (stykliste)
+//            Calculator calculator = new Calculator(width, length, connectionPool);
+//            calculator.calcCarport(order);
+//
+//            // TODO: Save order items in database (stykliste)
+//            OrderMapper.insertOrderItems(calculator.getBomLine(), connectionPool);
+//
+//            // TODO: Create message to customer and render order / request confirmation
+//
+//            ctx.render("orderflow/requestconfirmation.html");
+//        }
+//        catch (DatabaseException e)
+//        {
+//            // TODO: handle exception later
+//            throw new RuntimeException(e);
+//        }
+//    }
 
 
 }

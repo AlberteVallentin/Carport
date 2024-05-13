@@ -52,8 +52,11 @@ public class OrderMapper {
                 int shedWidth = resultSet.getInt("shed_width");
                 int statusId = resultSet.getInt("status_id");
 
+
+
                 User user = new User(userId, firstName, lastName, phoneNumber, email, password, isAdmin, addressId);
-                Order order = new Order(orderId, price, user, comment, shippingId, cpLength, cpWidth, cpRoof, shedLength, shedWidth, statusId);
+                Shipping shipping = ShippingMapper.getShippingById(shippingId, connectionPool);
+                Order order = new Order(orderId, price, user, comment, shipping, cpLength, cpWidth, cpRoof, shedLength, shedWidth, statusId);
                 orderList.add(order);
             }
         } catch (SQLException e) {
@@ -77,17 +80,7 @@ public class OrderMapper {
             {
                 // Order
                 int orderId2 = rs.getInt("order_id");
-                double price = rs.getDouble("price");
-                String comment = rs.getString("comment");
-                int shippingId = rs.getInt("shipping_id");
-                int cpLength = rs.getInt("cp_length");
-                int cpWidth = rs.getInt("cp_width");
-                String cpRoof = rs.getString("cp_roof");
-                int shedLength = rs.getInt("shed_length");
-                int shedWidth = rs.getInt("shed_width");
-                int statusId = rs.getInt("status_id");
-
-                Order order = new Order(orderId2, price, null, comment, shippingId, cpLength, cpWidth, cpRoof, shedLength, shedWidth, statusId);
+                Order order = getOrderById(orderId2, connectionPool);
 
                 //Material
                 int materialId = rs.getInt("material_id");
@@ -120,7 +113,7 @@ public class OrderMapper {
 
     public static Order insertOrder(Order order, ConnectionPool connectionPool) throws DatabaseException
     {
-        String sql = "INSERT INTO orders (carport_width, carport_length, status, user_id, total_price) " +
+        String sql = "INSERT INTO orders (cp_width, cp_length, status_id, user_id, price) " +
                 "VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = connectionPool.getConnection())
         {
@@ -129,11 +122,11 @@ public class OrderMapper {
                 ps.setDouble(2, order.getPrice());
                 ps.setInt(3, order.getUser().getUserId());
                 ps.setString(4, order.getComment());
-                ps.setInt(5, order.getShippingId());
+                ps.setInt(5, order.getShipping().getShippingId());
                 ps.setInt(6, order.getCpLength());
                 ps.setInt(7, order.getCpWidth());
-                ps.setInt(8, order.getShedLength());
-                ps.setInt(9,order.getShedWidth());
+                ps.setInt(8, order.getShLength());
+                ps.setInt(9,order.getShWidth());
                 ps.setInt(10, order.getStatusId());
                 ps.setString(11, order.getCpRoof());
 
@@ -141,7 +134,8 @@ public class OrderMapper {
                 ResultSet keySet = ps.getGeneratedKeys();
                 if (keySet.next())
                 {
-                    Order newOrder = new Order(keySet.getInt(1), order.getPrice(), order.getUser(), order.getComment(), order.getShippingId(), order.getCpLength(), order.getCpWidth(), order.getCpRoof(), order.getShedLength(), order.getShedWidth(), order.getStatusId());
+                    Shipping shipping = ShippingMapper.getShippingById(order.getShipping().getShippingId(), connectionPool);
+                    Order newOrder = new Order(keySet.getInt(1), order.getPrice(), order.getUser(), order.getComment(), shipping, order.getCpLength(), order.getCpWidth(), order.getCpRoof(), order.getShLength(), order.getShWidth(), order.getStatusId());
                     return newOrder;
                 } else
                     return null;
@@ -178,9 +172,9 @@ public class OrderMapper {
         }
     }
 
-}
+
     public static void createOrder(Order order, User user, int shippingId, ConnectionPool connectionPool) throws SQLException {
-        String sql = "INSERT INTO orders(price, user_id, comment, shipping_id, cp_length, cp_width, shed_length, shed_width, status_id, cp_roof) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO orders (price, user_id, comment, shipping_id, cp_length, cp_width, shed_length, shed_width, status_id, cp_roof) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = connectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setDouble(1, 100.00);

@@ -1,5 +1,6 @@
 package app.persistence;
 
+import app.entities.Shipping;
 import app.exceptions.DatabaseException;
 
 import java.sql.Connection;
@@ -42,6 +43,22 @@ public class ShippingMapper {
             }
         } catch (SQLException | DatabaseException e) {
             throw new DatabaseException("Error getting shipping rate", e.getMessage());
+        }
+    }
+
+    public static Shipping getShippingById(int shippingId, ConnectionPool connectionPool) throws SQLException, DatabaseException {
+        String sql = "SELECT * FROM shipping WHERE shipping_id = ?";
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, shippingId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Shipping(rs.getInt("shipping_id"), rs.getInt("address_id"), rs.getDouble("shipping_rate"));
+            } else {
+                throw new DatabaseException("Error getting shipping - no shipping returned");
+            }
+        } catch (SQLException | DatabaseException e) {
+            throw new DatabaseException("Error getting shipping", e.getMessage());
         }
     }
 }

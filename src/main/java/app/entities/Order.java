@@ -38,6 +38,8 @@ public class Order {
         this.shWidth = shWidth;
     }
 
+    public  Order()
+
     // Constructor without comment and shipping
     public Order(int orderId, double price, User user, int cpLength, int cpWidth, String cpRoof, int shLength, int shWidth, int statusId) {
         this.orderId = orderId;
