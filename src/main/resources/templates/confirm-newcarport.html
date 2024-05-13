@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logout</title>
+    <title>Confirm New Carport</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
@@ -30,20 +30,22 @@
 
 </nav>
 
-<h1>Log ud</h1>
+<h1>Bekræft de nye mål</h1>
 
 <main>
     <div class="container">
         <form method="post">
             <section class="submit-container">
-                <h3>Tak for denne gang</h3>
+                <h3>Ved at bekræfte de nye mål, vil vi sende dig et tilbud</h3>
+                <div class="error-message center">
+                    <p th:text="${message}"></p>
+                </div>
             </section>
             <section>
                 <div class="login">
-                    <a href="index.html" class="submit-button" th:href="@{/logout}">Log ud</a>
-                    <a href="index.html" class="link" th:href="@{/}">Tilbage til forsiden</a>
+                    <button type="submit" class="submit-button" formaction="/newofferconfirmed" >Bekræft de nye mål</button>
+                    <button type="submit" class="submit-button denied" formaction="/deleteorder" >Annuller ordre</button>
                 </div>
-
             </section>
         </form>
     </div>

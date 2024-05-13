@@ -2,9 +2,12 @@ package app.controllers;
 
 import app.entities.Order;
 import app.entities.User;
-import app.persistence.ConnectionPool;
+import app.exceptions.DatabaseException;
+import app.persistence.*;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+
+import java.sql.SQLException;
 
 import static app.controllers.UserController.contactDetails;
 
@@ -15,7 +18,26 @@ public class OrderController {
         app.get("/carportorder", ctx -> carportOrder(ctx, connectionPool));
         app.post("/savecarportdetails", ctx -> saveCarportDetails(ctx, connectionPool));
         app.get("/backtoorder", ctx -> backToOrder(ctx, connectionPool));
+        app.post("/confirmorder", ctx -> confirmOrder(ctx, connectionPool));
 
+    }
+
+    private static void confirmOrder(Context ctx, ConnectionPool connectionPool) {
+        Order order = ctx.sessionAttribute("currentOrder");
+        User user = ctx.sessionAttribute("currentUser");
+
+        // Forsøg at oprette ordren og shipping i databasen
+        try {
+            int shippingId = ShippingMapper.createShipping(user.getAddressId(), connectionPool);
+            OrderMapper.createOrder(order, user, shippingId, connectionPool);
+            int orderId = OrderMapper.getLastOrder(connectionPool);
+
+            MailController.sendOrderConfirmation(order, user, orderId);
+            ctx.render("order-confirmation.html");
+        } catch (SQLException | DatabaseException e) {
+            ctx.status(500);
+            ctx.result("Der er sket en fejl ved oprettelse af ordren: " + e.getMessage());
+        }
     }
 
     private static void backToOrder(Context ctx, ConnectionPool connectionPool) {
@@ -30,8 +52,6 @@ public class OrderController {
 
     private static void saveCarportDetails(Context ctx, ConnectionPool connectionPool) {
         User user = ctx.sessionAttribute("currentUser");
-
-
         // Retrieve form parameters
         int cpWidth = Integer.parseInt(ctx.formParam("carport-width"));
         int cpLength = Integer.parseInt(ctx.formParam("carport-length"));
@@ -42,16 +62,15 @@ public class OrderController {
 
 
         // Create an Order object to store the form values
-        Order order = new Order(0, 0.0, user, comment, 0, cpLength, cpWidth, cpRoof,shLength, shWidth, 0);
+        Order order = new Order(user, comment, cpLength, cpWidth, cpRoof, shLength, shWidth);
         // Set session attribute to store the order
-        ctx.sessionAttribute("Order", order);
+        ctx.sessionAttribute("currentOrder", order);
         ctx.sessionAttribute("currentWidth",cpWidth);
         ctx.sessionAttribute("currentLength",cpLength);
         ctx.sessionAttribute("currentRoof",cpRoof);
         ctx.sessionAttribute("currentShedWidth",shWidth);
         ctx.sessionAttribute("currentShedLength",shLength);
         ctx.sessionAttribute("currentComment",comment);
-
         ctx.sessionAttribute("isOrdering", null);
         ctx.sessionAttribute("hasAnOrder", true);
 
