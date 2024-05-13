@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Frontpage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+
+  <link href="../public/css/reset.css" th:href="@{/css/reset.css}" rel="stylesheet"/>
+  <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+  <link href="../public/css/user.css" th:href="@{/css/user.css}" rel="stylesheet">
+  <link href="../public/css/admin.css" th:href="@{/css/admin.css}" rel="stylesheet">
+</head>
+
+<body>
+
+<nav>
+  <div>
+    <a href="index.html" th:href="@{/}">
+      <img class="logo" src="../public/images/logo.svg" th:src="@{/images/logo.svg}"/>
+    </a>
+  </div>
+  <div class="account-container">
+    <a href="login.html" th:href="@{/loginorout}">
+      <img class="account" src="../public/images/person.svg" th:src="@{/images/person.svg}"/>
+    </a>
+    <a href="login.html" th:href="@{/loginorout}" class="account">Konto</a>
+
+  </div>
+
+
+</nav>
+
+
+<h1>Admin</h1>
+
+
+
+
+<main>
+
+  <div class="admin-container">
+
+    <section>
+      <h2>Alle ordre</h2>
+      <div class="table-container">
+        <table>
+          <thead>
+          <tr>
+            <th>Navn</th>
+            <th>Carport</th>
+            <th>Pris</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+
+          </thead>
+
+          <tbody>
+          <td>Anders Hejlsberg</td>
+          <td>Carport</td>
+          <td>3000.01</td>
+          <td>Ordrebekræftelse sendt</td>
+          <td><button type="submit" class="admin-button" name="orderId" th:value="${order.orderId}">Vis</button></td>
+          <tr>
+            <td>1</td>
+            <td>Anders Hejlsberg</td>
+            <td>3000.01</td>
+            <td>Ordrebekræftelse sendt</td>
+            <td><button type="submit" class="admin-button" name="orderId" th:value="${order.orderId}">Vis</button></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Bo Hansen</td>
+            <td>3090.91</td>
+            <td>Tilbud sendt</td>
+            <td><button type="submit" class="admin-button" name="orderId" th:value="${order.orderId}">Vis</button></td>
+          </tr>
+          <tr>
+            <td>98</td>
+            <td>Helene Nielsen</td>
+            <td>4,0000.00</td>
+            <td>Ordre ændret</td>
+            <td><button type="submit" class="admin-button" name="orderId" th:value="${order.orderId}">Vis</button></td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Gertrud Gundersen</td>
+            <td>5,0890.00</td>
+            <td>Tilbud afvist</td>
+            <td><button type="submit" class="admin-button" name="orderId" th:value="${order.orderId}">Vis</button></td>
+          </tr>
+          <tr>
+            <td>47</td>
+            <td>Bibbi Bob</td>
+            <td>14,786.00</td>
+            <td>Betalt</td>
+            <td><button type="submit" class="admin-button" name="orderId" th:value="${order.orderId}">Vis</button></td>
+          </tr>
+          <td>75</td>
+          <td>Kalle Rasmussen</td>
+          <td>34,390.00</td>
+          <td>Betalt</td>
+          <td><button type="submit" class="admin-button" name="orderId" th:value="${order.orderId}">Vis</button></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+</main>
+</body>
+</html>

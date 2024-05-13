@@ -48,54 +48,26 @@
             <h2>Alle ordre</h2>
             <div class="table-container">
             <table>
+                <thead>
                 <tr>
-                    <th>Ordrenummer</th>
-                    <th>Kundenavn</th>
-                    <th>Total pris</th>
+                    <th>Navn</th>
+                    <th>Carport</th>
+                    <th>Pris</th>
                     <th>Status</th>
                     <th>Action</th>
+                </tr>
+                </thead>
 
+                <tbody>
+                <tr th:each="order: ${orderList}">
+                    <td th:text="${order.orderId}"></td>
+                    <td th:text="${order.user.firstName + ' ' + order.user.lastName}"></td>
+                    <td th:text="${order.price}"></td>
+                    <td th:text="${order.status}"></td>
+                    <td><button type="submit" name="orderId" class="admin-button" th:value="${order.orderId}">Vis</button></td>
                 </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Anders Hejlsberg</td>
-                    <td>3000.01</td>
-                    <td>Ordrebekræftelse sendt</td>
-                    <td><button type="submit" class="admin-button" name="orderId" th:value="${order.orderId}">Vis</button></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Bo Hansen</td>
-                    <td>3090.91</td>
-                    <td>Tilbud sendt</td>
-                    <td><button type="submit" class="admin-button" name="orderId" th:value="${order.orderId}">Vis</button></td>
-                </tr>
-                <tr>
-                    <td>98</td>
-                    <td>Helene Nielsen</td>
-                    <td>4,0000.00</td>
-                    <td>Ordre ændret</td>
-                    <td><button type="submit" class="admin-button" name="orderId" th:value="${order.orderId}">Vis</button></td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>Gertrud Gundersen</td>
-                    <td>5,0890.00</td>
-                    <td>Tilbud afvist</td>
-                    <td><button type="submit" class="admin-button" name="orderId" th:value="${order.orderId}">Vis</button></td>
-                </tr>
-                <tr>
-                    <td>47</td>
-                    <td>Bibbi Bob</td>
-                    <td>14,786.00</td>
-                    <td>Betalt</td>
-                    <td><button type="submit" class="admin-button" name="orderId" th:value="${order.orderId}">Vis</button></td>
-                </tr>
-                <td>75</td>
-                <td>Kalle Rasmussen</td>
-                <td>34,390.00</td>
-                <td>Betalt</td>
-                <td><button type="submit" class="admin-button" name="orderId" th:value="${order.orderId}">Vis</button></td>
+                </tbody>
+
             </table>
             </div>
         </section>

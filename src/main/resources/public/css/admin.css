@@ -61,7 +61,7 @@ p, select, option, input, label, textarea {
 
 
 .admin-container {
-    width: min(100% - 2rem, 1000px);
+    width: min(100% - 2rem, 1100px);
     margin: 1rem;
     height: auto;
     display: flex;
@@ -87,6 +87,8 @@ td, th {
 th {
     font-size: var(--fs-m);
     font-weight: var(--fw-medium);
+    background-color: var(--clr-dark-blue);
+    color: white;
 }
 
 tr:nth-child(even) {
