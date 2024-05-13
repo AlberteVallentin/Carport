@@ -8,7 +8,6 @@ import app.persistence.OrderMapper;
 import app.persistence.UserMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
-
 import java.sql.SQLException;
 
 public class StatusController {
@@ -19,10 +18,9 @@ public class StatusController {
         app.get("/confirm-offer", ctx -> ctx.render("confirm-offer.html"));
         app.post("/offerconfirmed", ctx -> offerConfirmed(ctx, connectionPool));
         app.get("/orderdone", ctx -> ctx.render("order-done.html"));
-
     }
 
-    private static void statusRedirect(Context ctx, ConnectionPool connectionPool){
+    private static void statusRedirect(Context ctx, ConnectionPool connectionPool) {
         try {
             String email = ctx.formParam("email");
             String password = ctx.formParam("password");
