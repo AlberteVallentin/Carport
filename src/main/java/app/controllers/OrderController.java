@@ -1,13 +1,10 @@
 package app.controllers;
 
 import app.entities.Order;
-import app.entities.Shipping;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.OrderMapper;
-import app.services.Calculator;
-import app.exceptions.DatabaseException;
 import app.persistence.*;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
