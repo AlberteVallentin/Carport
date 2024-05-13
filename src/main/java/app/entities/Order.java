@@ -5,27 +5,52 @@ public class Order {
     private double price;
     private User user;
     private String comment;
-    private int shippingId;
+    private Shipping shipping;
     private int cpLength;
     private int cpWidth;
     private String cpRoof;
-    private int shedLength;
-    private int shedWidth;
+    private int shLength;
+    private int shWidth;
     private int statusId;
 
-public Order(int orderId, double price, User user, String comment, int shippingId, int cpLength, int cpWidth, String cpRoof, int shedLength, int shedWidth, int statusId) {
+    public Order(int orderId, double price, User user, String comment, Shipping shipping, int cpLength, int cpWidth, String cpRoof, int shLength, int shWidth, int statusId) {
         this.orderId = orderId;
         this.price = price;
         this.user = user;
         this.comment = comment;
-        this.shippingId = shippingId;
+        this.shipping = shipping;
         this.cpLength = cpLength;
         this.cpWidth = cpWidth;
         this.cpRoof = cpRoof;
-        this.shedLength = shedLength;
-        this.shedWidth = shedWidth;
+        this.shLength = shLength;
+        this.shWidth = shWidth;
         this.statusId = statusId;
     }
+
+    // Constructor without price, shipping, orderId and status
+    public Order(User user, String comment, int cpLength, int cpWidth, String cpRoof, int shLength, int shWidth) {
+        this.user = user;
+        this.comment = comment;
+        this.cpLength = cpLength;
+        this.cpWidth = cpWidth;
+        this.cpRoof = cpRoof;
+        this.shLength = shLength;
+        this.shWidth = shWidth;
+    }
+
+    // Constructor without comment and shipping
+    public Order(int orderId, double price, User user, int cpLength, int cpWidth, String cpRoof, int shLength, int shWidth, int statusId) {
+        this.orderId = orderId;
+        this.price = price;
+        this.user = user;
+        this.cpLength = cpLength;
+        this.cpWidth = cpWidth;
+        this.cpRoof = cpRoof;
+        this.shLength = shLength;
+        this.shWidth = shWidth;
+        this.statusId = statusId;
+    }
+
 
     public int getOrderId() {
         return orderId;
@@ -59,13 +84,6 @@ public Order(int orderId, double price, User user, String comment, int shippingI
         this.comment = comment;
     }
 
-    public int getShippingId() {
-        return shippingId;
-    }
-
-    public void setShippingId(int shippingId) {
-        this.shippingId = shippingId;
-    }
 
     public int getCpLength() {
         return cpLength;
@@ -91,43 +109,47 @@ public Order(int orderId, double price, User user, String comment, int shippingI
         this.cpRoof = cpRoof;
     }
 
-    public int getShedLength() {
-        return shedLength;
+    public int getShLength() {
+        return shLength;
     }
 
-    public void setShedLength(int shedLength) {
-        this.shedLength = shedLength;
+    public void setShLength(int shLength) {
+        this.shLength = shLength;
     }
 
-    public int getShedWidth() {
-        return shedWidth;
+    public int getShWidth() {
+        return shWidth;
     }
 
-    public void setShedWidth(int shedWidth) {
-        this.shedWidth = shedWidth;
+    public void setShWidth(int shWidth) {
+        this.shWidth = shWidth;
     }
 
     public int getStatusId() {
         return statusId;
     }
 
-    public void setStatusId(int statusId) {
-        this.statusId = statusId;
+    public int getUserId() {
+        return user.getUserId();
     }
 
-    public String toString() {
-        return "Order{" +
-                "orderId=" + orderId +
-                ", price=" + price +
-                ", user=" + user +
-                ", comment='" + comment + '\'' +
-                ", shippingId=" + shippingId +
-                ", cpLength=" + cpLength +
-                ", cpWidth=" + cpWidth +
-                ", cpRoof='" + cpRoof + '\'' +
-                ", shedLength=" + shedLength +
-                ", shedWidth=" + shedWidth +
-                ", statusId=" + statusId +
-                '}';
+    public String getFirstName() {
+        return user.getFirstName();
+    }
+
+    public String getLastName() {
+        return user.getLastName();
+    }
+
+    public String getEmail() {
+        return user.getEmail();
+    }
+
+    public double getShippingPrice() {
+        return shipping.getShippingRate();
+    }
+
+    public Shipping getShipping() {
+        return shipping;
     }
 }

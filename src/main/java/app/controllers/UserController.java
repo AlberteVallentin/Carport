@@ -6,9 +6,11 @@ import app.exceptions.DatabaseException;
 import app.persistence.AddressMapper;
 import app.persistence.ConnectionPool;
 import app.persistence.UserMapper;
+import app.utility.MailServer;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Arrays;
 
@@ -75,8 +77,6 @@ public class UserController {
         try {
             User user = UserMapper.login(mail, password, connectionPool);
             ctx.sessionAttribute("currentUser", user);
-
-
             Boolean hasAnOrder = ctx.sessionAttribute("hasAnOrder");
             Boolean isOrdering = ctx.sessionAttribute("isOrdering");
             if(hasAnOrder != null && hasAnOrder) {
@@ -91,7 +91,6 @@ public class UserController {
             ctx.attribute("message", "Forkert login. Prøv venligst igen.");
             ctx.render("login.html");
         }
-
     }
 
     private static void createAccount(Context ctx, ConnectionPool connectionPool) {

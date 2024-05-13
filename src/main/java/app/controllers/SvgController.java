@@ -19,7 +19,7 @@ public class SvgController {
 
     public static void showCarportDrawing(Context ctx){
 
-        Order order = ctx.sessionAttribute("Order");
+        Order order = ctx.sessionAttribute("currentOrder");
         int length = order.getCpLength();
         int width = order.getCpWidth();
         int height = 225;
