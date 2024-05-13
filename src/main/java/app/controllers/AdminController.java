@@ -18,8 +18,7 @@ import java.util.List;
 public class AdminController
 {
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
-        app.get("/adminpage", ctx -> ctx.render("adminpage.html"));
-        app.post("/adminpage", ctx -> adminPage(ctx, connectionPool));
+        app.get("/adminpage", ctx -> viewOrders(ctx, connectionPool));
         app.get("/admin-order", ctx -> ctx.render("admin-order.html"));
         app.post("/admin-order", ctx -> viewOrders(ctx, connectionPool));
         app.get("/admin-offer", ctx -> ctx.render("admin-offer.html"));
@@ -39,12 +38,13 @@ public class AdminController
         try
         {
             orderList = AdminMapper.getAllOrders(connectionPool);
+            ctx.attribute("orderList", orderList);
+            ctx.render("adminpage.html");
         } catch (DatabaseException e)
         {
             throw new RuntimeException(e);
         }
-        ctx.attribute("orderList", orderList);
-            ctx.render("admin-order.html");
+
     }
 
     public static List<User> getAllUsers(ConnectionPool connectionPool)

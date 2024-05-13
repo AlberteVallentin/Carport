@@ -54,26 +54,33 @@
             <div class="container-ordre">
                 <form method="post">
                     <table>
+                        <thead>
                         <tr>
-                            <th>Ordrenummer</th>
+                            <th>Navn</th>
                             <th>Carport</th>
-                            <th>Tilbud</th>
                             <th>Pris</th>
+                            <th>Bredde</th>
+                            <th>Længde</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
 
+                        </thead>
+                        <tbody>
+                        <tr th:each="order: ${orderList}">
+                            <td th:text="${order.orderId}"></td>
+                            <td th:text="${order.user.firstName + ' ' + order.user.lastName}"></td>
+                            <td th:text="${order.price}"></td>
+                            <td th:text="${order.cpWidth}"></td>
+                            <td th:text="${order.cpLength}"></td>
+                            <td th:text="${order.statusId}"></td>
+                            <td><button type="submit" name="orderId" th:value="${order.orderId}">Vis</button></td>
                         </tr>
-                        <tr th:each="cartline, iStatus : ${session.cart.cartlines}">
-                            <td th:text="${cartline.quantity}"></td>
-                            <td th:text="${cartline.top.name}"></td>
-                            <td th:text="${cartline.bottom.name}"></td>
-                            <td th:text="${cartline.getTotal()}"></td>
+                        </tbody>
+                    </table>
 
-                        </tr>
-                        <tr class="totalprice">
-                            <td>Total pris</td>
-                            <td></td>
-                            <td></td>
-                            <td th:text="${session.cart.getTotal()}"></td>
-                        </tr>
+
+                    </tr>
 
                     <p class="info-text"> IGANGVÆRENDE ORDRER
             </p>

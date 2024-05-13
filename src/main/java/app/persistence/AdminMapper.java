@@ -18,7 +18,7 @@ public class AdminMapper
 
     public static List<Order> getAllOrders(ConnectionPool connectionPool) throws DatabaseException
     {
-        String sql = "SELECT * FROM orders";
+        String sql = "SELECT * FROM orders inner join status using(status_id) order by status_id";
         List<Order> orderList = new ArrayList<>();
 
         try (
