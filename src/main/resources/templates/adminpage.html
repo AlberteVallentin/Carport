@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin frontpage</title>
+    <title>Admin Frontpage</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 
 
     <link href="../public/css/reset.css" th:href="@{/css/reset.css}" rel="stylesheet"/>
-    <link href="../public/css/styles.css" th:href="@{/css/adminpage.css}" rel="stylesheet"/>
-    <script defer src="../public/js/carport-validation.js" th:src="@{/js/carport-validation.js}"></script>
+    <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link href="../public/css/user.css" th:href="@{/css/user.css}" rel="stylesheet">
+    <link href="../public/css/admin.css" th:href="@{/css/admin.css}" rel="stylesheet">
 </head>
 
 <body>
@@ -22,29 +23,22 @@
             <img class="logo" src="../public/images/logo.svg" th:src="@{/images/logo.svg}"/>
         </a>
     </div>
+    <div class="account-container">
+        <a href="login.html" th:href="@{/loginorout}">
+            <img class="account" src="../public/images/person.svg" th:src="@{/images/person.svg}"/>
+        </a>
+        <a href="login.html" th:href="@{/loginorout}" class="account">Konto</a>
+
+    </div>
+
 
 </nav>
 
-<div class="container-fluid">
-    <div class="row content">
-                <li class="active"><a href="#section1">Forside</a></li>
-                <li><a href="#section2">Hovedmenu</a></li>
-                <li><a href="#section3">Ordrer</a></li>
-                <li><a href="#section3">Sendte Tilbud</a></li>
 
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="SØG ORDER">
+<h1>Admin</h1>
 
-                <span class="input-group-btn">
-          <button class="btn btn-default" type="button">
-            <span class="glyphicon glyphicon-search"></span>
-          </button>
-        </span>
 
-            </div>
-        </div>
-    </div>
-    </div>
+
 
 <main>
     <div class="container">
