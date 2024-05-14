@@ -148,7 +148,7 @@
     </form>
     </section>
 
-    <section>
+
       <section>
         <form method = "post">
         <h2>Pris</h2>
@@ -162,61 +162,64 @@
 
           <div>
             <h3>Fragtomkostninger</h3>
-            <p class="selected-text">Bredde</p>
+            <p class="selected-text">Fragt pris</p>
             <div class="error-message">
             </div>
           </div>
           <div>
             <h3>Total pris</h3>
-            <p class="selected-text">E-mail</p>
+            <p class="selected-text">Total pris</p>
             <div class="error-message">
             </div>
           </div>
         </div>
 
-        <div class="login">
+        <div class="login two-rows buttons-center">
           <button type="submit" class="submit-button" formaction="/changeprice" >Ændr pris</button>
+          <button type="submit" class="submit-button" formaction="/sendoffer" >Send tilbud</button>
         </div>
         </form>
         </section>
 
       <section>
         <h2>Stykliste</h2>
-        <div class="table-container">
+        <div class="table-container bom-table">
         <table>
           <thead>
           <tr>
-            <th>Ordre nr.</th>
-            <th>Kundenavn</th>
-            <th>Pris</th>
-            <th>Status</th>
-            <th>Action</th>
+            <th>Type</th>
+            <th>Materiale beskrivelse</th>
+            <th>Enhed</th>
+            <th>Længde</th>
+            <th>Antal</th>
+            <th>Funktionel beskrivelse</th>
+
           </tr>
           </thead>
 
           <tbody>
           <tr th:each="order: ${orderList}">
             <td th:text="${order.orderId}"></td>
+            <td th:text="${order.orderId}"></td>
             <td th:text="${order.user.firstName + ' ' + order.user.lastName}"></td>
             <td th:text="${order.price}"></td>
             <td th:text="${order.status}"></td>
-            <td><button type="submit" name="orderId" class="admin-button" th:value="${order.orderId}">Vis</button></td>
+            <td th:text="${order.status}"> </td>
           </tr>
           </tbody>
 
         </table>
+        </div>
       </section>
 
 
 
     <section>
-      <div class="navigation">
-        <a href="carport-order.html" class="link-button">Tilbage</a>
-        <a href="order-summary.html" class="link-button">Videre</a>
+      <div class="center">
+        <a href="carport-order.html" class="submit-button">Tilbage til ordreoversigt</a>
       </div>
     </section>
-
-
+  </div>
 </main>
 </body>
 </html>

@@ -106,7 +106,7 @@ tr:nth-child(even) {
     background-color: var(--clr-light-blue);
 }
 
-td:last-child{
+.orderview td:last-child{
     text-align: center;
 }
 
@@ -146,3 +146,28 @@ td:last-child{
 .three-rows > div {
     width: 33%;
 }
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid black;
+
+}
+
+
+.bom-table tr:nth-child(even) {
+    background-color: var(--clr-bg);
+}
+
+.buttons-center {
+    justify-content: center;
+}
+
+.buttons-center :first-child {
+    background-color: white;
+    color: black
+}
+
+
