@@ -121,5 +121,21 @@ public class AdminMapper
         return order;
 
     }
+
+    public static void updateOrder(int orderId, int cpWidth, int cpLength, int shWidth, int shHeight, String cpRoof, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "UPDATE orders SET cp_width = ?, cp_length = ?, shed_width = ?, shed_length = ?, cp_roof = ? WHERE order_id = ?";
+
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, cpWidth);
+            ps.setInt(2, cpLength);
+            ps.setInt(3, shWidth);
+            ps.setInt(4, shHeight);
+            ps.setString(5, cpRoof);
+            ps.setInt(6, orderId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException("Error updating order", e.getMessage());
+        }
+    }
 }
 

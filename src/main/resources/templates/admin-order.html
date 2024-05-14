@@ -23,10 +23,10 @@
         </a>
     </div>
     <div class="account-container">
-        <a href="login.html" th:href="@{/}">
+        <a href="login.html" th:href="@{/loginorout}">
             <img class="account" src="../public/images/person.svg" th:src="@{/images/person.svg}"/>
         </a>
-        <a href="login.html" class="account">Konto</a>
+        <a href="login.html" th:href="@{/loginorout}" class="account">Konto</a>
 
     </div>
 
@@ -104,49 +104,44 @@
 
         <section>
             <form method="post">
+                <input type="hidden" name="orderId" th:value="${orderId}">
                 <h2>Carport og skur</h2>
                 <div class="text-container three-rows">
                     <div>
                         <h3>Carport længde</h3>
-                        <input th:value="${cpLength}" th:attr="placeholder=${cpLength}" type="text">
-                        <div class="error-message">
-                        </div>
+                        <input name="cpLength" th:value="${cpLength}" th:attr="placeholder=${cpLength}" type="text">
+                        <div class="error-message"></div>
                     </div>
 
                     <div>
                         <h3>Carport bredde</h3>
-                        <input th:value="${cpWidth}" th:attr="placeholder=${cpWidth}" type="text">
-                        <div class="error-message">
-                        </div>
+                        <input name="cpWidth" th:value="${cpWidth}" th:attr="placeholder=${cpWidth}" type="text">
+                        <div class="error-message"></div>
                     </div>
 
                     <div>
                         <h3>Tag</h3>
-                        <input th:value="${cpRoof}" th:attr="placeholder=${cpRoof}" type="text">
-                        <div class="error-message">
-                        </div>
+                        <input name="cpRoof" th:value="${cpRoof}" th:attr="placeholder=${cpRoof}" type="text">
+                        <div class="error-message"></div>
                     </div>
                 </div>
 
                 <div class="text-container two-rows">
                     <div>
                         <h3>Skur længde</h3>
-                        <input th:value="${shLength}" th:attr="placeholder=${shLength}" type="text">
-                        <div class="error-message">
-                        </div>
+                        <input name="shLength" th:value="${shLength}" th:attr="placeholder=${shLength}" type="text">
+                        <div class="error-message"></div>
                     </div>
 
                     <div>
                         <h3>Skur bredde</h3>
-                        <input th:value="${shWidth}" th:attr="placeholder=${shWidth}" type="text">
-                        <div class="error-message">
-                        </div>
+                        <input name="shWidth" th:value="${shWidth}" th:attr="placeholder=${shWidth}" type="text">
+                        <div class="error-message"></div>
                     </div>
-
                 </div>
 
                 <div class="login">
-                    <button type="submit" class="submit-button " formaction="/changeorder">Ændr mål</button>
+                    <button type="submit" class="submit-button" formaction="/changeorder">Ændr mål</button>
                 </div>
             </form>
         </section>
@@ -226,7 +221,7 @@
 
         <section>
             <div class="center">
-                <a href="carport-order.html" class="submit-button">Tilbage til ordreoversigt</a>
+                <a href="adminpage.html" th:href="@{/adminpage}" class="submit-button">Tilbage til ordreoversigt</a>
             </div>
         </section>
     </div>

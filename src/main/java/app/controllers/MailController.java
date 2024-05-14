@@ -46,10 +46,10 @@ public class MailController {
         }
     }
 
-    public static void sendModifiedOrder(Order order) {
+    public static void sendModifiedOrder(Order order, int orderId) {
         User user = order.getUser();
         try {
-            MailServer.sendModifiedOrder(user.getFirstName(), user.getLastName(), user.getEmail(), order.getCpWidth(), order.getCpLength(), order.getCpRoof(), order.getShWidth(), order.getShLength());
+            MailServer.sendModifiedOrder(user.getFirstName(), user.getLastName(), user.getEmail(), order.getCpWidth(), order.getCpLength(), order.getCpRoof(), order.getShWidth(), order.getShLength(), order.getOrderId());
         } catch (IOException e) {
             System.out.println("Error sending mail: " + e.getMessage());
         }

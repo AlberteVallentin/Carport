@@ -181,6 +181,9 @@ table {
     margin-top: 0.5rem;
 }
 
-
+.admin-message {
+    height: 1rem;
+    font-size: var(--fs-n);
+}
 
 
