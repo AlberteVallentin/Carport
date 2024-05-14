@@ -33,10 +33,29 @@
 
 </nav>
 
-<h1 th:text="${order.orderId}" >Ordre nummer </h1>
+<h1>Ordre</h1>
 
 <main>
   <div class="order-container">
+
+    <section>
+      <h2>Ordredetaljer</h2>
+      <div class="text-container two-rows">
+        <div>
+          <h3>Ordrenummer</h3>
+          <p class="selected-text">Ordrenummer</p>
+          <div class="error-message">
+          </div>
+        </div>
+
+        <div>
+          <h3>Status</h3>
+          <p class="selected-text">Status</p>
+          <div class="error-message">
+          </div>
+        </div>
+      </div>
+    </section>
 
     <section>
       <h2>Kontakt</h2>
@@ -160,6 +179,33 @@
         </div>
         </form>
         </section>
+
+      <section>
+        <h2>Stykliste</h2>
+        <div class="table-container">
+        <table>
+          <thead>
+          <tr>
+            <th>Ordre nr.</th>
+            <th>Kundenavn</th>
+            <th>Pris</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <tr th:each="order: ${orderList}">
+            <td th:text="${order.orderId}"></td>
+            <td th:text="${order.user.firstName + ' ' + order.user.lastName}"></td>
+            <td th:text="${order.price}"></td>
+            <td th:text="${order.status}"></td>
+            <td><button type="submit" name="orderId" class="admin-button" th:value="${order.orderId}">Vis</button></td>
+          </tr>
+          </tbody>
+
+        </table>
+      </section>
 
 
 
