@@ -3,10 +3,7 @@ package app.controllers;
 import app.entities.Order;
 import app.entities.User;
 import app.exceptions.DatabaseException;
-import app.persistence.AddressMapper;
-import app.persistence.AdminMapper;
-import app.persistence.ConnectionPool;
-import app.persistence.ShippingMapper;
+import app.persistence.*;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -56,6 +53,8 @@ public class AdminController {
             order.setShLength(shLength);
             order.setCpRoof(cpRoof);
 
+            // Opdater status-ID'et for den pågældende ordre
+            OrderMapper.updateOrderStatusById(orderId, 3, connectionPool);
             // After updating the order, send a modified order email with the updated order
             MailController.sendModifiedOrder(order, order.getOrderId());
             ctx.sessionAttribute("message", "Ordren er blevet ændret, og der er sendt en mail til kunden");
