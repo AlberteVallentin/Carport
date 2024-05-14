@@ -51,4 +51,37 @@ public class AdminMapper
         }
         return orderList;
     }
+    public static List<Order> getOrderByStatus(int statusId,ConnectionPool connectionPool) throws DatabaseException
+    {
+        String sql = "SELECT * FROM orders inner join status using(status_id) where status_id=?";
+        List<Order> orderList = new ArrayList<>();
+
+        try (Connection connection = connectionPool.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, statusId);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                int userId = rs.getInt("user_id");
+                User user = UserMapper.getUserById(userId, connectionPool);
+                if (user == null) {
+                    throw new DatabaseException("No user found with the provided userId: " + userId);
+                }
+                int orderId = rs.getInt("order_id");
+                int cpLength = rs.getInt("cp_length");
+                int cpWidth = rs.getInt("cp_width");
+                int shLength = rs.getInt("shed_length");
+                int shWidth = rs.getInt("shed_width");
+                String statusName = rs.getString("status");
+                String cpRoof = rs.getString("cp_roof");
+                double price = rs.getDouble("price");
+                Order order = new Order(orderId, price, user, cpLength, cpWidth, cpRoof, shLength, shWidth, statusId, statusName);
+                orderList.add(order);
+
+            }
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Fejl i getAllOrders");
+        }
+        return orderList;
+    }
 }

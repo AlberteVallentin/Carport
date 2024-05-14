@@ -6,7 +6,8 @@
     <title>Admin Frontpage</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+          rel="stylesheet">
 
 
     <link href="../public/css/reset.css" th:href="@{/css/reset.css}" rel="stylesheet"/>
@@ -38,8 +39,6 @@
 <h1>Admin</h1>
 
 
-
-
 <main>
 
     <div class="admin-container">
@@ -47,28 +46,47 @@
         <section>
             <h2>Alle ordre</h2>
             <div class="table-container">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Ordre nr.</th>
-                        <th>Kundenavn</th>
-                        <th>Pris</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
 
-                    <tbody>
-                    <tr th:each="order: ${orderList}">
-                        <td th:text="${order.orderId}"></td>
-                        <td th:text="${order.user.firstName + ' ' + order.user.lastName}"></td>
-                        <td th:text="${order.price}"></td>
-                        <td th:text="${order.status}"></td>
-                        <td><button type="submit" name="orderId" class="admin-button" th:value="${order.orderId}">Vis</button></td>
-                    </tr>
-                    </tbody>
+                <form method="get">
+                    <div>
+                        <select name="statusId">
+                            <option value="0">Alle</option>
+                            <option value="1">Ordrebekræftelse sendt</option>
+                            <option value="2">Tilbud sendt</option>
+                            <option value="3">Ordre ændret</option>
+                            <option value="4">Tilbud afvist</option>
+                            <option value="5">Betalt</option>
+                        </select>
 
-                </table>
+                        <button type="submit" formaction="/adminpage">Filtrer</button>
+                    </div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Ordre nr.</th>
+                            <th>Kundenavn</th>
+                            <th>Pris</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="order: ${orderList}">
+                            <td th:text="${order.orderId}"></td>
+                            <td th:text="${order.user.firstName + ' ' + order.user.lastName}"></td>
+                            <td th:text="${order.price}"></td>
+                            <td th:text="${order.status}"></td>
+                            <td>
+                                <button type="submit" name="orderId" class="admin-button" th:value="${order.orderId}">
+                                    Vis
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                </form>
             </div>
         </section>
     </div>
