@@ -157,8 +157,12 @@ table {
 }
 
 
+.bom-table tr:nth-child(odd) {
+    background-color: lightgrey;
+}
+
 .bom-table tr:nth-child(even) {
-    background-color: var(--clr-bg);
+    background-color: white;
 }
 
 .buttons-center {

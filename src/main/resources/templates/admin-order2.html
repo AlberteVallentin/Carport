@@ -183,7 +183,7 @@
 
       <section>
         <h2>Stykliste</h2>
-        <div class="table-container bom-table">
+        <div class="table-container">
         <table>
           <thead>
           <tr>
@@ -197,14 +197,22 @@
           </tr>
           </thead>
 
-          <tbody>
+          <tbody class ="bom-table">
           <tr th:each="order: ${orderList}">
-            <td th:text="${order.orderId}"></td>
-            <td th:text="${order.orderId}"></td>
-            <td th:text="${order.user.firstName + ' ' + order.user.lastName}"></td>
-            <td th:text="${order.price}"></td>
-            <td th:text="${order.status}"></td>
-            <td th:text="${order.status}"> </td>
+            <td th:text="${order.orderId}">Stolpe</td>
+            <td th:text="${order.orderId}">97x97 mm. trykimp. stolpe</td>
+            <td th:text="${order.user.firstName + ' ' + order.user.lastName}">Meter</td>
+            <td th:text="${order.price}">200</td>
+            <td th:text="${order.status}">4</td>
+            <td th:text="${order.status}">Stolper	nedgraves	90	cm.	i	jord </td>
+          </tr>
+          <tr th:each="order: ${orderList}">
+            <td th:text="${order.orderId}">Stolpe</td>
+            <td th:text="${order.orderId}">97x97 mm. trykimp. stolpe</td>
+            <td th:text="${order.user.firstName + ' ' + order.user.lastName}">Meter</td>
+            <td th:text="${order.price}">200</td>
+            <td th:text="${order.status}">4</td>
+            <td th:text="${order.status}">Stolper	nedgraves	90	cm.	i	jord </td>
           </tr>
           </tbody>
 
