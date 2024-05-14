@@ -85,5 +85,39 @@ public class AdminMapper
         }
         return orderList;
     }
+
+    public static Order getOrderDetailsById(int orderId, ConnectionPool connectionPool) throws DatabaseException {
+        Order order = null;
+        String sql = "SELECT * FROM orders INNER JOIN status USING(status_id) WHERE order_id = ? ORDER BY status_id";
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, orderId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    int userId = rs.getInt("user_id");
+                    User user = UserMapper.getUserById(userId, connectionPool);
+                    if (user == null) {
+                        throw new DatabaseException("No user found with the provided userId: " + userId);
+                    }
+                    int cpLength = rs.getInt("cp_length");
+                    int cpWidth = rs.getInt("cp_width");
+                    int shLength = rs.getInt("shed_length");
+                    int shWidth = rs.getInt("shed_width");
+                    int statusId = rs.getInt("status_id");
+                    String cpRoof = rs.getString("cp_roof");
+                    double price = rs.getDouble("price");
+                    String comment = rs.getString("comment");
+                    String statusName = rs.getString("status");
+
+                    order = new Order(orderId, price, user, cpLength, cpWidth, cpRoof, shLength, shWidth, statusId, statusName, comment);
+                }
+            } catch (DatabaseException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Error retrieving order by ID", e.getMessage());
+        }
+        return order;
+
+    }
 }
 

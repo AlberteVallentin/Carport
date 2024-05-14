@@ -20,17 +20,39 @@ public class AdminController
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
         app.get("/adminpage", ctx -> viewOrders(ctx, connectionPool));
         app.get("/admin-order", ctx -> ctx.render("admin-order.html"));
-        app.post("/admin-order", ctx -> viewOrders(ctx, connectionPool));
+        //app.post("/admin-order", ctx -> viewOrders(ctx, connectionPool));
         app.get("/admin-offer", ctx -> ctx.render("admin-offer.html"));
         app.post("/admin-offer",ctx -> OffersSent(ctx, connectionPool));
+        app.post("/showorder",ctx -> showOrder(ctx, connectionPool));
+        //app.get("/showorder",ctx -> showOrder(ctx, connectionPool));
+
 
 
     }
 
-    private static void adminPage(Context ctx, ConnectionPool connectionPool) {
+    private static void showOrder(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
+        int orderId = Integer.parseInt(ctx.formParam("orderId"));
+        Order order = AdminMapper.getOrderDetailsById(orderId, connectionPool);
+        ctx.attribute("order", order);
+        ctx.attribute("orderId", order.getOrderId());
+        ctx.attribute("firstName", order.getUser().getFirstName());
+        ctx.attribute("lastName", order.getUser().getLastName());
+        ctx.attribute("status", order.getStatus());
+        ctx.attribute("cpLength", order.getCpLength());
+        ctx.attribute("cpWidth", order.getCpWidth());
+        ctx.attribute("cpRoof", order.getCpRoof());
+        ctx.attribute("shLength", order.getShLength());
+        ctx.attribute("shWidth", order.getShWidth());
+        ctx.attribute("price", order.getPrice());
 
-        ctx.render("adminpage.html");
+        ctx.render("admin-order.html");
+
     }
+
+//    private static void adminPage(Context ctx, ConnectionPool connectionPool) {
+//
+//        ctx.render("adminpage.html");
+//    }
 
     private static void viewOrders(Context ctx, ConnectionPool connectionPool){
 
