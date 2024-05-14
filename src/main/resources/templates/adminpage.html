@@ -47,6 +47,21 @@
         <section>
             <h2>Alle ordre</h2>
             <div class="table-container orderview">
+                <form method="get">
+                    <div>
+                        <select name="statusId">
+                            <option value="0">Alle</option>
+                            <option value="1">Ordrebekræftelse sendt</option>
+                            <option value="2">Tilbud sendt</option>
+                            <option value="3">Ordre ændret</option>
+                            <option value="4">Tilbud afvist</option>
+                            <option value="5">Betalt</option>
+                        </select>
+                    <div class="end">
+                        <button type="submit" class="submit-button dropdown" formaction="/adminpage">Filtrer</button>
+                    </div>
+                    </div>
+                </form>
                 <table>
                     <thead>
                     <tr>

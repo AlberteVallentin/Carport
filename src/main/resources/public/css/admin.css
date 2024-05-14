@@ -174,4 +174,13 @@ table {
     color: black
 }
 
+.end {
+    text-align: end;
+    align-items: end;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+}
+
+
+
 

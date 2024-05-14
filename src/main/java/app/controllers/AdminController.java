@@ -35,12 +35,20 @@ public class AdminController
     private static void viewOrders(Context ctx, ConnectionPool connectionPool){
 
         List<Order> orderList = null;
+        String statusIdString = ctx.queryParam("statusId");
+
         try
         {
-            orderList = AdminMapper.getAllOrders(connectionPool);
+            if (statusIdString == null)
+                statusIdString = "0";
+            int statusId = Integer.parseInt(statusIdString);
+            if (statusId == 0)
+                orderList = AdminMapper.getAllOrders(connectionPool);
+            else
+                orderList = AdminMapper.getOrderByStatus(statusId, connectionPool);
             ctx.attribute("orderList", orderList);
             ctx.render("adminpage.html");
-        } catch (DatabaseException e)
+        } catch (NumberFormatException | DatabaseException e)
         {
             throw new RuntimeException(e);
         }
