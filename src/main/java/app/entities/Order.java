@@ -13,7 +13,6 @@ public class Order {
     private int shWidth;
     private int statusId;
     private String status;// fra status tabel
-    private double shippingRate;
     private int shippingId;
 
     public Order(int orderId, double price, User user, String comment, Shipping shipping, int cpLength, int cpWidth, String cpRoof, int shLength, int shWidth, int statusId) {
@@ -69,8 +68,8 @@ public class Order {
         this.status = status;
     }
 
-    // Constructor with status name, comment and shipping price
-    public Order(int orderId, double price, User user, int cpLength, int cpWidth, String cpRoof, int shLength, int shWidth, int statusId, String status, String comment) {
+    // Constructor with status name and comment and shippingId
+    public Order(int orderId, double price, User user, int cpLength, int cpWidth, String cpRoof, int shLength, int shWidth, int statusId, String status, String comment, int shippingId) {
         this.orderId = orderId;
         this.price = price;
         this.user = user;
@@ -82,9 +81,8 @@ public class Order {
         this.statusId = statusId;
         this.status = status;
         this.comment = comment;
+        this.shippingId = shippingId;
     }
-
-
 
 
     public int getOrderId() {
@@ -188,8 +186,16 @@ public class Order {
         return shipping;
     }
 
-    public String getStatus()
-    {
+    public String getStatus() {
         return status;
     }
+
+    public int getShippingId() {
+        return shippingId;
+    }
+
+    public void setShippingId(int shippingId) {
+        this.shippingId = shippingId;
+    }
+
 }

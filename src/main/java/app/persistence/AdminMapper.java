@@ -108,8 +108,9 @@ public class AdminMapper
                     double price = rs.getDouble("price");
                     String comment = rs.getString("comment");
                     String statusName = rs.getString("status");
+                    int shippingId = rs.getInt("shipping_id");
 
-                    order = new Order(orderId, price, user, cpLength, cpWidth, cpRoof, shLength, shWidth, statusId, statusName, comment);
+                    order = new Order(orderId, price, user, cpLength, cpWidth, cpRoof, shLength, shWidth, statusId, statusName, comment, shippingId);
                 }
             } catch (DatabaseException e) {
                 throw new RuntimeException(e);

@@ -36,7 +36,7 @@ public class AdminController
         int orderId = Integer.parseInt(ctx.formParam("orderId"));
         Order order = AdminMapper.getOrderDetailsById(orderId, connectionPool);
         int postalCode = AddressMapper.getAddressById(order.getUser().getAddressId(), connectionPool).getPostalCode();
-        //double shippingRate = ShippingMapper.getShippingRate(order.getUser().getAddressId(), connectionPool);
+        double shippingRate = ShippingMapper.getShippingRate(order.getShippingId(), connectionPool);
 
         ctx.attribute("order", order);
         ctx.attribute("orderId", order.getOrderId());
@@ -52,7 +52,7 @@ public class AdminController
         ctx.attribute("price", order.getPrice());
         ctx.attribute("comment", order.getComment());
         ctx.attribute("postalCode", postalCode);
-        //ctx.attribute("shippingRate", shippingRate);
+        ctx.attribute("shippingRate", shippingRate);
 
         ctx.render("admin-order.html");
 
