@@ -29,7 +29,7 @@ public class ShippingMapper {
         }
     }
 
-    public double getShippingRate(int shippingId, ConnectionPool connectionPool) throws SQLException, DatabaseException {
+    public static double getShippingRate(int shippingId, ConnectionPool connectionPool) throws SQLException, DatabaseException {
         String sql = "SELECT shipping_rate FROM shipping WHERE shipping_id = ?";
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {

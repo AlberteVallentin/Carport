@@ -88,6 +88,7 @@ public class AdminMapper
 
     public static Order getOrderDetailsById(int orderId, ConnectionPool connectionPool) throws DatabaseException {
         Order order = null;
+
         String sql = "SELECT * FROM orders INNER JOIN status USING(status_id) WHERE order_id = ? ORDER BY status_id";
         try (Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, orderId);

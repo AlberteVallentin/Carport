@@ -3,8 +3,10 @@ package app.controllers;
 import app.entities.Order;
 import app.entities.User;
 import app.exceptions.DatabaseException;
+import app.persistence.AddressMapper;
 import app.persistence.AdminMapper;
 import app.persistence.ConnectionPool;
+import app.persistence.ShippingMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -30,13 +32,17 @@ public class AdminController
 
     }
 
-    private static void showOrder(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
+    private static void showOrder(Context ctx, ConnectionPool connectionPool) throws DatabaseException, SQLException {
         int orderId = Integer.parseInt(ctx.formParam("orderId"));
         Order order = AdminMapper.getOrderDetailsById(orderId, connectionPool);
+        int postalCode = AddressMapper.getAddressById(order.getUser().getAddressId(), connectionPool).getPostalCode();
+        //double shippingRate = ShippingMapper.getShippingRate(order.getUser().getAddressId(), connectionPool);
+
         ctx.attribute("order", order);
         ctx.attribute("orderId", order.getOrderId());
         ctx.attribute("firstName", order.getUser().getFirstName());
         ctx.attribute("lastName", order.getUser().getLastName());
+        ctx.attribute("email", order.getUser().getEmail());
         ctx.attribute("status", order.getStatus());
         ctx.attribute("cpLength", order.getCpLength());
         ctx.attribute("cpWidth", order.getCpWidth());
@@ -44,6 +50,9 @@ public class AdminController
         ctx.attribute("shLength", order.getShLength());
         ctx.attribute("shWidth", order.getShWidth());
         ctx.attribute("price", order.getPrice());
+        ctx.attribute("comment", order.getComment());
+        ctx.attribute("postalCode", postalCode);
+        //ctx.attribute("shippingRate", shippingRate);
 
         ctx.render("admin-order.html");
 

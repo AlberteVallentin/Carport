@@ -86,7 +86,7 @@
 
         <div>
           <h3>Postnummer</h3>
-          <p class="selected-text" th:text="${postCode}">Postnummer</p>
+          <p class="selected-text" th:text="${postalCode}">Postnummer</p>
           <div class="error-message">
           </div>
         </div>
@@ -155,7 +155,7 @@
         <div class="text-container three-rows">
           <div>
             <h3>Pris på materialer</h3>
-            <p class="selected-text" th:text="${price}">Pris</p>
+            <p class="selected-text" >Pris</p>
             <div class="error-message">
             </div>
           </div>
@@ -168,7 +168,7 @@
           </div>
           <div>
             <h3>Total pris</h3>
-            <p class="selected-text">Total pris</p>
+            <p class="selected-text" th:text="${price}">Total pris</p>
             <div class="error-message">
             </div>
           </div>
