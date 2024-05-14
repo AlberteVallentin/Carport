@@ -1,6 +1,7 @@
 package app.controllers;
 
 import app.entities.Order;
+import app.entities.Shipping;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
@@ -18,6 +19,7 @@ public class OrderController {
         app.get("/carportorder", ctx -> carportOrder(ctx, connectionPool));
         app.post("/savecarportdetails", ctx -> saveCarportDetails(ctx, connectionPool));
         app.get("/backtoorder", ctx -> backToOrder(ctx, connectionPool));
+        app.get("sendr",ctx -> sendRequest(ctx, connectionPool));
 
     }
 
@@ -44,8 +46,9 @@ public class OrderController {
         String comment = ctx.formParam("comment");
 
 
+
         // Create an Order object to store the form values
-        Order order = new Order(0, 0.0, user, comment, 0, cpLength, cpWidth, cpRoof,shLength, shWidth, 0);
+        Order order = new Order( user, comment, cpLength, cpWidth, cpRoof,shLength, shWidth);
         // Set session attribute to store the order
         ctx.sessionAttribute("Order", order);
         ctx.sessionAttribute("currentWidth",cpWidth);
@@ -65,13 +68,23 @@ public class OrderController {
     private static void sendRequest(Context ctx, ConnectionPool connectionPool)
     {
         // Get order details from front-end
-        int width = ctx.sessionAttribute("width");
-        int length = ctx.sessionAttribute("length");
+        int width = ctx.sessionAttribute("currentWidth");
+        int length = ctx.sessionAttribute("currentLength");
+        int roof = ctx.sessionAttribute("currentRoof");
+        String Roof = ctx.sessionAttribute("currentRoof");
+        int shed = ctx.sessionAttribute("currentShedWidth");
+        int shedLength = ctx.sessionAttribute("currentShedLength");
+        String comment = ctx.sessionAttribute("currentComment");
+
+
+
+
+
         int status = 1; // hardcoded for now
         int totalPrice = 19999; // hardcoded for now
-        User user = new User(1, "malte", "12345678", "customer","malte@mail.dk","1234",false,6); // hardcoded for now
+        User user =ctx.sessionAttribute("currentUser"); // hardcoded for now
 
-        Order order = new Order(0, totalPrice, user, "tada", 5, length, width,"no roof", 600,600,5);
+        Order order = new Order(0, totalPrice, user, comment,);
 
         // TODO: Insert order in database
         try
@@ -81,13 +94,14 @@ public class OrderController {
             // TODO: Calculate order items (stykliste)
             Calculator calculator = new Calculator(width, length, connectionPool);
             calculator.calcCarport(order);
+            ctx.attribute("bomlines", calculator.getBomLine());
 
             // TODO: Save order items in database (stykliste)
             OrderMapper.insertOrderItems(calculator.getBomLine(), connectionPool);
 
             // TODO: Create message to customer and render order / request confirmation
 
-            ctx.render("orderflow/requestconfirmation.html");
+            ctx.render("requestconfirmation.html");
         }
         catch (DatabaseException e)
         {

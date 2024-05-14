@@ -57,15 +57,18 @@ public class Calculator {
         MaterialVariant materialVariant = materialVariants.get(0);
 
         // Create bill of material line for posts and add to list
-        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(0, order, materialVariant, quantity, 7);
+        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(0, order, materialVariant, quantity, 1);
         bomLine.add(billOfMaterialLine);
     }
 
     // Method to calculate quantity of beams
     private void calcBeams(Order order) {
         // Calculate quantity of beams based on carport length
+        //Remme
         int quantity;
-        int variantId;
+        int variantId = 0;
+        MaterialVariant foundVariantId = null;
+
 
         int length = order.getCpLength();
 
@@ -96,14 +99,31 @@ public class Calculator {
                 }
             }
         }
+
+        for (MaterialVariant m : materialVariants) {
+            if (m.getMaterialVariantId() == variantId) {
+
+                foundVariantId = m;
+                break;
+            }
+        }
+
+        MaterialVariant materialVariant = materialVariants.get(foundVariantId.getMaterialVariantId());
+
+        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(0, order, materialVariant, quantity, 2);
+        bomLine.add(billOfMaterialLine);
+
+
     }
 
     // Method to calculate quantity of rafters
     public void calcRafters(Order order) {
         // Calculate quantity of rafters based on carport length
+        //spær
         length = order.getCpLength();
         int variantLength = Integer.MAX_VALUE;
-        int variantId;
+        int variantId=0;
+        MaterialVariant foundVariantId = null;
 
         int quantity = length / 55; // Assuming each rafter has a length of 55
 
@@ -117,6 +137,18 @@ public class Calculator {
                 variantId = m.getMaterialVariantId();
             }
         }
+        for (MaterialVariant m : materialVariants) {
+            if (m.getMaterialVariantId() == variantId) {
+
+                foundVariantId = m;
+                break;
+            }
+        }
+        MaterialVariant materialVariant = materialVariants.get(foundVariantId.getMaterialVariantId());
+
+        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(0, order, materialVariant, quantity, 3);
+        bomLine.add(billOfMaterialLine);
+
     }
 
     // Method to retrieve the list of bill of material lines

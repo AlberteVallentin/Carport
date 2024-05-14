@@ -28,8 +28,7 @@ public class MaterialVariantMapper {
             var rs=preparedStatement.executeQuery();
             while(rs.next()){
 
-
-                int materialVariantId2 = rs.getInt("material_variant_id");
+               int materialVariantId2 = rs.getInt("material_variant_id");
                int length = rs.getInt("length");
 
 

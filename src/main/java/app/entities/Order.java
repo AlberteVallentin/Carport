@@ -5,7 +5,7 @@ public class Order {
     private double price;
     private User user;
     private String comment;
-    private int shippingId;
+    private Shipping shipping;
     private int cpLength;
     private int cpWidth;
     private String cpRoof;
@@ -13,12 +13,23 @@ public class Order {
     private int shedWidth;
     private int statusId;
 
-public Order(int orderId, double price, User user, String comment, int shippingId, int cpLength, int cpWidth, String cpRoof, int shedLength, int shedWidth, int statusId) {
+    public Order(User user, String comment, int cpLength, int cpWidth, String cpRoof, int shedLength, int shedWidth) {
+        this.user = user;
+        this.comment = comment;
+        this.cpLength = cpLength;
+        this.cpWidth = cpWidth;
+        this.cpRoof = cpRoof;
+        this.shedLength = shedLength;
+        this.shedWidth = shedWidth;
+    }
+
+    public Order(int orderId, double price, User user, String comment, Shipping shipping, int cpLength, int cpWidth, String cpRoof, int shedLength, int shedWidth, int statusId) {
+
         this.orderId = orderId;
         this.price = price;
         this.user = user;
         this.comment = comment;
-        this.shippingId = shippingId;
+        this.shipping = shipping;
         this.cpLength = cpLength;
         this.cpWidth = cpWidth;
         this.cpRoof = cpRoof;
@@ -59,12 +70,12 @@ public Order(int orderId, double price, User user, String comment, int shippingI
         this.comment = comment;
     }
 
-    public int getShippingId() {
-        return shippingId;
+    public Shipping getShipping() {
+        return shipping;
     }
 
-    public void setShippingId(int shippingId) {
-        this.shippingId = shippingId;
+    public void setShipping(Shipping shipping) {
+        this.shipping = shipping;
     }
 
     public int getCpLength() {
@@ -113,21 +124,5 @@ public Order(int orderId, double price, User user, String comment, int shippingI
 
     public void setStatusId(int statusId) {
         this.statusId = statusId;
-    }
-
-    public String toString() {
-        return "Order{" +
-                "orderId=" + orderId +
-                ", price=" + price +
-                ", user=" + user +
-                ", comment='" + comment + '\'' +
-                ", shippingId=" + shippingId +
-                ", cpLength=" + cpLength +
-                ", cpWidth=" + cpWidth +
-                ", cpRoof='" + cpRoof + '\'' +
-                ", shedLength=" + shedLength +
-                ", shedWidth=" + shedWidth +
-                ", statusId=" + statusId +
-                '}';
     }
 }

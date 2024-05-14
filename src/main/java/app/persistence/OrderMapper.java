@@ -111,8 +111,8 @@ public class OrderMapper {
 
     public static Order insertOrder(Order order, ConnectionPool connectionPool) throws DatabaseException
     {
-        String sql = "INSERT INTO orders (carport_width, carport_length, status, user_id, total_price) " +
-                "VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO orders (order_id,price,user_id,comment,shipping_id,cp_length,cp_width,shed_length,shed_width,status_id,cp_roof) " +
+                "VALUES (?, ?, ?, ?, ?,?,?,?,?,?,?)";
         try (Connection connection = connectionPool.getConnection())
         {
             try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))
@@ -120,7 +120,7 @@ public class OrderMapper {
                 ps.setDouble(2, order.getPrice());
                 ps.setInt(3, order.getUser().getUserId());
                 ps.setString(4, order.getComment());
-                ps.setInt(5, order.getShippingId());
+                ps.setInt(5, order.getShipping().getShippingId());
                 ps.setInt(6, order.getCpLength());
                 ps.setInt(7, order.getCpWidth());
                 ps.setInt(8, order.getShedLength());
@@ -132,7 +132,7 @@ public class OrderMapper {
                 ResultSet keySet = ps.getGeneratedKeys();
                 if (keySet.next())
                 {
-                    Order newOrder = new Order(keySet.getInt(1), order.getPrice(), order.getUser(), order.getComment(), order.getShippingId(), order.getCpLength(), order.getCpWidth(), order.getCpRoof(), order.getShedLength(), order.getShedWidth(), order.getStatusId());
+                    Order newOrder = new Order(keySet.getInt(1), order.getPrice(), order.getUser(), order.getComment(), order.getShipping(), order.getCpLength(), order.getCpWidth(), order.getCpRoof(), order.getShedLength(), order.getShedWidth(), order.getStatusId());
                     return newOrder;
                 } else
                     return null;
