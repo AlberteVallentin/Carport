@@ -29,7 +29,7 @@ public class MailController {
     public static void sendNewOffer(Order order, int orderId, double shippingRate, double price) {
         User user = order.getUser();
         try {
-            MailServer.sendNewOffer(user.getFirstName(), user.getLastName(), user.getEmail(), shippingRate, price, order.getOrderId());
+            MailServer.sendNewOffer(user.getFirstName(), user.getLastName(), user.getEmail(), shippingRate, price, orderId);
         } catch (IOException e) {
             System.out.println("Error sending mail: " + e.getMessage());
         }

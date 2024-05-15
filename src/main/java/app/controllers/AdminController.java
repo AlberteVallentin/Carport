@@ -40,15 +40,19 @@ public class AdminController {
             Order order = AdminMapper.getOrderDetailsById(orderId, connectionPool);
             double shippingRate = ShippingMapper.getShippingRate(order.getShippingId(), connectionPool);
 
+            System.out.println("OrderId: " + orderId);
+
             if (newPrice != originalPrice) {
                 OrderMapper.updatePriceByOrderId(orderId, newPrice, connectionPool);
-                MailController.sendNewOffer(order, order.getOrderId(), shippingRate, newPrice);
                 OrderMapper.updateOrderStatusById(orderId, 2, connectionPool);
+                MailController.sendNewOffer(order, orderId, shippingRate, newPrice);
+
                 ctx.sessionAttribute("message", "Det nye tilbud er sendt til kunden");
                 ctx.redirect("/adminpage");
             } else {
-                MailController.sendOffer(order, order.getOrderId(), shippingRate, originalPrice);
                 OrderMapper.updateOrderStatusById(orderId, 2, connectionPool);
+                MailController.sendOffer(order, orderId, shippingRate, originalPrice);
+
                 ctx.sessionAttribute("message", "Tilbuddet er sendt til kunden");
                 ctx.redirect("/adminpage");
             }

@@ -57,8 +57,8 @@ public class AdminMapper
         String sql = "SELECT * FROM orders inner join status using(status_id) where status_id=?";
         List<Order> orderList = new ArrayList<>();
 
-        try (Connection connection = connectionPool.getConnection()) {
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try (Connection connection = connectionPool.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, statusId);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
@@ -90,7 +90,8 @@ public class AdminMapper
         Order order = null;
 
         String sql = "SELECT * FROM orders INNER JOIN status USING(status_id) WHERE order_id = ? ORDER BY status_id";
-        try (Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, orderId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {

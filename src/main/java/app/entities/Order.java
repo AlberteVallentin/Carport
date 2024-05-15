@@ -95,6 +95,7 @@ public class Order {
         this.orderId = orderId;
     }
 
+
     public double getPrice() {
         return price;
     }
