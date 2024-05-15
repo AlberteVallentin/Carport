@@ -12,6 +12,11 @@ private Material material;
         this.material = material;
     }
 
+    public MaterialVariant(int materialVariantId, int length){
+        this.materialVariantId = materialVariantId;
+        this.length = length;
+    }
+
     public int getMaterialVariantId() {
         return materialVariantId;
     }

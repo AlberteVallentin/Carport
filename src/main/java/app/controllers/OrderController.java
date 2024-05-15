@@ -6,6 +6,7 @@ import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.OrderMapper;
 import app.persistence.*;
+import app.utility.Calculator;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -28,14 +29,22 @@ public class OrderController {
 
 
 
-    private static void confirmOrder(Context ctx, ConnectionPool connectionPool) {
+    private static void confirmOrder(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
         Order order = ctx.sessionAttribute("currentOrder");
         User user = ctx.sessionAttribute("currentUser");
+        int cpWidth=ctx.sessionAttribute("currentWidth");
+        int cpLength= ctx.sessionAttribute("currentLength");
 
+
+//
         // Forsøg at oprette ordren og shipping i databasen
         try {
             int shippingId = ShippingMapper.createShipping(user.getAddressId(), connectionPool);
             OrderMapper.createOrder(order, user, shippingId, connectionPool);
+
+            Calculator calculator = new Calculator(cpWidth,cpLength,connectionPool);
+            calculator.calcCarport(order);
+            OrderMapper.createBomLine(calculator.getBomLine(),connectionPool);
             int orderId = OrderMapper.getLastOrder(connectionPool);
 
             MailController.sendOrderConfirmation(order, user, orderId);
@@ -87,17 +96,16 @@ public class OrderController {
 
     }
 
-//    private static void sendRequest(Context ctx, ConnectionPool connectionPool)
-//    {
+// private static void sendRequest(Context ctx, ConnectionPool connectionPool)
+//  {
 //        // Get order details from front-end
 //        int width = ctx.sessionAttribute("width");
-//        int length = ctx.sessionAttribute("length");
-//        int status = 1; // hardcoded for now
-//        int totalPrice = 19999; // hardcoded for now
-//        Shipping shipping = ShippingMapper.getShippingById(shippingId, connectionPool);
-//        User user = new User(1, "malte", "12345678", "customer","malte@mail.dk","1234",false,6); // hardcoded for now
+//       int length = ctx.sessionAttribute("length");
+//       int status = 1; // hardcoded for now
+//       int totalPrice = 19999; // hardcoded for now
 //
-//        Order order = new Order(0, totalPrice, user, "tada", sh, length, width,"no roof", 600,600,5);
+//     // hardcoded for now
+//     Order order = new Order(0, totalPrice, user, "tada", sh, length, width,"no roof", 600,600,5);
 //
 //        // TODO: Insert order in database
 //        try
@@ -120,7 +128,7 @@ public class OrderController {
 //            // TODO: handle exception later
 //            throw new RuntimeException(e);
 //        }
-//    }
+//   }
 
 
 }
