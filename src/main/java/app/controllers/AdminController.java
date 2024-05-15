@@ -24,10 +24,25 @@ public class AdminController {
         app.post("/changeorder", ctx -> changeOrder(ctx, connectionPool));
         app.post("/nonewoffer", ctx -> noNewOffer(ctx, connectionPool));
         app.post("/admindeleteorder", ctx -> adminDeleteOrder(ctx, connectionPool));
+        app.post("/sendoffer", ctx -> sendOffer(ctx, connectionPool));
 
 
 
 
+    }
+
+    private static void sendOffer(Context ctx, ConnectionPool connectionPool) {
+        int orderId = Integer.parseInt(ctx.formParam("orderId"));
+        try {
+            Order order = AdminMapper.getOrderDetailsById(orderId, connectionPool);
+            double shippingRate = ShippingMapper.getShippingRate(order.getShippingId(), connectionPool);
+            MailController.sendOffer(order, order.getOrderId(), shippingRate);
+            OrderMapper.updateOrderStatusById(orderId, 1, connectionPool);
+            ctx.sessionAttribute("message", "Tilbud er sendt til kunden");
+            ctx.redirect("/adminpage");
+        } catch (DatabaseException | SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static void adminDeleteOrder(Context ctx, ConnectionPool connectionPool) {
