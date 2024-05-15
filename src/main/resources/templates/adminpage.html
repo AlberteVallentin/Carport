@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin frontpage</title>
+    <title>Admin Frontpage</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 
 
     <link href="../public/css/reset.css" th:href="@{/css/reset.css}" rel="stylesheet"/>
-    <link href="../public/css/styles.css" th:href="@{/css/adminpage.css}" rel="stylesheet"/>
-    <script defer src="../public/js/carport-validation.js" th:src="@{/js/carport-validation.js}"></script>
+    <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link href="../public/css/user.css" th:href="@{/css/user.css}" rel="stylesheet">
+    <link href="../public/css/admin.css" th:href="@{/css/admin.css}" rel="stylesheet">
 </head>
 
 <body>
@@ -22,60 +23,75 @@
             <img class="logo" src="../public/images/logo.svg" th:src="@{/images/logo.svg}"/>
         </a>
     </div>
+    <div class="account-container">
+        <a href="login.html" th:href="@{/loginorout}">
+            <img class="account" src="../public/images/person.svg" th:src="@{/images/person.svg}"/>
+        </a>
+        <a href="login.html" th:href="@{/loginorout}" class="account">Konto</a>
+
+    </div>
+
 
 </nav>
 
-<div class="container-fluid">
-    <div class="row content">
-                <li class="active"><a href="#section1">Forside</a></li>
-                <li><a href="#section2">Hovedmenu</a></li>
-                <li><a href="#section3">Ordrer</a></li>
-                <li><a href="#section3">Sendte Tilbud</a></li>
 
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="SØG ORDER">
+<h1>Admin</h1>
 
-                <span class="input-group-btn">
-          <button class="btn btn-default" type="button">
-            <span class="glyphicon glyphicon-search"></span>
-          </button>
-        </span>
+<div class="admin-message center">
+    <p th:text="${message}"></p>
+</div>
 
-            </div>
-        </div>
-    </div>
-    </div>
 
 <main>
-    <div class="container">
+
+    <div class="admin-container">
+
         <section>
-            <p class="info-text">FORESPØRGELSER
-            </p>
-            <div class="container-ordre">
-                <form method="post">
-                    <table>
-                        <tr>
-                            <th>Ordrenummer</th>
-                            <th>Carport</th>
-                            <th>Tilbud</th>
-                            <th>Pris</th>
-
-                        </tr>
-
-
-                    <p class="info-text"> IGANGVÆRENDE ORDRER
-            </p>
-                    </table>
-
+            <h2>Ordreoversigt</h2>
+            <div class="table-container orderview">
+                <form method="get">
+                    <div>
+                        <select name="statusId">
+                            <option value="0">Alle</option>
+                            <option value="1">Ordrebekræftelse sendt</option>
+                            <option value="2">Tilbud sendt</option>
+                            <option value="3">Ordre ændret</option>
+                            <option value="4">Tilbud afvist</option>
+                            <option value="5">Betalt</option>
+                        </select>
+                    <div class="end">
+                        <button type="submit" class="submit-button dropdown" formaction="/adminpage">Filtrer</button>
+                    </div>
+                    </div>
                 </form>
+                <form method="post">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Ordre nr.</th>
+                        <th>Kundenavn</th>
+                        <th>Pris</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="order: ${orderList}">
+                        <td th:text="${order.orderId}"></td>
+                        <td th:text="${order.user.firstName + ' ' + order.user.lastName}"></td>
+                        <td th:text="${order.price}"></td>
+                        <td th:text="${order.status}"></td>
+                        <td><button type="submit" name="orderId" class="admin-button" th:value="${order.orderId}" formaction="/showorder">Vis</button></td>
+                    </tr>
+                    </tbody>
+
+                </table>
+                    </form>
             </div>
         </section>
     </div>
-        </section>
 
-
-
-</div>
 </main>
 </body>
 </html>

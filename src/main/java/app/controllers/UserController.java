@@ -79,16 +79,15 @@ public class UserController {
             ctx.sessionAttribute("currentUser", user);
             Boolean hasAnOrder = ctx.sessionAttribute("hasAnOrder");
             Boolean isOrdering = ctx.sessionAttribute("isOrdering");
-            if(hasAnOrder != null && hasAnOrder) {
+            if (user.isAdmin()) {
+                ctx.redirect("/adminpage");
+            } else if (hasAnOrder != null && hasAnOrder) {
                 contactDetails(ctx, connectionPool);
-            }else if(isOrdering != null && isOrdering) {
+            } else if (isOrdering != null && isOrdering) {
                 ctx.redirect("/carportorder");
-            } else if (user.isAdmin())
-                {
-                    ctx.redirect("/adminpage");
-                } else {
+            } else
                 ctx.render("index.html");
-            }
+
         } catch (DatabaseException e) {
             //hvis nej send tilbage til login side med fejl
             ctx.attribute("message", "Forkert login. Prøv venligst igen.");
@@ -162,7 +161,9 @@ public class UserController {
         ctx.render("create-account.html");
     }
 
-    private static void handleDatabaseError(Context ctx, DatabaseException e, String firstName, String lastName, String email, String phone, String streetName, String houseNumber, String floorAndDoor, int postalCode, String city) {
+    private static void handleDatabaseError(Context ctx, DatabaseException e, String firstName, String
+            lastName, String email, String phone, String streetName, String houseNumber, String floorAndDoor,
+                                            int postalCode, String city) {
         ctx.attribute("message", e.getMessage());
         setAttributesAndRenderForm(ctx, e.getMessage(), firstName, lastName, email, phone, streetName, houseNumber, floorAndDoor, String.valueOf(postalCode), city);
     }

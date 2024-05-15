@@ -226,7 +226,7 @@ public class MailServer {
         }
     }
 
-    public static void sendModifiedOrder(String firstName, String lastName, String email, int cpWidth, int cpLength, String cpRoof, int shWidth, int shLength) throws IOException {
+    public static void sendModifiedOrder(String firstName, String lastName, String email, int cpWidth, int cpLength, String cpRoof, int shWidth, int shLength, int orderId) throws IOException {
         // Get the API key
         SendGrid sg = new SendGrid(API_KEY);
 
@@ -247,6 +247,7 @@ public class MailServer {
         personalization.addDynamicTemplateData("cpRoof", cpRoof);
         personalization.addDynamicTemplateData("shWidth", shWidth);
         personalization.addDynamicTemplateData("shLength", shLength);
+        personalization.addDynamicTemplateData("orderId", orderId);
         mail.addPersonalization(personalization);
 
         mail.addCategory("carportapp");

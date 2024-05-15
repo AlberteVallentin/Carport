@@ -12,6 +12,8 @@ public class Order {
     private int shLength;
     private int shWidth;
     private int statusId;
+    private String status;// fra status tabel
+    private int shippingId;
 
     public Order(int orderId, double price, User user, String comment, Shipping shipping, int cpLength, int cpWidth, String cpRoof, int shLength, int shWidth, int statusId) {
         this.orderId = orderId;
@@ -25,6 +27,7 @@ public class Order {
         this.shLength = shLength;
         this.shWidth = shWidth;
         this.statusId = statusId;
+
     }
 
     // Constructor without price, shipping, orderId and status
@@ -51,6 +54,36 @@ public class Order {
         this.shLength = shLength;
         this.shWidth = shWidth;
         this.statusId = statusId;
+    }
+
+    // Constructor with status name
+    public Order(int orderId, double price, User user, int cpLength, int cpWidth, String cpRoof, int shLength, int shWidth, int statusId, String status) {
+        this.orderId = orderId;
+        this.price = price;
+        this.user = user;
+        this.cpLength = cpLength;
+        this.cpWidth = cpWidth;
+        this.cpRoof = cpRoof;
+        this.shLength = shLength;
+        this.shWidth = shWidth;
+        this.statusId = statusId;
+        this.status = status;
+    }
+
+    // Constructor with status name and comment and shippingId
+    public Order(int orderId, double price, User user, int cpLength, int cpWidth, String cpRoof, int shLength, int shWidth, int statusId, String status, String comment, int shippingId) {
+        this.orderId = orderId;
+        this.price = price;
+        this.user = user;
+        this.cpLength = cpLength;
+        this.cpWidth = cpWidth;
+        this.cpRoof = cpRoof;
+        this.shLength = shLength;
+        this.shWidth = shWidth;
+        this.statusId = statusId;
+        this.status = status;
+        this.comment = comment;
+        this.shippingId = shippingId;
     }
 
 
@@ -154,4 +187,17 @@ public class Order {
     public Shipping getShipping() {
         return shipping;
     }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public int getShippingId() {
+        return shippingId;
+    }
+
+    public void setShippingId(int shippingId) {
+        this.shippingId = shippingId;
+    }
+
 }

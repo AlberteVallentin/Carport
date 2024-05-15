@@ -3,8 +3,7 @@ package app.controllers;
 import app.entities.Order;
 import app.entities.User;
 import app.exceptions.DatabaseException;
-import app.persistence.AdminMapper;
-import app.persistence.ConnectionPool;
+import app.persistence.*;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -15,40 +14,118 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminController
-{
+public class AdminController {
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
-        app.get("/adminpage", ctx -> ctx.render("adminpage.html"));
-        app.post("/adminpage", ctx -> adminPage(ctx, connectionPool));
+        app.get("/adminpage", ctx -> viewOrders(ctx, connectionPool));
         app.get("/admin-order", ctx -> ctx.render("admin-order.html"));
-        app.post("/admin-order", ctx -> viewOrders(ctx, connectionPool));
-        app.get("/admin-offer", ctx -> ctx.render("admin-offer.html"));
-        app.post("/admin-offer",ctx -> OffersSent(ctx, connectionPool));
+        //app.post("/admin-order", ctx -> viewOrders(ctx, connectionPool));
+        app.post("/showorder", ctx -> showOrder(ctx, connectionPool));
+        //app.get("/showorder",ctx -> showOrder(ctx, connectionPool));
+        app.post("/changeorder", ctx -> changeOrder(ctx, connectionPool));
 
 
     }
 
-    private static void adminPage(Context ctx, ConnectionPool connectionPool) {
 
-        ctx.render("adminpage.html");
-    }
 
-    private static void viewOrders(Context ctx, ConnectionPool connectionPool){
+    private static void changeOrder(Context ctx, ConnectionPool connectionPool) {
+        int orderId = Integer.parseInt(ctx.formParam("orderId"));
+        String cpWidthStr = ctx.formParam("cpWidth");
+        String cpLengthStr = ctx.formParam("cpLength");
+        String shWidthStr = ctx.formParam("shWidth");
+        String shLengthStr = ctx.formParam("shLength");
+        String cpRoof = ctx.formParam("cpRoof");
 
-        List<Order> orderList = null;
-        try
-        {
-            orderList = AdminMapper.getAllOrders(connectionPool);
-        } catch (DatabaseException e)
-        {
+        try {
+            Order order = AdminMapper.getOrderDetailsById(orderId, connectionPool);
+            int cpWidth = cpWidthStr != null ? Integer.parseInt(cpWidthStr) : order.getCpWidth();
+            int cpLength = cpLengthStr != null ? Integer.parseInt(cpLengthStr) : order.getCpLength();
+            int shWidth = shWidthStr != null ? Integer.parseInt(shWidthStr) : order.getShWidth();
+            int shLength = shLengthStr != null ? Integer.parseInt(shLengthStr) : order.getShLength();
+            cpRoof = cpRoof != null ? cpRoof : order.getCpRoof();
+
+            AdminMapper.updateOrder(orderId, cpWidth, cpLength, shWidth, shLength, cpRoof, connectionPool);
+
+            // Update the order instance with the new values
+            order.setCpWidth(cpWidth);
+            order.setCpLength(cpLength);
+            order.setShWidth(shWidth);
+            order.setShLength(shLength);
+            order.setCpRoof(cpRoof);
+
+            // Opdater status-ID'et for den pågældende ordre
+            OrderMapper.updateOrderStatusById(orderId, 3, connectionPool);
+            // After updating the order, send a modified order email with the updated order
+            MailController.sendModifiedOrder(order, order.getOrderId());
+            ctx.sessionAttribute("message", "Ordren er blevet ændret, og der er sendt en mail til kunden");
+
+            ctx.redirect("/adminpage");
+        } catch (DatabaseException e) {
             throw new RuntimeException(e);
         }
-        ctx.attribute("orderList", orderList);
-            ctx.render("admin-order.html");
     }
 
-    public static List<User> getAllUsers(ConnectionPool connectionPool)
-    {
+    private static void showOrder(Context ctx, ConnectionPool connectionPool) throws DatabaseException, SQLException {
+        int orderId = Integer.parseInt(ctx.formParam("orderId"));
+        Order order = AdminMapper.getOrderDetailsById(orderId, connectionPool);
+        int postalCode = AddressMapper.getAddressById(order.getUser().getAddressId(), connectionPool).getPostalCode();
+        double shippingRate = ShippingMapper.getShippingRate(order.getShippingId(), connectionPool);
+
+        ctx.attribute("order", order);
+        ctx.attribute("orderId", order.getOrderId());
+        ctx.attribute("firstName", order.getUser().getFirstName());
+        ctx.attribute("lastName", order.getUser().getLastName());
+        ctx.attribute("email", order.getUser().getEmail());
+        ctx.attribute("status", order.getStatus());
+        ctx.attribute("cpLength", order.getCpLength());
+        ctx.attribute("cpWidth", order.getCpWidth());
+        ctx.attribute("cpRoof", order.getCpRoof());
+        ctx.attribute("shLength", order.getShLength());
+        ctx.attribute("shWidth", order.getShWidth());
+        ctx.attribute("price", order.getPrice());
+        ctx.attribute("comment", order.getComment());
+        ctx.attribute("postalCode", postalCode);
+        ctx.attribute("shippingRate", shippingRate);
+
+        ctx.render("admin-order.html");
+
+
+    }
+
+//    private static void adminPage(Context ctx, ConnectionPool connectionPool) {
+//
+//        ctx.render("adminpage.html");
+//    }
+
+    private static void viewOrders(Context ctx, ConnectionPool connectionPool) {
+        List<Order> orderList = null;
+        String statusIdString = ctx.queryParam("statusId");
+
+        try {
+            if (statusIdString == null)
+                statusIdString = "0";
+            int statusId = Integer.parseInt(statusIdString);
+            if (statusId == 0)
+                orderList = AdminMapper.getAllOrders(connectionPool);
+            else
+                orderList = AdminMapper.getOrderByStatus(statusId, connectionPool);
+
+            // Get the session attribute
+            String message = ctx.sessionAttribute("message");
+
+            // Remove the session attribute
+            ctx.sessionAttribute("message", null);
+
+            ctx.attribute("orderList", orderList);
+            ctx.attribute("message", message); // Add the session message to the model
+
+            ctx.render("adminpage.html");
+        } catch (NumberFormatException | DatabaseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<User> getAllUsers(ConnectionPool connectionPool) {
         String sql = "SELECT * FROM users";
         List<User> userList = new ArrayList<>();
 
@@ -57,7 +134,7 @@ public class AdminController
                 PreparedStatement ps = connection.prepareStatement(sql);
         ) {
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 int userId = rs.getInt("user_id");
                 String firstName = rs.getString("first_name");
                 String lastName = rs.getString("last_name");
@@ -74,10 +151,5 @@ public class AdminController
             throw new RuntimeException(e);
         }
         return userList;
-    }
-
-    private static void OffersSent(Context ctx, ConnectionPool connectionPool)
-    {
-        ctx.render("admin-offer.html");
     }
 }
