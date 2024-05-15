@@ -196,8 +196,8 @@
                     </thead>
 
                     <tbody class="bom-table">
-                    <tr th:each="order: ${orderList}">
-                        <td th:text="${order.orderId}">Stolpe</td>
+                    <tr th:each="order: ${}">
+                        <td th:text="${}">Stolpe</td>
                         <td th:text="${order.orderId}">97x97 mm. trykimp. stolpe</td>
                         <td th:text="${order.user.firstName + ' ' + order.user.lastName}">Meter</td>
                         <td th:text="${order.price}">200</td>

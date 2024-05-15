@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.entities.BillOfMaterialLine;
 import app.entities.Order;
 import app.entities.User;
 import app.exceptions.DatabaseException;
@@ -87,6 +88,10 @@ public class AdminController {
         ctx.attribute("postalCode", postalCode);
         ctx.attribute("shippingRate", shippingRate);
 
+
+
+        List<BillOfMaterialLine> billOfMaterialLines = BomMapper.getBomLines(orderId, connectionPool);
+        ctx.attribute("bom", billOfMaterialLines);
         ctx.render("admin-order.html");
 
 
@@ -152,4 +157,7 @@ public class AdminController {
         }
         return userList;
     }
+
+
+
 }
