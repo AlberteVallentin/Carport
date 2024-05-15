@@ -196,16 +196,8 @@
                     </thead>
 
                     <tbody class="bom-table">
-                    <tr th:each="order: ${orderList}">
-                        <td th:text="${order.orderId}">Stolpe</td>
-                        <td th:text="${order.orderId}">97x97 mm. trykimp. stolpe</td>
-                        <td th:text="${order.user.firstName + ' ' + order.user.lastName}">Meter</td>
-                        <td th:text="${order.price}">200</td>
-                        <td th:text="${order.status}">4</td>
-                        <td th:text="${order.status}">Stolper nedgraves 90 cm. i jord</td>
-                    </tr>
-                    <tr th:each="order: ${orderList}">
-                        <td th:text="${order.orderId}">Stolpe</td>
+                    <tr th:each="billOfMaterialLine: ${bomLines}">
+                        <td th:text="${billOfMaterialLine.materialVariant.material.type}"></td>
                         <td th:text="${order.orderId}">97x97 mm. trykimp. stolpe</td>
                         <td th:text="${order.user.firstName + ' ' + order.user.lastName}">Meter</td>
                         <td th:text="${order.price}">200</td>
