@@ -11,6 +11,7 @@ public class MailController {
 
     public static void sendOrderConfirmation(Order order, User user, int orderId) {
         try {
+
             MailServer.sendOrderConfirmation(user.getFirstName(), user.getLastName(), user.getEmail(), orderId, order.getCpWidth(), order.getCpLength(), order.getCpRoof(), order.getShWidth(), order.getShLength());
         } catch (IOException e) {
             System.out.println("Error sending mail: " + e.getMessage());
@@ -20,7 +21,7 @@ public class MailController {
     public static void sendOffer(Order order, int orderId, double shippingRate, double price) {
         User user = order.getUser();
         try {
-            MailServer.sendOffer(user.getFirstName(), user.getLastName(), user.getEmail(), shippingRate, price, order.getOrderId());
+            MailServer.sendOffer(user.getFirstName(), user.getLastName(), user.getEmail(), shippingRate, price, orderId);
         } catch (IOException e) {
             System.out.println("Error sending mail: " + e.getMessage());
         }
