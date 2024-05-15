@@ -289,4 +289,17 @@ public class OrderMapper {
         }
         return order;
     }
+
+    public static void deleteOrder (int orderId, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "DELETE FROM orders WHERE order_id = ?";
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, orderId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException("Error deleting order", e.getMessage());
+        }
+    }
+
+
+
 }

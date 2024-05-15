@@ -37,11 +37,10 @@ public class MailController {
         }
     }
 
-    public static void denyNewOffer(Order order, int orderId) {
+    public static void denyNewOffer(Order order, int orderId, double shippingRate) {
         User user = order.getUser();
-        Shipping shipping = order.getShipping();
         try {
-            MailServer.sendNewOffer(user.getFirstName(), user.getLastName(), user.getEmail(), shipping.getShippingRate(), order.getPrice());
+            MailServer.denyNewOffer(user.getFirstName(), user.getLastName(), user.getEmail(), shippingRate, order.getPrice(), orderId);
         } catch (IOException e) {
             System.out.println("Error sending mail: " + e.getMessage());
         }

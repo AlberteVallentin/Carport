@@ -25,17 +25,20 @@ public class AdminController {
         app.post("/nonewoffer", ctx -> noNewOffer(ctx, connectionPool));
 
 
+
+
     }
 
     private static void noNewOffer(Context ctx, ConnectionPool connectionPool) {
-int orderId = Integer.parseInt(ctx.formParam("orderId"));
+    int orderId = Integer.parseInt(ctx.formParam("orderId"));
         try {
             Order order = AdminMapper.getOrderDetailsById(orderId, connectionPool);
             OrderMapper.updateOrderStatusById(orderId, 2, connectionPool);
-            MailController.denyNewOffer(order, order.getOrderId());
+            double shippingRate = ShippingMapper.getShippingRate(order.getShippingId(), connectionPool);
+            MailController.denyNewOffer(order, order.getOrderId(), shippingRate);
             ctx.sessionAttribute("message", "Der er sendt en mail til kunden om, at der ikke er lavet et nyt tilbud");
             ctx.redirect("/adminpage");
-        } catch (DatabaseException e) {
+        } catch (DatabaseException | SQLException e) {
             throw new RuntimeException(e);
         }
 

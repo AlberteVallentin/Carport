@@ -68,3 +68,15 @@
     padding: 0.5rem 0.5rem;
 }
 
+.deleteorder {
+    background-color: white;
+    font-size: var(--fs-s);
+    border-radius: 5px;
+    border-color: var(--clr-error);
+    margin-top: 1rem;
+    padding: 0.5rem 2rem;
+    color: black;
+    text-decoration: none;
+    transition: transform 0.5s ease, background-color 0.5s ease;
+
+}
