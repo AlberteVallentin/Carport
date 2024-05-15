@@ -28,6 +28,16 @@ public class AdminController {
     }
 
     private static void noNewOffer(Context ctx, ConnectionPool connectionPool) {
+int orderId = Integer.parseInt(ctx.formParam("orderId"));
+        try {
+            Order order = AdminMapper.getOrderDetailsById(orderId, connectionPool);
+            OrderMapper.updateOrderStatusById(orderId, 2, connectionPool);
+            MailController.denyNewOffer(order, order.getOrderId());
+            ctx.sessionAttribute("message", "Der er sendt en mail til kunden om, at der ikke er lavet et nyt tilbud");
+            ctx.redirect("/adminpage");
+        } catch (DatabaseException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 

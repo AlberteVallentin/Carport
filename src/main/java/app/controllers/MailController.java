@@ -37,7 +37,7 @@ public class MailController {
         }
     }
 
-    public static void denyNewOffer(Order order) {
+    public static void denyNewOffer(Order order, int orderId) {
         User user = order.getUser();
         Shipping shipping = order.getShipping();
         try {
