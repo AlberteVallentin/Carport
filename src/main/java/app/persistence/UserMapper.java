@@ -107,4 +107,21 @@ public class UserMapper {
         }
         return user;
     }
+    public static int getAddressIdByUserId(int userId, ConnectionPool connectionPool) throws SQLException, DatabaseException {
+        String sql = "SELECT address_id FROM users WHERE user_id = ?";
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("address_id");
+            } else {
+                throw new DatabaseException("No address found for user with ID: " + userId);
+            }
+        } catch (SQLException e) {
+            // Log exception details for debugging
+            e.printStackTrace();
+            throw new DatabaseException("Error getting address ID", e.getMessage());
+        }
+    }
 }

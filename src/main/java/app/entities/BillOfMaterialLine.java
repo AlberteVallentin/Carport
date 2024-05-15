@@ -7,6 +7,13 @@ public class BillOfMaterialLine {
     private int quantity;
     private int functionalDescriptionId;
 
+    public BillOfMaterialLine(Order order, MaterialVariant materialVariant, int quantity, int functionalDescriptionId) {
+        this.order = order;
+        this.materialVariant = materialVariant;
+        this.quantity = quantity;
+        this.functionalDescriptionId = functionalDescriptionId;
+    }
+
     public BillOfMaterialLine(int billOfMaterialLineId, Order order, MaterialVariant materialVariant, int quantity, int functionalDescriptionId) {
         this.billOfMaterialLineId = billOfMaterialLineId;
         this.order = order;

@@ -34,7 +34,6 @@ public class MaterialMapper
                 int length = resultSet.getInt("length");
                 String type = resultSet.getString("type");
                 String unit = resultSet.getString("unit");
-                int price = resultSet.getInt("price");
 
                 int width = resultSet.getInt("width");
                 int depth = resultSet.getInt("depth");
