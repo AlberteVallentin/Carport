@@ -55,6 +55,7 @@ public class OrderMapper {
 
     public static List<BillOfMaterialLine> getOrderByOrderId(int orderId, ConnectionPool connectionPool) throws DatabaseException
     {
+
         List<BillOfMaterialLine> BillOfMaterialLineList = new ArrayList<>();
         String sql = "SELECT * FROM bill_of_materials_view where order_id = ?";
         try (
@@ -78,7 +79,7 @@ public class OrderMapper {
                 int shedWidth = rs.getInt("shed_width");
                 int statusId = rs.getInt("status_id");
 
-                Order order = new Order(orderId2, price, null, comment, shippingId, cpLength, cpWidth, cpRoof, shedLength, shedWidth, statusId);
+                Order order = new Order(orderId2, price,null , comment, shippingId, cpLength, cpWidth, cpRoof, shedLength, shedWidth, statusId);
 
                 //Material
                 int materialId = rs.getInt("material_id");

@@ -36,7 +36,6 @@ public class OrderController {
     private static void saveCarportDetails(Context ctx, ConnectionPool connectionPool) {
         User user = ctx.sessionAttribute("currentUser");
 
-
         // Retrieve form parameters
         int cpWidth = Integer.parseInt(ctx.formParam("carport-width"));
         int cpLength = Integer.parseInt(ctx.formParam("carport-length"));
