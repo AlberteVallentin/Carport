@@ -173,10 +173,15 @@
                     </div>
                 </div>
 
-                <div class="login three-rows buttons-center">
-                    <button type="submit" class="submit-button" formaction="/changeprice">Ændr pris</button>
-                    <button type="submit" class="submit-button" formaction="/sendoffer">Send tilbud</button>
-                    <button type="submit" class="submit-button" formaction="/nonewoffer">Afslå nyt tilbud</button>
+                <div class="login">
+                    <div class = "center">
+                        <button type="submit" class="submit-button" formaction="/sendoffer">Send tilbud</button>
+
+                    </div>
+                <div class="two-rows">
+                    <button type="submit" class="submit-button denied" formaction="/nonewoffer">Afslå nyt tilbud</button>
+                    <button type="submit" class="submit-button denied" formaction="/changeprice">Ændr pris</button>
+                </div>
                 </div>
             </form>
         </section>
@@ -222,8 +227,18 @@
 
 
         <section>
-            <div class="center">
-                <a href="adminpage.html" th:href="@{/adminpage}" class="submit-button">Tilbage til ordreoversigt</a>
+            <div class="login">
+                <div class="buttons">
+                    <a href="adminpage.html" th:href="@{/adminpage}" class="submit-button">Tilbage til ordreoversigt</a>
+                </div>
+                <div class="center">
+                    <form method="post">
+                        <input type="hidden" name="orderId" th:value="${orderId}">
+                        <div class="login">
+                            <button type="submit" class="submit-button deleteorder" formaction="/admindeleteorder">Slet ordre</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </section>
     </div>

@@ -23,10 +23,22 @@ public class AdminController {
         //app.get("/showorder",ctx -> showOrder(ctx, connectionPool));
         app.post("/changeorder", ctx -> changeOrder(ctx, connectionPool));
         app.post("/nonewoffer", ctx -> noNewOffer(ctx, connectionPool));
+        app.post("/admindeleteorder", ctx -> adminDeleteOrder(ctx, connectionPool));
 
 
 
 
+    }
+
+    private static void adminDeleteOrder(Context ctx, ConnectionPool connectionPool) {
+        int orderId = Integer.parseInt(ctx.formParam("orderId"));
+        try {
+            OrderMapper.deleteOrder(orderId, connectionPool);
+            ctx.sessionAttribute("message", "Ordren er blevet slettet");
+            ctx.redirect("/adminpage");
+        } catch (DatabaseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static void noNewOffer(Context ctx, ConnectionPool connectionPool) {
