@@ -2,13 +2,19 @@ package app;
 
 import app.config.ThymeleafConfig;
 import app.config.SessionConfig;
-import app.controllers.OrderController;
-import app.controllers.SvgController;
-import app.controllers.UserController;
+import app.controllers.*;
 import app.persistence.ConnectionPool;
-import app.services.Calculator;
+import com.sendgrid.Method;
+import com.sendgrid.Request;
+import com.sendgrid.Response;
+import com.sendgrid.SendGrid;
+import com.sendgrid.helpers.mail.Mail;
+import com.sendgrid.helpers.mail.objects.Email;
+import com.sendgrid.helpers.mail.objects.Personalization;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
+
+import java.io.IOException;
 
 public class Main {
 
@@ -18,7 +24,7 @@ public class Main {
     private static final String DB = System.getenv("JDBC_DB");
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance(USER, PASSWORD, URL, DB);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         // Initializing Javalin and Jetty webserver
         Javalin app = Javalin.create(config -> {
@@ -32,9 +38,8 @@ public class Main {
         OrderController.addRoutes(app, connectionPool);
         UserController.addRoutes(app, connectionPool);
         SvgController.addRoutes(app, connectionPool);
-
-        Calculator calculator = new Calculator(550,0,connectionPool);
-        // Controllers
+        StatusController.addRoutes(app, connectionPool);
+        AdminController.addRoutes(app, connectionPool);
 
     }
 }

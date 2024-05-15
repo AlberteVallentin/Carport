@@ -1,6 +1,7 @@
 package app.services;
 
 import app.persistence.ConnectionPool;
+import app.utility.Calculator;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+  <link href="../public/css/reset.css" th:href="@{/css/reset.css}" rel="stylesheet"/>
+  <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+  <link href="../public/css/user.css" th:href="@{/css/user.css}" rel="stylesheet">
+
+</head>
+<body>
+<nav>
+  <div>
+    <a href="index.html" th:href="@{/}">
+      <img class="logo" src="../public/images/logo.svg" th:src="@{/images/logo.svg}"/>
+    </a>
+  </div>
+  <div class="account-container">
+    <a href="login.html" th:href="@{/loginorout}">
+      <img class="account" src="../public/images/person.svg" th:src="@{/images/person.svg}"/>
+    </a>
+    <a href="login.html" th:href="@{/loginorout}" class="account">Konto</a>
+
+  </div>
+
+
+</nav>
+
+<h1>Din ordre er gennemført</h1>
+
+<main>
+  <div class="container">
+      <section class="submit-container">
+        <h3>Tak for din bestilling. Vi vil kontakte dig på mail med et tilbud hurtigst muligt</h3>
+      </section>
+      <section>
+        <div class="login">
+          <a href="index.html" th:href="@{/}" class="submit-button">Til forsiden</a>
+        </div>
+      </section>
+  </div>
+</main>
+</body>
+</html>

@@ -1,4 +1,4 @@
-package app.services;
+package app.utility;
 
 import app.entities.BillOfMaterialLine;
 import app.entities.FunctionalDescription;

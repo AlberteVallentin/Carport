@@ -84,4 +84,27 @@ public class UserMapper {
             throw new DatabaseException("Problemer med databasen. " + e.getMessage());
         }
     }
+
+    public static User getUserByEmailAndPassword(String email, String password, ConnectionPool connectionPool) throws DatabaseException {
+        User user = null;
+        String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, email);
+            ps.setString(2, password);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    int userId = rs.getInt("user_id");
+                    String firstName = rs.getString("first_name");
+                    String lastName = rs.getString("last_name");
+                    String phoneNumber = rs.getString("phone_number");
+                    boolean isAdmin = rs.getBoolean("admin");
+                    int addressId = rs.getInt("address_id");
+                    user = new User(userId, firstName, lastName, phoneNumber, email, password, isAdmin, addressId);
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Email og password passer ikke sammen. Prøv igen", e.getMessage());
+        }
+        return user;
+    }
 }

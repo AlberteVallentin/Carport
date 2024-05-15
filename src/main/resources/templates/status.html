@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+  <link href="../public/css/reset.css" th:href="@{/css/reset.css}" rel="stylesheet"/>
+  <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+  <link href="../public/css/user.css" th:href="@{/css/user.css}" rel="stylesheet">
+
+</head>
+<body>
+<nav>
+  <div>
+    <a href="index.html" th:href="@{/}">
+      <img class="logo" src="../public/images/logo.svg" th:src="@{/images/logo.svg}"/>
+    </a>
+  </div>
+  <div class="account-container">
+    <a href="login.html" th:href="@{/loginorout}">
+      <img class="account" src="../public/images/person.svg" th:src="@{/images/person.svg}"/>
+    </a>
+    <a href="login.html" th:href="@{/loginorout}" class="account">Konto</a>
+
+  </div>
+
+
+</nav>
+
+<h1>Status på din ordre</h1>
+
+<main>
+  <div class="container">
+    <form method="post">
+      <section class="login-container">
+        <h2>Skriv dine loginoplysninger og dit ordrenummer</h2>
+        <div class="order-error-message center">
+          <p th:text="${message}"></p>
+        </div>
+        <div class="input-container">
+          <h3>E-mail</h3>
+          <input name="email" placeholder="Indtast din email" type="email">
+          <div class="error-message">
+          </div>
+        </div>
+        <div class="input-container">
+          <h3>Kodeord</h3>
+          <input name="password" placeholder="Indtast din adgangskode" type="password">
+          <div class="error-message">
+          </div>
+        </div>
+        <div class="input-container">
+          <h3>Ordrenummer</h3>
+          <input name="order-id" placeholder="Indtast dit ordrenummer" type="text">
+          <div class="error-message">
+          </div>
+        </div>
+
+      </section>
+      <section>
+        <div class="login">
+          <button type="submit" class="submit-button" formaction="/statusRedirect" >Videre</button>
+        </div>
+
+      </section>
+    </form>
+  </div>
+</main>
+</body>
+</html>

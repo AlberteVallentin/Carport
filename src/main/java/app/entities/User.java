@@ -21,6 +21,7 @@ public class User {
         this.addressId = addressId;
     }
 
+
     public int getUserId() {
         return userId;
     }
