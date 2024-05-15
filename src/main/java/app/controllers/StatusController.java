@@ -16,10 +16,15 @@ public class StatusController {
         app.get("/status", ctx -> ctx.render("status.html"));
         app.post("/statusRedirect", ctx -> statusRedirect(ctx, connectionPool));
         app.get("/confirm-offer", ctx -> ctx.render("confirm-offer.html"));
+        app.get("/confirm-newcarport", ctx -> ctx.render("confirm-newcarport.html"));
+        app.post("/newcarportconfirmed", ctx -> newCarportConfirmed(ctx, connectionPool));
         app.post("/offerconfirmed", ctx -> offerConfirmed(ctx, connectionPool));
         app.get("/orderdone", ctx -> ctx.render("order-done.html"));
         app.get("/deleteorder", ctx -> ctx.render("order-deleted.html"));
+
+
     }
+
 
     private static void statusRedirect(Context ctx, ConnectionPool connectionPool) {
         try {
@@ -60,7 +65,7 @@ public class StatusController {
                     ctx.redirect("/confirm-offer");
                     break;
                 case 3:
-                    ctx.redirect("/status3.html");
+                    ctx.redirect("/confirm-newcarport");
                     break;
                 default:
                     ctx.redirect("/statusUnknown.html");
@@ -100,6 +105,30 @@ public class StatusController {
             System.out.println("Error updating order status: " + e.getMessage()); // Logudskrift
             ctx.attribute("message", "Error updating order status: " + e.getMessage());
             ctx.render("confirm-offer.html");
+        }
+    }
+
+
+
+    private static void newCarportConfirmed(Context ctx, ConnectionPool connectionPool) {
+        try {
+            // Hent orderId fra sessionen
+            Integer orderId = ctx.sessionAttribute("orderId");
+            if (orderId == null) {
+                System.out.println("No 'orderId' found in session"); // Logudskrift
+                ctx.attribute("message", "No 'orderId' found in session");
+                ctx.render("/confirm-newcarport.html");
+                return;
+            }
+
+            // Opdater status-ID'et for den pågældende ordre
+            OrderMapper.updateOrderStatusById(orderId, 1, connectionPool);
+
+            ctx.render("newcarport-confirmation.html");
+        } catch (DatabaseException e) {
+            System.out.println("Error updating order status: " + e.getMessage()); // Logudskrift
+            ctx.attribute("message", "Error updating order status: " + e.getMessage());
+            ctx.render("confirm-newcarport.html");
         }
     }
 
