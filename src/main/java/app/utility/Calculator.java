@@ -19,6 +19,7 @@ public class Calculator {
     private static final int RAFTERS = 4;
     private static final int BEAMS = 4;
 
+
     // List to store bill of material lines
     private List<BillOfMaterialLine> bomLine = new ArrayList<>();
 
@@ -57,12 +58,12 @@ public class Calculator {
         MaterialVariant materialVariant = materialVariants.get(0);
 
         // Create bill of material line for posts and add to list
-        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(0, order, materialVariant, quantity, 1);
+        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine( order, materialVariant, quantity, 1);
         bomLine.add(billOfMaterialLine);
     }
 
     // Method to calculate quantity of beams
-    private void calcBeams(Order order) {
+    private void calcBeams(Order order) throws DatabaseException{
         // Calculate quantity of beams based on carport length
         //Remme
         int quantity;
@@ -108,16 +109,16 @@ public class Calculator {
             }
         }
 
-        MaterialVariant materialVariant = materialVariants.get(foundVariantId.getMaterialVariantId());
+        MaterialVariant materialVariant = foundVariantId;
 
-        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(0, order, materialVariant, quantity, 2);
+        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine( order, materialVariant, quantity, 2);
         bomLine.add(billOfMaterialLine);
 
 
     }
 
     // Method to calculate quantity of rafters
-    public void calcRafters(Order order) {
+    private void calcRafters(Order order) throws DatabaseException{
         // Calculate quantity of rafters based on carport length
         //spær
         length = order.getCpLength();
@@ -144,9 +145,9 @@ public class Calculator {
                 break;
             }
         }
-        MaterialVariant materialVariant = materialVariants.get(foundVariantId.getMaterialVariantId());
+        MaterialVariant materialVariant =foundVariantId;
 
-        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(0, order, materialVariant, quantity, 3);
+        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine( order, materialVariant, quantity, 3);
         bomLine.add(billOfMaterialLine);
 
     }
