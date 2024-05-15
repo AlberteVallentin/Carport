@@ -300,6 +300,17 @@ public class OrderMapper {
         }
     }
 
+    public static double updatePriceByOrderId(int orderId, double price, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "UPDATE orders SET price = ? WHERE order_id = ?";
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setDouble(1, price);
+            ps.setInt(2, orderId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException("Error updating price by order ID", e.getMessage());
+        }
+        return price;
+    }
 
 
 }

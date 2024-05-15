@@ -17,21 +17,19 @@ public class MailController {
         }
     }
 
-    public static void sendOffer(Order order) {
+    public static void sendOffer(Order order, int orderId, double shippingRate, double price) {
         User user = order.getUser();
-        Shipping shipping = order.getShipping();
         try {
-            MailServer.sendOffer(user.getFirstName(), user.getLastName(), user.getEmail(), shipping.getShippingRate(), order.getPrice());
+            MailServer.sendOffer(user.getFirstName(), user.getLastName(), user.getEmail(), shippingRate, price, orderId);
         } catch (IOException e) {
             System.out.println("Error sending mail: " + e.getMessage());
         }
     }
 
-    public static void sendNewOffer(Order order) {
+    public static void sendNewOffer(Order order, int orderId, double shippingRate, double price) {
         User user = order.getUser();
-        Shipping shipping = order.getShipping();
         try {
-            MailServer.sendNewOffer(user.getFirstName(), user.getLastName(), user.getEmail(), shipping.getShippingRate(), order.getPrice());
+            MailServer.sendNewOffer(user.getFirstName(), user.getLastName(), user.getEmail(), shippingRate, price, orderId);
         } catch (IOException e) {
             System.out.println("Error sending mail: " + e.getMessage());
         }

@@ -105,6 +105,7 @@
         <section>
             <form method="post">
                 <input type="hidden" name="orderId" th:value="${orderId}">
+                <input type="hidden" name="originalPrice" th:value="${order.price}">
                 <h2>Carport og skur</h2>
                 <div class="text-container three-rows">
                     <div>
@@ -150,6 +151,8 @@
         <section>
             <form method="post">
                 <input type="hidden" name="orderId" th:value="${orderId}">
+                <!-- Tilføj dette skjulte inputfelt for den oprindelige pris -->
+                <input type="hidden" name="originalPrice" th:value="${price}">
                 <h2>Pris</h2>
                 <div class="text-container three-rows">
                     <div>
@@ -167,7 +170,7 @@
                     </div>
                     <div>
                         <h3>Total pris</h3>
-                        <input th:value="${price}" th:attr="placeholder=${price}" type="text">
+                        <input name="price" th:value="${price}" th:attr="placeholder=${price}" type="text">
                         <div class="error-message">
                         </div>
                     </div>
@@ -176,12 +179,11 @@
                 <div class="login">
                     <div class = "center">
                         <button type="submit" class="submit-button" formaction="/sendoffer">Send tilbud</button>
-
                     </div>
-                <div class="two-rows">
-                    <button type="submit" class="submit-button denied" formaction="/nonewoffer">Afslå nyt tilbud</button>
-                    <button type="submit" class="submit-button denied" formaction="/changeprice">Ændr pris</button>
-                </div>
+                    <div class="two-rows">
+                        <button type="submit" class="submit-button denied" formaction="/nonewoffer">Afslå nyt tilbud</button>
+                        <button type="submit" class="submit-button denied" formaction="/changeprice">Ændr pris</button>
+                    </div>
                 </div>
             </form>
         </section>

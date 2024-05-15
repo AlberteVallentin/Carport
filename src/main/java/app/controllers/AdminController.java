@@ -33,13 +33,26 @@ public class AdminController {
 
     private static void sendOffer(Context ctx, ConnectionPool connectionPool) {
         int orderId = Integer.parseInt(ctx.formParam("orderId"));
+        double newPrice = Double.parseDouble(ctx.formParam("price"));
+        double originalPrice = Double.parseDouble(ctx.formParam("originalPrice"));
+
         try {
             Order order = AdminMapper.getOrderDetailsById(orderId, connectionPool);
             double shippingRate = ShippingMapper.getShippingRate(order.getShippingId(), connectionPool);
-            MailController.sendOffer(order, order.getOrderId(), shippingRate);
-            OrderMapper.updateOrderStatusById(orderId, 1, connectionPool);
-            ctx.sessionAttribute("message", "Tilbud er sendt til kunden");
-            ctx.redirect("/adminpage");
+
+            if (newPrice != originalPrice) {
+                OrderMapper.updatePriceByOrderId(orderId, newPrice, connectionPool);
+                MailController.sendNewOffer(order, orderId, shippingRate, newPrice);
+                OrderMapper.updateOrderStatusById(orderId, 2, connectionPool);
+                ctx.sessionAttribute("message", "Det nye tilbud er sendt til kunden");
+                ctx.redirect("/adminpage");
+            } else {
+                MailController.sendOffer(order, order.getOrderId(), shippingRate, originalPrice);
+                OrderMapper.updateOrderStatusById(orderId, 2, connectionPool);
+                ctx.sessionAttribute("message", "Tilbuddet er sendt til kunden");
+                ctx.redirect("/adminpage");
+            }
+
         } catch (DatabaseException | SQLException e) {
             throw new RuntimeException(e);
         }
