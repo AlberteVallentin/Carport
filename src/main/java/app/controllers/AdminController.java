@@ -22,10 +22,14 @@ public class AdminController {
         app.post("/showorder", ctx -> showOrder(ctx, connectionPool));
         //app.get("/showorder",ctx -> showOrder(ctx, connectionPool));
         app.post("/changeorder", ctx -> changeOrder(ctx, connectionPool));
+        app.post("/nonewoffer", ctx -> noNewOffer(ctx, connectionPool));
 
 
     }
 
+    private static void noNewOffer(Context ctx, ConnectionPool connectionPool) {
+
+    }
 
 
     private static void changeOrder(Context ctx, ConnectionPool connectionPool) {
