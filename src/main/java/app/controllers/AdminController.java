@@ -42,7 +42,7 @@ public class AdminController {
 
             if (newPrice != originalPrice) {
                 OrderMapper.updatePriceByOrderId(orderId, newPrice, connectionPool);
-                MailController.sendNewOffer(order, orderId, shippingRate, newPrice);
+                MailController.sendNewOffer(order, order.getOrderId(), shippingRate, newPrice);
                 OrderMapper.updateOrderStatusById(orderId, 2, connectionPool);
                 ctx.sessionAttribute("message", "Det nye tilbud er sendt til kunden");
                 ctx.redirect("/adminpage");
