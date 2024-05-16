@@ -28,6 +28,7 @@ public class AdminController {
         app.post("/nonewoffer", ctx -> noNewOffer(ctx, connectionPool));
         app.post("/admindeleteorder", ctx -> adminDeleteOrder(ctx, connectionPool));
         app.post("/sendoffer", ctx -> sendOffer(ctx, connectionPool));
+        app.get("/materials", ctx -> ctx.render("admin-materials.html"));
 
 
 
@@ -157,11 +158,6 @@ public class AdminController {
         calculator.calcCarport(order);
         List <BillOfMaterialLine> bomLines = calculator.getBomLine();
 
-       for (BillOfMaterialLine bomLine : bomLines) {
-            System.out.println(bomLine.getFunctionalDescription());
-        }
-
-
         ctx.attribute("bomLines", bomLines);
         ctx.render("admin-order.html");
     }
@@ -171,7 +167,7 @@ public class AdminController {
 //        ctx.render("adminpage.html");
 //    }
 
-    private static void viewOrders(Context ctx, ConnectionPool connectionPool) {
+    static void viewOrders(Context ctx, ConnectionPool connectionPool) {
         List<Order> orderList = null;
         String statusIdString = ctx.queryParam("statusId");
 
