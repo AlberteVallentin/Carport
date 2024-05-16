@@ -111,7 +111,7 @@
         <section>
             <form method="post">
                 <h2>Opret materiale</h2>
-                <div class="text-container three-rows">
+                <div class="text-container four-rows">
                     <div>
                         <h3>Bredde</h3>
                         <input name="width" th:value="${width}" type="text">
@@ -122,6 +122,12 @@
                     <div>
                         <h3>Dybde</h3>
                         <input name="depth" th:value="${depth}" type="text">
+                        <div class="error-message">
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Længde</h3>
+                        <input name="type" th:value="${length}" type="text">
                         <div class="error-message">
                         </div>
                     </div>

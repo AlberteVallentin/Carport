@@ -136,6 +136,7 @@ public class AdminController {
         Order order = AdminMapper.getOrderDetailsById(orderId, connectionPool);
         int postalCode = AddressMapper.getAddressById(order.getUser().getAddressId(), connectionPool).getPostalCode();
         double shippingRate = ShippingMapper.getShippingRate(order.getShippingId(), connectionPool);
+        System.out.println(shippingRate);
 
 
         ctx.attribute("order", order);
