@@ -6,12 +6,20 @@ public class BillOfMaterialLine {
     private MaterialVariant materialVariant;
     private int quantity;
     private int functionalDescriptionId;
+    private String functionalDescription;
 
     public BillOfMaterialLine(Order order, MaterialVariant materialVariant, int quantity, int functionalDescriptionId) {
         this.order = order;
         this.materialVariant = materialVariant;
         this.quantity = quantity;
         this.functionalDescriptionId = functionalDescriptionId;
+    }
+
+    public BillOfMaterialLine(Order order, MaterialVariant materialVariant, int quantity, String functionalDescription) {
+        this.order = order;
+        this.materialVariant = materialVariant;
+        this.quantity = quantity;
+        this.functionalDescription = functionalDescription;
     }
 
     @Override
@@ -22,8 +30,10 @@ public class BillOfMaterialLine {
                 ", materialVariant=" + materialVariant +
                 ", quantity=" + quantity +
                 ", functionalDescriptionId=" + functionalDescriptionId +
+                ", functionalDescription='" + functionalDescription + '\'' +
                 '}';
     }
+
 
     public BillOfMaterialLine(int billOfMaterialLineId, Order order, MaterialVariant materialVariant, int quantity, int functionalDescriptionId) {
         this.billOfMaterialLineId = billOfMaterialLineId;
@@ -31,6 +41,15 @@ public class BillOfMaterialLine {
         this.materialVariant = materialVariant;
         this.quantity = quantity;
         this.functionalDescriptionId = functionalDescriptionId;
+    }
+
+
+    public BillOfMaterialLine(int billOfMaterialLineId, Order order, MaterialVariant materialVariant, int quantity, String functionalDescription) {
+        this.billOfMaterialLineId = billOfMaterialLineId;
+        this.order = order;
+        this.materialVariant = materialVariant;
+        this.quantity = quantity;
+        this.functionalDescription = functionalDescription;
     }
 
     public int getBillOfMaterialLineId() {
@@ -71,5 +90,13 @@ public class BillOfMaterialLine {
 
     public void setFunctionalDescriptionId(int functionalDescriptionId) {
         this.functionalDescriptionId = functionalDescriptionId;
+    }
+
+    public String getFunctionalDescription() {
+        return functionalDescription;
+    }
+
+    public void setFunctionalDescription(String functionalDescription) {
+        this.functionalDescription = functionalDescription;
     }
 }

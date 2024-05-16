@@ -11,37 +11,35 @@ public class MailController {
 
     public static void sendOrderConfirmation(Order order, User user, int orderId) {
         try {
+
             MailServer.sendOrderConfirmation(user.getFirstName(), user.getLastName(), user.getEmail(), orderId, order.getCpWidth(), order.getCpLength(), order.getCpRoof(), order.getShWidth(), order.getShLength());
         } catch (IOException e) {
             System.out.println("Error sending mail: " + e.getMessage());
         }
     }
 
-    public static void sendOffer(Order order) {
+    public static void sendOffer(Order order, int orderId, double shippingRate, double price) {
         User user = order.getUser();
-        Shipping shipping = order.getShipping();
         try {
-            MailServer.sendOffer(user.getFirstName(), user.getLastName(), user.getEmail(), shipping.getShippingRate(), order.getPrice());
+            MailServer.sendOffer(user.getFirstName(), user.getLastName(), user.getEmail(), shippingRate, price, orderId);
         } catch (IOException e) {
             System.out.println("Error sending mail: " + e.getMessage());
         }
     }
 
-    public static void sendNewOffer(Order order) {
+    public static void sendNewOffer(Order order, int orderId, double shippingRate, double price) {
         User user = order.getUser();
-        Shipping shipping = order.getShipping();
         try {
-            MailServer.sendNewOffer(user.getFirstName(), user.getLastName(), user.getEmail(), shipping.getShippingRate(), order.getPrice());
+            MailServer.sendNewOffer(user.getFirstName(), user.getLastName(), user.getEmail(), shippingRate, price, orderId);
         } catch (IOException e) {
             System.out.println("Error sending mail: " + e.getMessage());
         }
     }
 
-    public static void denyNewOffer(Order order) {
+    public static void denyNewOffer(Order order, int orderId, double shippingRate) {
         User user = order.getUser();
-        Shipping shipping = order.getShipping();
         try {
-            MailServer.sendNewOffer(user.getFirstName(), user.getLastName(), user.getEmail(), shipping.getShippingRate(), order.getPrice());
+            MailServer.denyNewOffer(user.getFirstName(), user.getLastName(), user.getEmail(), shippingRate, order.getPrice(), orderId);
         } catch (IOException e) {
             System.out.println("Error sending mail: " + e.getMessage());
         }

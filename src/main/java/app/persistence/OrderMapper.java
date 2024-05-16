@@ -93,15 +93,16 @@ public class OrderMapper {
 
                 // material variant
                 int materialVariantId = rs.getInt("material_variant_id");
-                int functionalDescriptionId = rs.getInt("functional_description_id");
                 int length = rs.getInt("length");
 
-               MaterialVariant materialVariant = new MaterialVariant(materialVariantId, length, material);
+                MaterialVariant materialVariant = new MaterialVariant(materialVariantId, length, material);
 
                 // BillOfMaterialLine
                 int BillOfMaterialLineId = rs.getInt("bom_line_id");
+                int functionalDescriptionId = rs.getInt("functional_description_id");
+                String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(functionalDescriptionId, connectionPool);
                 int quantity = rs.getInt("quantity");
-                BillOfMaterialLine BillOfMaterialLine = new BillOfMaterialLine(BillOfMaterialLineId, order, materialVariant, quantity, functionalDescriptionId);
+                BillOfMaterialLine BillOfMaterialLine = new BillOfMaterialLine(BillOfMaterialLineId, order, materialVariant, quantity, functionalDescription);
                 BillOfMaterialLineList.add(BillOfMaterialLine);
             }
         }
@@ -300,4 +301,38 @@ public class OrderMapper {
         }
         return order;
     }
+
+    public static void deleteOrder (int orderId, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "DELETE FROM orders WHERE order_id = ?";
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, orderId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException("Error deleting order", e.getMessage());
+        }
+    }
+
+    public static double updatePriceByOrderId(int orderId, double price, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "UPDATE orders SET price = ? WHERE order_id = ?";
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setDouble(1, price);
+            ps.setInt(2, orderId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException("Error updating price by order ID", e.getMessage());
+        }
+        return price;
+    }
+
+    public static void deleteBillOfMaterialLinesByOrderId(int orderId, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "DELETE FROM bill_of_material_line WHERE order_id = ?";
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, orderId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException("Error deleting bill of material lines", e.getMessage());
+        }
+    }
+
+
 }

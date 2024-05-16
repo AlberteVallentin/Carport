@@ -1,6 +1,9 @@
 package app.utility;
 
-import app.entities.*;
+import app.entities.BillOfMaterialLine;
+import app.entities.FunctionalDescription;
+import app.entities.MaterialVariant;
+import app.entities.Order;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.MaterialMapper;
@@ -60,6 +63,8 @@ public class Calculator {
         List<MaterialVariant> materialVariants = MaterialMapper.getMaterialsByProductIdAndMinLength(0, POSTS, connectionPool);
         MaterialVariant materialVariant = materialVariants.get(0);
 
+        String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(1, connectionPool);
+
         // Create bill of material line for posts and add to list
         BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine( order, materialVariant, quantity, 1);
         bomLine.add(billOfMaterialLine);
@@ -85,6 +90,9 @@ public class Calculator {
         int variantLength = Integer.MAX_VALUE;
 
         // Get all variants of beams from the database
+        //List<MaterialVariant> materialVariants = MaterialVariantMapper.getAllVariantsByMaterialId(4, connectionPool);
+
+        // Get all variants of beams from the database
 List<MaterialVariant> materialVariants = MaterialVariantMapper.getAllVariantsByMaterialId(4, connectionPool);
 
 // Log the material variants
@@ -105,6 +113,7 @@ System.out.println("Material Variants: " + materialVariants);
                 if (m.getLength() >= length && m.getLength() < variantLength) {
                     variantLength = m.getLength();
                     variantId = m.getMaterialVariantId();
+
                 }
             }
         }
@@ -114,14 +123,17 @@ System.out.println("Material Variants: " + materialVariants);
         for (MaterialVariant m : materialVariants) {
             if (m.getMaterialVariantId() == variantId) {
 
+
+        MaterialVariant materialVariant = foundVariant;
                 foundMaterialVariant = m;
                 break;
             }
         }
 
-        MaterialVariant materialVariant = foundMaterialVariant;
+        String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(2, connectionPool);
 
-        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine( order, materialVariant, quantity, 2);
+
+        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(order, materialVariant, quantity, functionalDescription);
         bomLine.add(billOfMaterialLine);
 
 
@@ -134,7 +146,7 @@ System.out.println("Material Variants: " + materialVariants);
         length = order.getCpWidth();
         int variantLength = Integer.MAX_VALUE;
         int variantId=0;
-        MaterialVariant foundVariantId = null;
+        MaterialVariant foundVariant = null;
 
         int quantity = (int)(length / 55); // Assuming each rafter has a length of 55
 
@@ -146,21 +158,16 @@ System.out.println("Material Variants: " + materialVariants);
             if (m.getLength() >= length && m.getLength() < variantLength) {
                 variantLength = m.getLength();
                 variantId = m.getMaterialVariantId();
+                foundVariant = m;
             }
         }
-
-        rafterPrice=(variantLength/100)*37*quantity;
         for (MaterialVariant m : materialVariants) {
             if (m.getMaterialVariantId() == variantId) {
 
-                foundVariantId = m;
-                break;
-            }
-        }
+        MaterialVariant materialVariant = foundVariant;
 
-        MaterialVariant materialVariant =foundVariantId;
-
-        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine( order, materialVariant, quantity, 3);
+        String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(3, connectionPool);
+        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(order, materialVariant, quantity, functionalDescription);
         bomLine.add(billOfMaterialLine);
 
     }

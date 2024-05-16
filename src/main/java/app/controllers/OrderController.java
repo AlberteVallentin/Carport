@@ -22,11 +22,33 @@ public class OrderController {
         app.post("/savecarportdetails", ctx -> saveCarportDetails(ctx, connectionPool));
         app.get("/backtoorder", ctx -> backToOrder(ctx, connectionPool));
         app.post("/confirmorder", ctx -> confirmOrder(ctx, connectionPool));
-        // TODO: Lav en deleteorder
-        //app.post("/deleteorder", ctx -> deleteOrder(ctx, connectionPool));
+        app.post("/deleteorder", ctx -> deleteOrder(ctx, connectionPool));
+        app.get("/deleteorder", ctx -> ctx.render("order-deleted.html"));
 
     }
 
+    private static void deleteOrder(Context ctx, ConnectionPool connectionPool) {
+        try {
+            // Hent orderId fra sessionen
+            Integer orderId = ctx.sessionAttribute("orderId");
+            if (orderId == null) {
+                System.out.println("No 'orderId' found in session"); // Logudskrift
+                ctx.attribute("message", "No 'orderId' found in session");
+                ctx.render("/confirm-offer.html");
+                return;
+            }
+
+            // Opdater status-ID'et for den pågældende ordre
+            OrderMapper.deleteBillOfMaterialLinesByOrderId(orderId, connectionPool);
+            OrderMapper.deleteOrder(orderId, connectionPool);
+
+            ctx.redirect("/deleteorder");
+        } catch (DatabaseException e) {
+            System.out.println("Error updating order status: " + e.getMessage()); // Logudskrift
+            ctx.attribute("message", "Error updating order status: " + e.getMessage());
+            ctx.render("confirm-offer.html");
+        }
+    }
 
 
     private static void confirmOrder(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
@@ -44,7 +66,7 @@ public class OrderController {
 
             Calculator calculator = new Calculator(cpWidth,cpLength,connectionPool);
             calculator.calcCarport(order);
-            OrderMapper.createBomLine(calculator.getBomLine(),connectionPool);
+             OrderMapper.createBomLine(calculator.getBomLine(),connectionPool);
             int orderId = OrderMapper.getLastOrder(connectionPool);
 
             MailController.sendOrderConfirmation(order, user, orderId);

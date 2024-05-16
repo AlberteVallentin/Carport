@@ -25,10 +25,72 @@ public class AdminController {
         app.post("/showorder", ctx -> showOrder(ctx, connectionPool));
         //app.get("/showorder",ctx -> showOrder(ctx, connectionPool));
         app.post("/changeorder", ctx -> changeOrder(ctx, connectionPool));
+        app.post("/nonewoffer", ctx -> noNewOffer(ctx, connectionPool));
+        app.post("/admindeleteorder", ctx -> adminDeleteOrder(ctx, connectionPool));
+        app.post("/sendoffer", ctx -> sendOffer(ctx, connectionPool));
+
+
 
 
     }
 
+    private static void sendOffer(Context ctx, ConnectionPool connectionPool) {
+        int orderId = Integer.parseInt(ctx.formParam("orderId"));
+        double newPrice = Double.parseDouble(ctx.formParam("price"));
+        double originalPrice = Double.parseDouble(ctx.formParam("originalPrice"));
+
+        try {
+            Order order = AdminMapper.getOrderDetailsById(orderId, connectionPool);
+            double shippingRate = ShippingMapper.getShippingRate(order.getShippingId(), connectionPool);
+
+            System.out.println("OrderId: " + orderId);
+
+            if (newPrice != originalPrice) {
+                OrderMapper.updatePriceByOrderId(orderId, newPrice, connectionPool);
+                OrderMapper.updateOrderStatusById(orderId, 2, connectionPool);
+                MailController.sendNewOffer(order, orderId, shippingRate, newPrice);
+
+                ctx.sessionAttribute("message", "Det nye tilbud er sendt til kunden");
+                ctx.redirect("/adminpage");
+            } else {
+                OrderMapper.updateOrderStatusById(orderId, 2, connectionPool);
+                MailController.sendOffer(order, orderId, shippingRate, originalPrice);
+
+                ctx.sessionAttribute("message", "Tilbuddet er sendt til kunden");
+                ctx.redirect("/adminpage");
+            }
+
+        } catch (DatabaseException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void adminDeleteOrder(Context ctx, ConnectionPool connectionPool) {
+        int orderId = Integer.parseInt(ctx.formParam("orderId"));
+        try {
+            OrderMapper.deleteBillOfMaterialLinesByOrderId(orderId, connectionPool);
+            OrderMapper.deleteOrder(orderId, connectionPool);
+            ctx.sessionAttribute("message", "Ordren er blevet slettet");
+            ctx.redirect("/adminpage");
+        } catch (DatabaseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void noNewOffer(Context ctx, ConnectionPool connectionPool) {
+    int orderId = Integer.parseInt(ctx.formParam("orderId"));
+        try {
+            Order order = AdminMapper.getOrderDetailsById(orderId, connectionPool);
+            OrderMapper.updateOrderStatusById(orderId, 2, connectionPool);
+            double shippingRate = ShippingMapper.getShippingRate(order.getShippingId(), connectionPool);
+            MailController.denyNewOffer(order, order.getOrderId(), shippingRate);
+            ctx.sessionAttribute("message", "Der er sendt en mail til kunden om, at der ikke er lavet et nyt tilbud");
+            ctx.redirect("/adminpage");
+        } catch (DatabaseException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 
 
     private static void changeOrder(Context ctx, ConnectionPool connectionPool) {
@@ -94,6 +156,11 @@ public class AdminController {
         Calculator calculator = new Calculator(order.getCpWidth(), order.getCpLength(), connectionPool);
         calculator.calcCarport(order);
         List <BillOfMaterialLine> bomLines = calculator.getBomLine();
+
+       for (BillOfMaterialLine bomLine : bomLines) {
+            System.out.println(bomLine.getFunctionalDescription());
+        }
+
 
         ctx.attribute("bomLines", bomLines);
         ctx.render("admin-order.html");

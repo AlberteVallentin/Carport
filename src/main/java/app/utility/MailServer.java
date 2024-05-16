@@ -60,7 +60,7 @@ public class MailServer {
         }
     }
 
-    public static void sendOffer(String firstName, String lastName, String email, double shippingCost, double price) throws IOException {
+    public static void sendOffer(String firstName, String lastName, String email, double shippingRate, double price, int orderId) throws IOException {
         // Get the API key
         SendGrid sg = new SendGrid(API_KEY);
 
@@ -76,8 +76,9 @@ public class MailServer {
 
         personalization.addTo(new Email(email));
         personalization.addDynamicTemplateData("name", firstName + " " + lastName);
-        personalization.addDynamicTemplateData("shippingCost", shippingCost);
+        personalization.addDynamicTemplateData("shippingRate", shippingRate);
         personalization.addDynamicTemplateData("price", price);
+        personalization.addDynamicTemplateData("orderId", orderId);
         mail.addPersonalization(personalization);
 
         mail.addCategory("carportapp");
@@ -101,7 +102,7 @@ public class MailServer {
         }
     }
 
-    public static void sendNewOffer(String firstName, String lastName, String email, double shippingCost, double price) throws IOException {
+    public static void sendNewOffer(String firstName, String lastName, String email, double shippingRate, double price, int orderId) throws IOException {
         // Get the API key
         SendGrid sg = new SendGrid(API_KEY);
 
@@ -117,8 +118,9 @@ public class MailServer {
 
         personalization.addTo(new Email(email));
         personalization.addDynamicTemplateData("name", firstName + " " + lastName);
-        personalization.addDynamicTemplateData("shippingCost", shippingCost);
+        personalization.addDynamicTemplateData("shippingRate", shippingRate);
         personalization.addDynamicTemplateData("price", price);
+        personalization.addDynamicTemplateData("orderId", orderId);
         mail.addPersonalization(personalization);
 
         mail.addCategory("carportapp");
@@ -142,7 +144,7 @@ public class MailServer {
         }
     }
 
-    public static void denyNewOffer(String firstName, String lastName, String email, double shippingCost, double price) throws IOException {
+    public static void denyNewOffer(String firstName, String lastName, String email, double shippingRate, double price, int orderId) throws IOException {
         // Get the API key
         SendGrid sg = new SendGrid(API_KEY);
 
@@ -158,8 +160,9 @@ public class MailServer {
 
         personalization.addTo(new Email(email));
         personalization.addDynamicTemplateData("name", firstName + " " + lastName);
-        personalization.addDynamicTemplateData("shippingCost", shippingCost);
+        personalization.addDynamicTemplateData("shippingRate", shippingRate);
         personalization.addDynamicTemplateData("price", price);
+        personalization.addDynamicTemplateData("orderId", orderId);
         mail.addPersonalization(personalization);
 
         mail.addCategory("carportapp");
