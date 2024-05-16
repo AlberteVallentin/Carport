@@ -224,9 +224,13 @@ public class AdminController {
         return userList;
     }
 
-    public static void addMaterial(Context ctx, ConnectionPool connectionPool) {
+    public static void addMaterial(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
 
         String sql = "INSERT INTO material (width, depth, type, material_price, unit, material_description) VALUES (?, ?, ?, ?, ?, ?)";
+
+        String sql2 = "INSERT INTO material_variant (length, material_id) VALUES (?, ?)";
+
+        String sqlGetMaterialId = " SELECT material_id FROM material_variant ORDER BY material_id DESC LIMIT 1";
 
         int width = Integer.parseInt(ctx.formParam("width"));
         int depth = Integer.parseInt(ctx.formParam("depth"));
@@ -235,6 +239,10 @@ public class AdminController {
         String unit = ctx.formParam("unit");
         String materialDescription = ctx.formParam("material_description");
 
+        int length = Integer.parseInt(ctx.formParam("length"));
+        int materialId = 0;
+
+        //Materiale
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
@@ -249,6 +257,29 @@ public class AdminController {
         } catch (SQLException e) {
             e.printStackTrace(); // Proper error handling should be implemented
         }
+
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sqlGetMaterialId); ResultSet rs = ps.executeQuery();) {
+            if (rs.next()) {
+                materialId = rs.getInt("material_id");
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Error retrieving the latest material ID", e.getMessage());
+        }
+
+
+        //Materiale Variant
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql2)) {
+
+            preparedStatement.setInt(1, length);
+            preparedStatement.setInt(2, materialId);
+
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace(); // Proper error handling should be implemented
+        }
+
         ctx.render("admin-materials.html");
     }
 }
