@@ -6,6 +6,7 @@ import app.entities.MaterialVariant;
 import app.entities.Order;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
+import app.persistence.FunctionalDescriptionMapper;
 import app.persistence.MaterialMapper;
 import app.persistence.MaterialVariantMapper;
 
@@ -76,7 +77,7 @@ public class Calculator {
         //Remme
         int quantity;
         int variantId = 0;
-        MaterialVariant foundMaterialVariant = null;
+        MaterialVariant foundVariant = null;
 
 
         int length = order.getCpLength();
@@ -89,8 +90,6 @@ public class Calculator {
 
         int variantLength = Integer.MAX_VALUE;
 
-        // Get all variants of beams from the database
-        //List<MaterialVariant> materialVariants = MaterialVariantMapper.getAllVariantsByMaterialId(4, connectionPool);
 
         // Get all variants of beams from the database
 List<MaterialVariant> materialVariants = MaterialVariantMapper.getAllVariantsByMaterialId(4, connectionPool);
@@ -106,6 +105,7 @@ System.out.println("Material Variants: " + materialVariants);
                 if (m.getLength() >= length / 2 && m.getLength() < variantLength) {
                     variantLength = m.getLength();
                     variantId = m.getMaterialVariantId();
+                    foundVariant=m;
                 }
             }
         } else {
@@ -113,25 +113,16 @@ System.out.println("Material Variants: " + materialVariants);
                 if (m.getLength() >= length && m.getLength() < variantLength) {
                     variantLength = m.getLength();
                     variantId = m.getMaterialVariantId();
-
+                    foundVariant=m;
                 }
             }
         }
 
         beamPrice= (variantLength/100)*37*quantity;
 
-        for (MaterialVariant m : materialVariants) {
-            if (m.getMaterialVariantId() == variantId) {
-
-
-        MaterialVariant materialVariant = foundVariant;
-                foundMaterialVariant = m;
-                break;
-            }
-        }
+        MaterialVariant materialVariant= foundVariant;
 
         String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(2, connectionPool);
-
 
         BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(order, materialVariant, quantity, functionalDescription);
         bomLine.add(billOfMaterialLine);
@@ -148,7 +139,7 @@ System.out.println("Material Variants: " + materialVariants);
         int variantId=0;
         MaterialVariant foundVariant = null;
 
-        int quantity = (int)(length / 55); // Assuming each rafter has a length of 55
+        int quantity = length / 55; // Assuming each rafter has a length of 55
 
         // Get all variants of rafters from the database
         List<MaterialVariant> materialVariants = MaterialVariantMapper.getAllVariantsByMaterialId(4, connectionPool);
@@ -161,8 +152,7 @@ System.out.println("Material Variants: " + materialVariants);
                 foundVariant = m;
             }
         }
-        for (MaterialVariant m : materialVariants) {
-            if (m.getMaterialVariantId() == variantId) {
+        rafterPrice=(variantLength/100)*37*quantity;
 
         MaterialVariant materialVariant = foundVariant;
 
@@ -178,7 +168,6 @@ System.out.println("Material Variants: " + materialVariants);
     }
 
     public double getTotalPrice() {
-
 
         totalPrice=postPrice+rafterPrice+beamPrice+shippingCalculator.getShippingPrice() ;
         return totalPrice ;
