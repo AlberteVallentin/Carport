@@ -68,7 +68,7 @@ public class Calculator {
         //Remme
         int quantity;
         int variantId = 0;
-        MaterialVariant foundVariantId = null;
+        MaterialVariant foundMaterialVariant = null;
 
 
         int length = order.getCpLength();
@@ -104,12 +104,12 @@ public class Calculator {
         for (MaterialVariant m : materialVariants) {
             if (m.getMaterialVariantId() == variantId) {
 
-                foundVariantId = m;
+                foundMaterialVariant = m;
                 break;
             }
         }
 
-        MaterialVariant materialVariant = foundVariantId;
+        MaterialVariant materialVariant = foundMaterialVariant;
 
         BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine( order, materialVariant, quantity, 2);
         bomLine.add(billOfMaterialLine);

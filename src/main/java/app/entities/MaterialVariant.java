@@ -6,6 +6,7 @@ private int length;
 
 private Material material;
 
+
     public MaterialVariant(int materialVariantId, int length, Material material) {
         this.materialVariantId = materialVariantId;
         this.length = length;
