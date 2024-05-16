@@ -158,6 +158,7 @@ public class AdminController {
         calculator.calcCarport(order);
         List <BillOfMaterialLine> bomLines = calculator.getBomLine();
 
+
         ctx.attribute("bomLines", bomLines);
         ctx.render("admin-order.html");
     }

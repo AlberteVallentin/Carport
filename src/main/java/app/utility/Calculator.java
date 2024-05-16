@@ -58,10 +58,12 @@ public class Calculator {
         List<MaterialVariant> materialVariants = MaterialMapper.getMaterialsByProductIdAndMinLength(0, POSTS, connectionPool);
         MaterialVariant materialVariant = materialVariants.get(0);
 
+
+
+
         String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(1, connectionPool);
 
-        // Create bill of material line for posts and add to list
-        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(order, materialVariant, quantity, functionalDescription);
+        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(order, materialVariant, quantity, 1, functionalDescription);
         bomLine.add(billOfMaterialLine);
     }
 
@@ -112,10 +114,12 @@ public class Calculator {
 
         MaterialVariant materialVariant = foundVariant;
 
+
+
+
         String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(2, connectionPool);
 
-
-        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(order, materialVariant, quantity, functionalDescription);
+        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(order, materialVariant, quantity, 2, functionalDescription);
         bomLine.add(billOfMaterialLine);
 
 
@@ -145,9 +149,9 @@ public class Calculator {
         }
 
         MaterialVariant materialVariant = foundVariant;
-
         String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(3, connectionPool);
-        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(order, materialVariant, quantity, functionalDescription);
+
+        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(order, materialVariant, quantity, 3, functionalDescription);
         bomLine.add(billOfMaterialLine);
 
     }

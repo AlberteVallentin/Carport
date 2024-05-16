@@ -5,7 +5,7 @@ public class BillOfMaterialLine {
     private Order order;
     private MaterialVariant materialVariant;
     private int quantity;
-    private int functionalDescriptionId;
+    private static int functionalDescriptionId;
     private String functionalDescription;
 
     public BillOfMaterialLine(Order order, MaterialVariant materialVariant, int quantity, int functionalDescriptionId) {
@@ -35,12 +35,12 @@ public class BillOfMaterialLine {
     }
 
 
-    public BillOfMaterialLine(int billOfMaterialLineId, Order order, MaterialVariant materialVariant, int quantity, int functionalDescriptionId) {
-        this.billOfMaterialLineId = billOfMaterialLineId;
+    public BillOfMaterialLine( Order order, MaterialVariant materialVariant, int quantity, int functionalDescriptionId, String functionalDescription) {
         this.order = order;
         this.materialVariant = materialVariant;
         this.quantity = quantity;
         this.functionalDescriptionId = functionalDescriptionId;
+        this.functionalDescription = functionalDescription;
     }
 
 
@@ -84,7 +84,7 @@ public class BillOfMaterialLine {
         this.quantity = quantity;
     }
 
-    public int getFunctionalDescriptionId() {
+    public static int getFunctionalDescriptionId() {
         return functionalDescriptionId;
     }
 
