@@ -6,6 +6,7 @@ import app.entities.MaterialVariant;
 import app.entities.Order;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
+import app.persistence.FunctionalDescriptionMapper;
 import app.persistence.MaterialMapper;
 import app.persistence.MaterialVariantMapper;
 
@@ -57,8 +58,10 @@ public class Calculator {
         List<MaterialVariant> materialVariants = MaterialMapper.getMaterialsByProductIdAndMinLength(0, POSTS, connectionPool);
         MaterialVariant materialVariant = materialVariants.get(0);
 
+        String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(1, connectionPool);
+
         // Create bill of material line for posts and add to list
-        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine( order, materialVariant, quantity, 1);
+        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(order, materialVariant, quantity, functionalDescription);
         bomLine.add(billOfMaterialLine);
     }
 
@@ -119,7 +122,10 @@ System.out.println("Material Variants: " + materialVariants);
 
         MaterialVariant materialVariant = foundVariantId;
 
-        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine( order, materialVariant, quantity, 2);
+        String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(2, connectionPool);
+
+
+        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(order, materialVariant, quantity, functionalDescription);
         bomLine.add(billOfMaterialLine);
 
 
@@ -155,7 +161,8 @@ System.out.println("Material Variants: " + materialVariants);
         }
         MaterialVariant materialVariant =foundVariantId;
 
-        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine( order, materialVariant, quantity, 3);
+        String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(3, connectionPool);
+        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(order, materialVariant, quantity, functionalDescription);
         bomLine.add(billOfMaterialLine);
 
     }

@@ -157,6 +157,11 @@ public class AdminController {
         calculator.calcCarport(order);
         List <BillOfMaterialLine> bomLines = calculator.getBomLine();
 
+       for (BillOfMaterialLine bomLine : bomLines) {
+            System.out.println(bomLine.getFunctionalDescription());
+        }
+
+
         ctx.attribute("bomLines", bomLines);
         ctx.render("admin-order.html");
     }

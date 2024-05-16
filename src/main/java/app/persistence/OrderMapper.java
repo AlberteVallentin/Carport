@@ -92,15 +92,16 @@ public class OrderMapper {
 
                 // material variant
                 int materialVariantId = rs.getInt("material_variant_id");
-                int functionalDescriptionId = rs.getInt("functional_description_id");
                 int length = rs.getInt("length");
 
-               MaterialVariant materialVariant = new MaterialVariant(materialVariantId, length, material);
+                MaterialVariant materialVariant = new MaterialVariant(materialVariantId, length, material);
 
                 // BillOfMaterialLine
                 int BillOfMaterialLineId = rs.getInt("bom_line_id");
+                int functionalDescriptionId = rs.getInt("functional_description_id");
+                String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(functionalDescriptionId, connectionPool);
                 int quantity = rs.getInt("quantity");
-                BillOfMaterialLine BillOfMaterialLine = new BillOfMaterialLine(BillOfMaterialLineId, order, materialVariant, quantity, functionalDescriptionId);
+                BillOfMaterialLine BillOfMaterialLine = new BillOfMaterialLine(BillOfMaterialLineId, order, materialVariant, quantity, functionalDescription);
                 BillOfMaterialLineList.add(BillOfMaterialLine);
             }
         }
