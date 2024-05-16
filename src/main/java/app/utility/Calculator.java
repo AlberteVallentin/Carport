@@ -26,6 +26,10 @@ public class Calculator {
     // Width and length of the carport, and connection pool for database operations
     private int width;
     private int length;
+    private double postPrice;
+    private double rafterPrice;
+    private double beamPrice;
+    private double totalPrice;
     private ConnectionPool connectionPool;
 
     // Constructor to initialize width, length, and connection pool
@@ -52,6 +56,7 @@ public class Calculator {
         } else {
             quantity = 6;
         }
+        postPrice=quantity*82.00;
 
         // Get material variants for posts from the database
         List<MaterialVariant> materialVariants = MaterialMapper.getMaterialsByProductIdAndMinLength(0, POSTS, connectionPool);
@@ -82,9 +87,6 @@ public class Calculator {
         int variantLength = Integer.MAX_VALUE;
 
         // Get all variants of beams from the database
-        //List<MaterialVariant> materialVariants = MaterialVariantMapper.getAllVariantsByMaterialId(4, connectionPool);
-
-        // Get all variants of beams from the database
 List<MaterialVariant> materialVariants = MaterialVariantMapper.getAllVariantsByMaterialId(4, connectionPool);
 
 // Log the material variants
@@ -108,6 +110,8 @@ System.out.println("Material Variants: " + materialVariants);
                 }
             }
         }
+
+        beamPrice= (variantLength/100)*37*quantity;
 
         for (MaterialVariant m : materialVariants) {
             if (m.getMaterialVariantId() == variantId) {
@@ -146,6 +150,8 @@ System.out.println("Material Variants: " + materialVariants);
                 variantId = m.getMaterialVariantId();
             }
         }
+
+        rafterPrice=(variantLength/100)*37*quantity;
         for (MaterialVariant m : materialVariants) {
             if (m.getMaterialVariantId() == variantId) {
 
@@ -153,6 +159,7 @@ System.out.println("Material Variants: " + materialVariants);
                 break;
             }
         }
+
         MaterialVariant materialVariant =foundVariantId;
 
         BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine( order, materialVariant, quantity, 3);
@@ -163,5 +170,11 @@ System.out.println("Material Variants: " + materialVariants);
     // Method to retrieve the list of bill of material lines
     public List<BillOfMaterialLine> getBomLine() {
         return bomLine;
+    }
+
+    public double getTotalPrice() {
+        ShippingCalculator shippingCalculator= new ShippingCalculator();
+        totalPrice=postPrice+rafterPrice+beamPrice+shippingCalculator.getShippingPrice() ;
+        return totalPrice ;
     }
 }

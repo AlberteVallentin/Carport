@@ -11,6 +11,7 @@ import java.sql.SQLException;
 
 import app.entities.*;
 import app.exceptions.DatabaseException;
+import app.utility.Calculator;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -177,7 +178,9 @@ public class OrderMapper {
         String sql = "INSERT INTO orders (price, user_id, comment, shipping_id, cp_length, cp_width, shed_length, shed_width, status_id, cp_roof) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = connectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setDouble(1, 100.00);
+            Calculator calculator= new Calculator(order.getCpWidth(),order.getCpLength(),connectionPool);
+            calculator.calcCarport(order);
+            ps.setDouble(1,calculator.getTotalPrice());
             ps.setInt(2, user.getUserId());
             ps.setString(3, order.getComment());
             ps.setInt(4, shippingId);
@@ -194,6 +197,8 @@ public class OrderMapper {
             int orderId = rs.getInt(1);
 
             order.setOrderId(orderId);
+        } catch (DatabaseException e) {
+            throw new RuntimeException(e);
         }
     }
 
