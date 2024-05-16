@@ -99,4 +99,6 @@ public class BillOfMaterialLine {
     public void setFunctionalDescription(String functionalDescription) {
         this.functionalDescription = functionalDescription;
     }
+
+
 }
