@@ -96,8 +96,7 @@ public class AdminController {
         List <BillOfMaterialLine> bomLines = calculator.getBomLine();
 
         ctx.attribute("bomLines", bomLines);
-
-
+        ctx.render("admin-order.html");
     }
 
 //    private static void adminPage(Context ctx, ConnectionPool connectionPool) {
