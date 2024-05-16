@@ -196,24 +196,15 @@
                     </thead>
 
                     <tbody class="bom-table">
-                    <tr th:each="order: ${orderList}">
-                        <td th:text="${order.orderId}">Stolpe</td>
-                        <td th:text="${order.orderId}">97x97 mm. trykimp. stolpe</td>
-                        <td th:text="${order.user.firstName + ' ' + order.user.lastName}">Meter</td>
-                        <td th:text="${order.price}">200</td>
-                        <td th:text="${order.status}">4</td>
-                        <td th:text="${order.status}">Stolper nedgraves 90 cm. i jord</td>
-                    </tr>
-                    <tr th:each="order: ${orderList}">
-                        <td th:text="${order.orderId}">Stolpe</td>
-                        <td th:text="${order.orderId}">97x97 mm. trykimp. stolpe</td>
-                        <td th:text="${order.user.firstName + ' ' + order.user.lastName}">Meter</td>
-                        <td th:text="${order.price}">200</td>
-                        <td th:text="${order.status}">4</td>
-                        <td th:text="${order.status}">Stolper nedgraves 90 cm. i jord</td>
+                    <tr th:each="BillOfMaterialLine: ${bomLines}">
+                        <td th:text="${BillOfMaterialLine.materialVariant.material.type}">No info</td>
+                        <td th:text="${BillOfMaterialLine.materialVariant.material.materialDescription}">No info</td>
+                        <td th:text="${BillOfMaterialLine.materialVariant.material.unit}">No info</td>
+                        <td th:text="${BillOfMaterialLine.materialVariant.length}">No info</td>
+                        <td th:text="${BillOfMaterialLine.quantity}">No info</td>
+                        <td th:text="${BillOfMaterialLine.functionalDescriptionId}">No info</td>
                     </tr>
                     </tbody>
-
                 </table>
             </div>
         </section>

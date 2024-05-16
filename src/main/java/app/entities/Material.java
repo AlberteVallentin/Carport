@@ -75,4 +75,18 @@ public class Material {
     public void setMaterialDescription(String materialDescription) {
         this.materialDescription = materialDescription;
     }
+
+
+    @Override
+    public String toString() {
+        return "Material{" +
+                "materialId=" + materialId +
+                ", width=" + width +
+                ", depth=" + depth +
+                ", type='" + type + '\'' +
+                ", materialPrice=" + materialPrice +
+                ", unit='" + unit + '\'' +
+                ", materialDescription='" + materialDescription + '\'' +
+                '}';
+    }
 }

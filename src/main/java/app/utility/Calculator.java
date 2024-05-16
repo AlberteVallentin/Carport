@@ -82,7 +82,15 @@ public class Calculator {
         int variantLength = Integer.MAX_VALUE;
 
         // Get all variants of beams from the database
-        List<MaterialVariant> materialVariants = MaterialVariantMapper.getAllVariantsByMaterialId(4, connectionPool);
+        //List<MaterialVariant> materialVariants = MaterialVariantMapper.getAllVariantsByMaterialId(4, connectionPool);
+
+        // Get all variants of beams from the database
+List<MaterialVariant> materialVariants = MaterialVariantMapper.getAllVariantsByMaterialId(4, connectionPool);
+
+// Log the material variants
+System.out.println("Material Variants: " + materialVariants);
+
+// Rest of your code...
 
         // Find suitable beam variant based on carport length
         if (length > 600) {

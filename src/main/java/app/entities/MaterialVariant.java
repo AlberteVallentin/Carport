@@ -3,7 +3,6 @@ package app.entities;
 public class MaterialVariant {
 private int materialVariantId;
 private int length;
-
 private Material material;
 
 
@@ -26,4 +25,16 @@ private Material material;
         return length;
     }
 
+    public Material getMaterial() {
+        return material;
+    }
+
+    @Override
+    public String toString() {
+        return "MaterialVariant{" +
+                "materialVariantId=" + materialVariantId +
+                ", length=" + length +
+                ", material=" + material +
+                '}';
+    }
 }

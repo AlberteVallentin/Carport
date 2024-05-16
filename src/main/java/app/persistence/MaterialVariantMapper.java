@@ -8,43 +8,41 @@ import app.exceptions.DatabaseException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MaterialVariantMapper {
-    public static List<MaterialVariant>  getAllVariantsByMaterialId(int materialId, ConnectionPool connectionPool)
-    {
-        List <MaterialVariant> materialVariantList = new ArrayList<>();
 
-        String sql = "SELECT * FROM material_variant where material_id = ?";
+    public static List<MaterialVariant> getAllVariantsByMaterialId(int materialId, ConnectionPool connectionPool) throws DatabaseException {
+        List<MaterialVariant> materialVariants = new ArrayList<>();
 
-        try(
-              Connection connection = connectionPool.getConnection();
-              PreparedStatement preparedStatement= connection.prepareStatement(sql);
-              )
-        {
-            preparedStatement.setInt(1,materialId);
-            var rs=preparedStatement.executeQuery();
-            while(rs.next()){
+        try (Connection connection = connectionPool.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM material_variant WHERE material_id = ?");
+            ps.setInt(1, materialId);
+            ResultSet rs = ps.executeQuery();
 
-               int materialVariantId2 = rs.getInt("material_variant_id");
-               int length = rs.getInt("length");
+            while (rs.next()) {
+                int materialVariantId = rs.getInt("material_variant_id");
+                int length = rs.getInt("length");
 
+                // Fetch the Material object from the database
+                Material material = MaterialMapper.getMaterialById(materialId, connectionPool);
 
-                MaterialVariant materialVariant = new MaterialVariant(materialVariantId2,length);
+                // Create the MaterialVariant object with the Material object
+                MaterialVariant materialVariant = new MaterialVariant(materialVariantId, length, material);
 
-                materialVariantList.add(materialVariant);
+                materialVariants.add(materialVariant);
             }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException ex) {
+            throw new DatabaseException("Could not get material variants", ex.getMessage());
         }
 
-
-        return materialVariantList;
+        return materialVariants;
     }
-
-
-
 }
+
+
+
+

@@ -1,9 +1,12 @@
 package app.controllers;
 
+import app.entities.BillOfMaterialLine;
+import app.entities.MaterialVariant;
 import app.entities.Order;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.*;
+import app.utility.Calculator;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -71,6 +74,7 @@ public class AdminController {
         int postalCode = AddressMapper.getAddressById(order.getUser().getAddressId(), connectionPool).getPostalCode();
         double shippingRate = ShippingMapper.getShippingRate(order.getShippingId(), connectionPool);
 
+
         ctx.attribute("order", order);
         ctx.attribute("orderId", order.getOrderId());
         ctx.attribute("firstName", order.getUser().getFirstName());
@@ -87,9 +91,12 @@ public class AdminController {
         ctx.attribute("postalCode", postalCode);
         ctx.attribute("shippingRate", shippingRate);
 
+        Calculator calculator = new Calculator(order.getCpWidth(), order.getCpLength(), connectionPool);
+        calculator.calcCarport(order);
+        List <BillOfMaterialLine> bomLines = calculator.getBomLine();
+
+        ctx.attribute("bomLines", bomLines);
         ctx.render("admin-order.html");
-
-
     }
 
 //    private static void adminPage(Context ctx, ConnectionPool connectionPool) {
