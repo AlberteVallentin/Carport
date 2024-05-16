@@ -66,7 +66,7 @@ public class OrderController {
 
             Calculator calculator = new Calculator(cpWidth,cpLength,connectionPool);
             calculator.calcCarport(order);
-            OrderMapper.createBomLine(calculator.getBomLine(),connectionPool);
+             OrderMapper.createBomLine(calculator.getBomLine(),connectionPool);
             int orderId = OrderMapper.getLastOrder(connectionPool);
 
             MailController.sendOrderConfirmation(order, user, orderId);

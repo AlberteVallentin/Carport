@@ -71,8 +71,7 @@ public class Calculator {
         //Remme
         int quantity;
         int variantId = 0;
-        MaterialVariant foundVariantId = null;
-
+        MaterialVariant foundVariant = null;
 
         int length = order.getCpLength();
 
@@ -88,12 +87,7 @@ public class Calculator {
         //List<MaterialVariant> materialVariants = MaterialVariantMapper.getAllVariantsByMaterialId(4, connectionPool);
 
         // Get all variants of beams from the database
-List<MaterialVariant> materialVariants = MaterialVariantMapper.getAllVariantsByMaterialId(4, connectionPool);
-
-// Log the material variants
-System.out.println("Material Variants: " + materialVariants);
-
-// Rest of your code...
+        List<MaterialVariant> materialVariants = MaterialVariantMapper.getAllVariantsByMaterialId(4, connectionPool);
 
         // Find suitable beam variant based on carport length
         if (length > 600) {
@@ -101,6 +95,7 @@ System.out.println("Material Variants: " + materialVariants);
                 if (m.getLength() >= length / 2 && m.getLength() < variantLength) {
                     variantLength = m.getLength();
                     variantId = m.getMaterialVariantId();
+                    foundVariant = m;
                 }
             }
         } else {
@@ -108,19 +103,14 @@ System.out.println("Material Variants: " + materialVariants);
                 if (m.getLength() >= length && m.getLength() < variantLength) {
                     variantLength = m.getLength();
                     variantId = m.getMaterialVariantId();
+                    foundVariant = m;
                 }
             }
         }
 
-        for (MaterialVariant m : materialVariants) {
-            if (m.getMaterialVariantId() == variantId) {
 
-                foundVariantId = m;
-                break;
-            }
-        }
 
-        MaterialVariant materialVariant = foundVariantId;
+        MaterialVariant materialVariant = foundVariant;
 
         String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(2, connectionPool);
 
@@ -135,10 +125,10 @@ System.out.println("Material Variants: " + materialVariants);
     private void calcRafters(Order order) throws DatabaseException{
         // Calculate quantity of rafters based on carport length
         //spær
-        length = order.getCpLength();
+        length = order.getCpWidth();
         int variantLength = Integer.MAX_VALUE;
         int variantId=0;
-        MaterialVariant foundVariantId = null;
+        MaterialVariant foundVariant = null;
 
         int quantity = length / 55; // Assuming each rafter has a length of 55
 
@@ -150,16 +140,11 @@ System.out.println("Material Variants: " + materialVariants);
             if (m.getLength() >= length && m.getLength() < variantLength) {
                 variantLength = m.getLength();
                 variantId = m.getMaterialVariantId();
+                foundVariant = m;
             }
         }
-        for (MaterialVariant m : materialVariants) {
-            if (m.getMaterialVariantId() == variantId) {
 
-                foundVariantId = m;
-                break;
-            }
-        }
-        MaterialVariant materialVariant =foundVariantId;
+        MaterialVariant materialVariant = foundVariant;
 
         String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(3, connectionPool);
         BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(order, materialVariant, quantity, functionalDescription);
