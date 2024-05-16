@@ -38,6 +38,7 @@ public class OrderController {
             }
 
             // Opdater status-ID'et for den pågældende ordre
+            OrderMapper.deleteBillOfMaterialLinesByOrderId(orderId, connectionPool);
             OrderMapper.deleteOrder(orderId, connectionPool);
 
             ctx.redirect("/deleteorder");

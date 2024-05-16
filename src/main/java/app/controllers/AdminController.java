@@ -65,6 +65,7 @@ public class AdminController {
     private static void adminDeleteOrder(Context ctx, ConnectionPool connectionPool) {
         int orderId = Integer.parseInt(ctx.formParam("orderId"));
         try {
+            OrderMapper.deleteBillOfMaterialLinesByOrderId(orderId, connectionPool);
             OrderMapper.deleteOrder(orderId, connectionPool);
             ctx.sessionAttribute("message", "Ordren er blevet slettet");
             ctx.redirect("/adminpage");

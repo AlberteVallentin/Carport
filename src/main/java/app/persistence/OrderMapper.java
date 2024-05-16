@@ -312,5 +312,15 @@ public class OrderMapper {
         return price;
     }
 
+    public static void deleteBillOfMaterialLinesByOrderId(int orderId, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "DELETE FROM bill_of_material_line WHERE order_id = ?";
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, orderId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException("Error deleting bill of material lines", e.getMessage());
+        }
+    }
+
 
 }
