@@ -23,12 +23,21 @@
             <img class="logo" src="../public/images/logo.svg" th:src="@{/images/logo.svg}"/>
         </a>
     </div>
-    <div class="account-container">
-        <a href="login.html" th:href="@{/loginorout}">
-            <img class="account" src="../public/images/person.svg" th:src="@{/images/person.svg}"/>
-        </a>
-        <a href="login.html" th:href="@{/loginorout}" class="account">Konto</a>
+    <div class="two-rows">
+        <div class="account-container">
+            <a href="admin-materials.html" th:href="@{/materials}">
+                <img class="account" src="../public/images/hammer.svg" th:src="@{/images/hammer.svg}"/>
+            </a>
+            <a href="admin-materials.html" th:href="@{/materials}" class="account">Materialer</a>
 
+        </div>
+        <div class="account-container">
+            <a href="login.html" th:href="@{/loginorout}">
+                <img class="account" src="../public/images/person.svg" th:src="@{/images/person.svg}"/>
+            </a>
+            <a href="login.html" th:href="@{/loginorout}" class="account">Konto</a>
+
+        </div>
     </div>
 
 
