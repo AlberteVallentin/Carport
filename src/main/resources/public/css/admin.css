@@ -147,6 +147,19 @@ tr:nth-child(even) {
     width: 33%;
 }
 
+.four-rows{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0.5rem;
+    gap: 1rem;
+
+}
+
+.four-rows > div {
+    width: 25%;
+}
+
 
 table {
     width: 100%;
