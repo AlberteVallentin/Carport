@@ -1,9 +1,6 @@
 package app.utility;
 
-import app.entities.BillOfMaterialLine;
-import app.entities.FunctionalDescription;
-import app.entities.MaterialVariant;
-import app.entities.Order;
+import app.entities.*;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.MaterialMapper;
@@ -30,6 +27,7 @@ public class Calculator {
     private double rafterPrice;
     private double beamPrice;
     private double totalPrice;
+    ShippingCalculator shippingCalculator;
     private ConnectionPool connectionPool;
 
     // Constructor to initialize width, length, and connection pool
@@ -173,7 +171,8 @@ System.out.println("Material Variants: " + materialVariants);
     }
 
     public double getTotalPrice() {
-        ShippingCalculator shippingCalculator= new ShippingCalculator();
+
+
         totalPrice=postPrice+rafterPrice+beamPrice+shippingCalculator.getShippingPrice() ;
         return totalPrice ;
     }

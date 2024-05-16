@@ -12,6 +12,7 @@ public class ShippingCalculator {
 
     private static double shippingPrice;
 
+
     public static double calculateShippingRate(int addressId, ConnectionPool connectionPool) {
         String sql = "SELECT a.postal_code FROM address a JOIN shipping s ON a.address_id = s.address_id WHERE s.address_id = ?";
         double shippingRate = 0;
@@ -32,21 +33,24 @@ public class ShippingCalculator {
         return shippingRate;
     }
 
+
+
     private static double determineShippingRate(int postalCode) {
 
         if (postalCode >= 0 && postalCode <= 4999) {
              shippingPrice=0.00;
         } else if (postalCode >= 5000 && postalCode <= 5999) {
-            shippingPrice= 199.00;
+            shippingPrice=  199.00;
         } else if (postalCode >= 6000 && postalCode <= 9999) {
-            shippingPrice= 299.00;
+            shippingPrice=  299.00;
         } else {
-            shippingPrice= 0.00;
+            shippingPrice=  0.00;
         }
         return shippingPrice;
+
     }
 
-    public double getShippingPrice() {
+    public static double getShippingPrice() {
         return shippingPrice;
     }
 }
