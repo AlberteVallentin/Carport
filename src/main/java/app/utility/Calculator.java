@@ -131,12 +131,12 @@ System.out.println("Material Variants: " + materialVariants);
     private void calcRafters(Order order) throws DatabaseException{
         // Calculate quantity of rafters based on carport length
         //spær
-        length = order.getCpLength();
+        length = order.getCpWidth();
         int variantLength = Integer.MAX_VALUE;
         int variantId=0;
         MaterialVariant foundVariantId = null;
 
-        int quantity = length / 55; // Assuming each rafter has a length of 55
+        int quantity = (int)(length / 55); // Assuming each rafter has a length of 55
 
         // Get all variants of rafters from the database
         List<MaterialVariant> materialVariants = MaterialVariantMapper.getAllVariantsByMaterialId(4, connectionPool);
