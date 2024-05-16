@@ -10,6 +10,8 @@ public class Material {
     private String unit;
     private String materialDescription;
 
+
+
     public Material(int materialId, Integer width, Integer depth, String type, double materialPrice, String unit, String materialDescription) {
         this.materialId = materialId;
         this.width = width;
@@ -19,6 +21,8 @@ public class Material {
         this.unit = unit;
         this.materialDescription = materialDescription;
     }
+
+
 
     public int getMaterialId() {
         return materialId;

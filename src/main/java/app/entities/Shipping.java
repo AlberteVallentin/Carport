@@ -11,6 +11,10 @@ public class Shipping {
         this.shippingRate = shippingRate;
     }
 
+    public void setShippingRate(double shippingRate) {
+        this.shippingRate = shippingRate;
+    }
+
     public int getShippingId() {
         return shippingId;
     }

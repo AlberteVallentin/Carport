@@ -1,9 +1,6 @@
 package app.utility;
 
-import app.entities.BillOfMaterialLine;
-import app.entities.FunctionalDescription;
-import app.entities.MaterialVariant;
-import app.entities.Order;
+import app.entities.*;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.FunctionalDescriptionMapper;
@@ -27,6 +24,11 @@ public class Calculator {
     // Width and length of the carport, and connection pool for database operations
     private int width;
     private int length;
+    private double beamPrice;
+    private double rafterPrice;
+    private double postPrice;
+    private double totalPrice;
+    ShippingCalculator shippingCalculator;
     private ConnectionPool connectionPool;
 
     // Constructor to initialize width, length, and connection pool
@@ -59,7 +61,7 @@ public class Calculator {
         MaterialVariant materialVariant = materialVariants.get(0);
 
 
-
+        postPrice=quantity*82;
 
         String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(1, connectionPool);
 
@@ -110,12 +112,9 @@ public class Calculator {
             }
         }
 
-
-
         MaterialVariant materialVariant = foundVariant;
 
-
-
+        beamPrice=(variantLength/100)*(quantity*37);
 
         String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(2, connectionPool);
 
@@ -148,12 +147,22 @@ public class Calculator {
             }
         }
 
+       rafterPrice= (variantLength/100)*(quantity*37);
+
         MaterialVariant materialVariant = foundVariant;
         String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(3, connectionPool);
+
 
         BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(order, materialVariant, quantity, 3, functionalDescription);
         bomLine.add(billOfMaterialLine);
 
+    }
+
+
+    public double getTotalPrice() {
+
+        totalPrice=postPrice+beamPrice+rafterPrice+shippingCalculator.getShippingPrice();
+        return totalPrice;
     }
 
     // Method to retrieve the list of bill of material lines

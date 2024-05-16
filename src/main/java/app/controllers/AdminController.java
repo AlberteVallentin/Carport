@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdminController {
+
+
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
         app.get("/adminpage", ctx -> viewOrders(ctx, connectionPool));
         app.get("/admin-order", ctx -> ctx.render("admin-order.html"));
@@ -138,6 +140,9 @@ public class AdminController {
         double shippingRate = ShippingMapper.getShippingRate(order.getShippingId(), connectionPool);
 
 
+
+
+
         ctx.attribute("order", order);
         ctx.attribute("orderId", order.getOrderId());
         ctx.attribute("firstName", order.getUser().getFirstName());
@@ -156,6 +161,8 @@ public class AdminController {
 
         Calculator calculator = new Calculator(order.getCpWidth(), order.getCpLength(), connectionPool);
         calculator.calcCarport(order);
+
+
         List <BillOfMaterialLine> bomLines = calculator.getBomLine();
 
 
