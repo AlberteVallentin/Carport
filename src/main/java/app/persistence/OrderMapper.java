@@ -122,7 +122,7 @@ public class OrderMapper {
                 ps.setDouble(2, order.getPrice());
                 ps.setInt(3, order.getUser().getUserId());
                 ps.setString(4, order.getComment());
-                ps.setInt(5, order.getShipping().getShippingId());
+                ps.setInt(5, order.getShippingId());
                 ps.setInt(6, order.getCpLength());
                 ps.setInt(7, order.getCpWidth());
                 ps.setInt(8, order.getShLength());
@@ -148,19 +148,19 @@ public class OrderMapper {
 
     }
 
-    public static void insertOrderItems(List<BillOfMaterialLine> billOfMaterialLines, ConnectionPool connectionPool) throws DatabaseException
+    public static void createBomLine(List<BillOfMaterialLine> billOfMaterialLines, ConnectionPool connectionPool) throws DatabaseException
     {
-        String sql = "INSERT INTO bill_of_material_line (bom_line_id, order_id, material_variant_id, functional_description_id) " +
-                "VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO bill_of_material_line (order_id, material_variant_id, quanity ,functional_description_id) " +
+                "VALUES ( ?, ?, ?,?)";
         try (Connection connection = connectionPool.getConnection())
         {
             for (BillOfMaterialLine billOfMaterialLine : billOfMaterialLines)
             {
                 try (PreparedStatement ps = connection.prepareStatement(sql))
                 {
-                    ps.setInt(1, billOfMaterialLine.getBillOfMaterialLineId());
-                    ps.setInt(2, billOfMaterialLine.getOrder().getOrderId());
-                    ps.setInt(3, billOfMaterialLine.getMaterialVariant().getMaterialVariantId());
+                    ps.setInt(1, billOfMaterialLine.getOrder().getOrderId());
+                    ps.setInt(2, billOfMaterialLine.getMaterialVariant().getMaterialVariantId());
+                    ps.setInt(3, billOfMaterialLine.getQuantity());
                     ps.setInt(4, billOfMaterialLine.getFunctionalDescriptionId());
                     ps.executeUpdate();
                 }
@@ -176,7 +176,7 @@ public class OrderMapper {
     public static void createOrder(Order order, User user, int shippingId, ConnectionPool connectionPool) throws SQLException {
         String sql = "INSERT INTO orders (price, user_id, comment, shipping_id, cp_length, cp_width, shed_length, shed_width, status_id, cp_roof) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = connectionPool.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setDouble(1, 100.00);
             ps.setInt(2, user.getUserId());
             ps.setString(3, order.getComment());
@@ -188,6 +188,12 @@ public class OrderMapper {
             ps.setInt(9, 1);
             ps.setString(10, order.getCpRoof());
             ps.executeUpdate();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            rs.next();
+            int orderId = rs.getInt(1);
+
+            order.setOrderId(orderId);
         }
     }
 

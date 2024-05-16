@@ -34,7 +34,6 @@ public class MaterialMapper
                 int length = resultSet.getInt("length");
                 String type = resultSet.getString("type");
                 String unit = resultSet.getString("unit");
-                int price = resultSet.getInt("price");
 
                 int width = resultSet.getInt("width");
                 int depth = resultSet.getInt("depth");
@@ -53,4 +52,25 @@ public class MaterialMapper
         return materialVariants;
     }
 
+    public static Material getMaterialById(int materialId, ConnectionPool connectionPool) {
+        Material material = null;
+        String sql = "SELECT * FROM material WHERE material_id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, materialId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int width = rs.getInt("width");
+                int depth = rs.getInt("depth");
+                String type = rs.getString("type");
+                double materialPrice = rs.getDouble("material_price");
+                String unit = rs.getString("unit");
+                String materialDescription = rs.getString("material_description");
+                material = new Material(materialId, width, depth, type, materialPrice, unit, materialDescription);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return material;
+    }
 }

@@ -15,6 +15,19 @@ public class Order {
     private String status;// fra status tabel
     private int shippingId;
 
+
+    public Order(double price, User user, String comment, int cpLength, int cpWidth, String cpRoof, int shLength, int shWidth) {
+        this.price = price;
+        this.user = user;
+        this.comment = comment;
+        this.cpLength = cpLength;
+        this.cpWidth = cpWidth;
+        this.cpRoof = cpRoof;
+        this.shLength = shLength;
+        this.shWidth = shWidth;
+
+    }
+
     public Order(int orderId, double price, User user, String comment, Shipping shipping, int cpLength, int cpWidth, String cpRoof, int shLength, int shWidth, int statusId) {
         this.orderId = orderId;
         this.price = price;
