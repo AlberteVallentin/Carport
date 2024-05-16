@@ -29,8 +29,7 @@ public class AdminController {
         app.post("/admindeleteorder", ctx -> adminDeleteOrder(ctx, connectionPool));
         app.post("/sendoffer", ctx -> sendOffer(ctx, connectionPool));
         app.get("/materials", ctx -> ctx.render("admin-materials.html"));
-
-
+        app.post("/creatematerial", ctx -> addMaterial(ctx, connectionPool));
 
 
     }
@@ -223,5 +222,33 @@ public class AdminController {
             throw new RuntimeException(e);
         }
         return userList;
+    }
+
+    public static void addMaterial(Context ctx, ConnectionPool connectionPool) {
+
+        String sql = "INSERT INTO material (width, depth, type, material_price, unit, material_description) VALUES (?, ?, ?, ?, ?, ?)";
+
+        int width = Integer.parseInt(ctx.formParam("width"));
+        int depth = Integer.parseInt(ctx.formParam("depth"));
+        String type = ctx.formParam("type");
+        int materialPrice = Integer.parseInt(ctx.formParam("price"));
+        String unit = ctx.formParam("unit");
+        String materialDescription = ctx.formParam("material_description");
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, width);
+            preparedStatement.setInt(2, depth);
+            preparedStatement.setString(3, type);
+            preparedStatement.setInt(4, materialPrice);
+            preparedStatement.setString(5, unit);
+            preparedStatement.setString(6, materialDescription);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace(); // Proper error handling should be implemented
+        }
+        ctx.render("admin-materials.html");
     }
 }
