@@ -1,14 +1,17 @@
 package app.controllers;
 
+import app.entities.BillOfMaterialLine;
 import app.entities.Order;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.OrderMapper;
 import app.persistence.UserMapper;
+import app.utility.Calculator;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import java.sql.SQLException;
+import java.util.List;
 
 public class StatusController {
 
@@ -20,6 +23,7 @@ public class StatusController {
         app.post("/newcarportconfirmed", ctx -> newCarportConfirmed(ctx, connectionPool));
         app.post("/offerconfirmed", ctx -> offerConfirmed(ctx, connectionPool));
         app.get("/orderdone", ctx -> ctx.render("order-done.html"));
+        app.get("/statusRedirect", ctx -> statusRedirect(ctx, connectionPool));
     }
 
 
@@ -64,6 +68,9 @@ public class StatusController {
                 case 3:
                     ctx.redirect("/confirm-newcarport");
                     break;
+                case 5:
+                    ctx.redirect("/orderdone");
+                    break;
                 default:
                     ctx.redirect("/status.html");
                     break;
@@ -97,7 +104,9 @@ public class StatusController {
             // Send mail til brugeren om at ordren er bekræftet
             MailController.paymentConfirmed(order);
 
-            ctx.redirect("/orderdone");
+            // Redirect to statusRedirect
+            ctx.redirect("/statusRedirect");
+
         } catch (DatabaseException e) {
             System.out.println("Error updating order status: " + e.getMessage()); // Logudskrift
             ctx.attribute("message", "Error updating order status: " + e.getMessage());
@@ -128,5 +137,42 @@ public class StatusController {
             ctx.render("confirm-newcarport.html");
         }
     }
+
+    private static void orderDone(Context ctx, ConnectionPool connectionPool) {
+        try {
+            // Hent orderId fra sessionen
+            Integer orderId = ctx.sessionAttribute("orderId");
+            if (orderId == null) {
+                System.out.println("No 'orderId' found in session"); // Logudskrift
+                ctx.attribute("message", "No 'orderId' found in session");
+                ctx.render("/confirm-offer.html");
+                return;
+            }
+
+            // Hent ordren fra databasen
+            Order order = OrderMapper.getOrderById(orderId, connectionPool);
+
+
+            Calculator calculator = new Calculator(order.getCpWidth(), order.getCpLength(), connectionPool);
+            calculator.calcCarport(order);
+            List<BillOfMaterialLine> bomLines = calculator.getBomLine();
+
+            ctx.attribute("bomLines", bomLines);
+
+            // Tilføj ordren og styklisten til modellen
+            ctx.attribute("order", order);
+            ctx.attribute("bomLines", bomLines);
+
+            // Render 'order-done.html' skabelonen
+            ctx.render("order-done.html");
+
+        } catch (DatabaseException e) {
+            System.out.println("Error retrieving order or bill of materials: " + e.getMessage()); // Logudskrift
+            ctx.attribute("message", "Error retrieving order or bill of materials: " + e.getMessage());
+            ctx.render("confirm-offer.html");
+        }
+    }
+
+
 
 }

@@ -332,5 +332,36 @@ public class OrderMapper {
         }
     }
 
+    public static List<BillOfMaterialLine> getBomLinesByOrderId(int orderId, ConnectionPool connectionPool) throws DatabaseException {
+        List<BillOfMaterialLine> bomLines = new ArrayList<>();
+        String sql = "SELECT * FROM bill_of_material_line WHERE order_id = ?";
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, orderId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int bomLineId = rs.getInt("bom_line_id");
+                    int materialVariantId = rs.getInt("material_variant_id");
+                    int quantity = rs.getInt("quantity");
+                    int functionalDescriptionId = rs.getInt("functional_description_id");
+
+                    // Hent Order og MaterialVariant objekter baseret på deres id'er
+                    Order order = OrderMapper.getOrderById(orderId, connectionPool);
+                    MaterialVariant materialVariant = MaterialVariantMapper.getMaterialVariantById(materialVariantId, connectionPool);
+
+                    // Hent den funktionelle beskrivelse baseret på dens id
+                    String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(functionalDescriptionId, connectionPool);
+
+                    // Opret et nyt BillOfMaterialLine objekt og tilføj det til listen
+                    BillOfMaterialLine bomLine = new BillOfMaterialLine(order, materialVariant, quantity, functionalDescription);
+                    bomLines.add(bomLine);
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Error retrieving bill of material lines by order ID", e.getMessage());
+        }
+        return bomLines;
+    }
+
 
 }

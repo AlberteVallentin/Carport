@@ -41,6 +41,29 @@ public class MaterialVariantMapper {
 
         return materialVariants;
     }
+
+    public static MaterialVariant getMaterialVariantById(int materialVariantId, ConnectionPool connectionPool) throws DatabaseException {
+        try (Connection connection = connectionPool.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM material_variant WHERE material_variant_id = ?");
+            ps.setInt(1, materialVariantId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int length = rs.getInt("length");
+                int materialId = rs.getInt("material_id");
+
+                // Fetch the Material object from the database
+                Material material = MaterialMapper.getMaterialById(materialId, connectionPool);
+
+                // Create the MaterialVariant object with the Material object
+                return new MaterialVariant(materialVariantId, length, material);
+            }
+        } catch (SQLException ex) {
+            throw new DatabaseException("Could not get material variant", ex.getMessage());
+        }
+
+        return null;
+    }
 }
 
 

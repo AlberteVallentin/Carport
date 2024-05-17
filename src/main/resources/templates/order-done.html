@@ -10,6 +10,8 @@
   <link href="../public/css/reset.css" th:href="@{/css/reset.css}" rel="stylesheet"/>
   <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
   <link href="../public/css/user.css" th:href="@{/css/user.css}" rel="stylesheet">
+  <link href="../public/css/admin.css" th:href="@{/css/admin.css}" rel="stylesheet">
+
 
 </head>
 <body>
@@ -35,8 +37,42 @@
 <main>
   <div class="container">
     <section class="submit-container">
-      <h3>Vi har modtaget din betaling og ser frem til at levere din carport</h3>
+      <h3>Vi har modtaget din betaling og ser frem til at levere din carport. Vedhæftet er din stykliste</h3>
     </section>
+
+    <section>
+      <h2>Stykliste</h2>
+      <div class="table-container">
+        <table>
+          <thead>
+          <tr>
+            <th>Type</th>
+            <th>Materiale beskrivelse</th>
+            <th>Enhed</th>
+            <th>Længde</th>
+            <th>Antal</th>
+            <th>Funktionel beskrivelse</th>
+
+          </tr>
+          </thead>
+
+          <tbody class="bom-table">
+          <tr th:each="BillOfMaterialLine: ${bomLines}">
+            <td th:text="${BillOfMaterialLine.materialVariant.material.type}">No info</td>
+            <td th:text="${BillOfMaterialLine.materialVariant.material.materialDescription}">No info</td>
+            <td th:text="${BillOfMaterialLine.materialVariant.material.unit}">No info</td>
+            <td th:text="${BillOfMaterialLine.materialVariant.length}">No info</td>
+            <td th:text="${BillOfMaterialLine.quantity}">No info</td>
+            <td th:text="${BillOfMaterialLine.functionalDescription}">No info</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+
+
+
     <section>
       <div class="login">
         <a href="index.html" th:href="@{/}" class="submit-button">Til forsiden</a>

@@ -22,6 +22,7 @@ public class BillOfMaterialLine {
         this.functionalDescription = functionalDescription;
     }
 
+
     @Override
     public String toString() {
         return "BillOfMaterialLine{" +
