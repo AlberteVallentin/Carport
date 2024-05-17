@@ -22,7 +22,8 @@ public class StatusController {
         app.get("/confirm-newcarport", ctx -> ctx.render("confirm-newcarport.html"));
         app.post("/newcarportconfirmed", ctx -> newCarportConfirmed(ctx, connectionPool));
         app.post("/offerconfirmed", ctx -> offerConfirmed(ctx, connectionPool));
-        app.get("/orderdone", ctx -> ctx.render("order-done.html"));
+        //app.get("/orderdone", ctx -> ctx.render("order-done.html"));
+        app.get("/orderdone", ctx -> orderDone(ctx, connectionPool));
         app.get("/statusRedirect", ctx -> statusRedirect(ctx, connectionPool));
     }
 
@@ -68,9 +69,6 @@ public class StatusController {
                 case 3:
                     ctx.redirect("/confirm-newcarport");
                     break;
-                case 5:
-                    ctx.redirect("/orderdone");
-                    break;
                 default:
                     ctx.redirect("/status.html");
                     break;
@@ -105,7 +103,7 @@ public class StatusController {
             MailController.paymentConfirmed(order);
 
             // Redirect to statusRedirect
-            ctx.redirect("/statusRedirect");
+            ctx.redirect("/orderdone");
 
         } catch (DatabaseException e) {
             System.out.println("Error updating order status: " + e.getMessage()); // Logudskrift
