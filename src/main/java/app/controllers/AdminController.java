@@ -1,9 +1,6 @@
 package app.controllers;
 
-import app.entities.BillOfMaterialLine;
-import app.entities.MaterialVariant;
-import app.entities.Order;
-import app.entities.User;
+import app.entities.*;
 import app.exceptions.DatabaseException;
 import app.persistence.*;
 import app.utility.Calculator;
@@ -30,9 +27,8 @@ public class AdminController {
         app.post("/nonewoffer", ctx -> noNewOffer(ctx, connectionPool));
         app.post("/admindeleteorder", ctx -> adminDeleteOrder(ctx, connectionPool));
         app.post("/sendoffer", ctx -> sendOffer(ctx, connectionPool));
-        app.get("/materials", ctx -> ctx.render("admin-materials.html"));
-
-
+        app.get("/materials", ctx -> displayMaterialPage(ctx,connectionPool));
+        app.post("/creatematerial", ctx -> addMaterial(ctx, connectionPool));
 
 
     }
@@ -138,6 +134,7 @@ public class AdminController {
         Order order = AdminMapper.getOrderDetailsById(orderId, connectionPool);
         int postalCode = AddressMapper.getAddressById(order.getUser().getAddressId(), connectionPool).getPostalCode();
         double shippingRate = ShippingMapper.getShippingRate(order.getShippingId(), connectionPool);
+        System.out.println(shippingRate);
 
         ctx.attribute("order", order);
         ctx.attribute("orderId", order.getOrderId());
@@ -228,5 +225,75 @@ public class AdminController {
             throw new RuntimeException(e);
         }
         return userList;
+    }
+
+    public static void addMaterial(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
+
+        String sql = "INSERT INTO material (width, depth, type, material_price, unit, material_description) VALUES (?, ?, ?, ?, ?, ?)";
+
+        String sql2 = "INSERT INTO material_variant (length, material_id) VALUES (?, ?)";
+
+        String sqlGetMaterialId = " SELECT material_id FROM material_variant ORDER BY material_id DESC LIMIT 1";
+
+        int width = Integer.parseInt(ctx.formParam("width"));
+        int depth = Integer.parseInt(ctx.formParam("depth"));
+        String type = ctx.formParam("type");
+        int materialPrice = Integer.parseInt(ctx.formParam("price"));
+        String unit = ctx.formParam("unit");
+        String materialDescription = ctx.formParam("material_description");
+
+        int length = Integer.parseInt(ctx.formParam("length"));
+        int materialId = 0;
+
+
+        //Materiale
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, width);
+            preparedStatement.setInt(2, depth);
+            preparedStatement.setString(3, type);
+            preparedStatement.setInt(4, materialPrice);
+            preparedStatement.setString(5, unit);
+            preparedStatement.setString(6, materialDescription);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace(); // Proper error handling should be implemented
+        }
+
+        try (Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sqlGetMaterialId); ResultSet rs = ps.executeQuery();) {
+            if (rs.next()) {
+                materialId = rs.getInt("material_id");
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Error retrieving the latest material ID", e.getMessage());
+        }
+
+
+        //Materiale Variant
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql2)) {
+
+            preparedStatement.setInt(1, length);
+            preparedStatement.setInt(2, materialId);
+
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace(); // Proper error handling should be implemented
+        }
+
+        List <Material> materials = MaterialMapper.getAllMaterials(connectionPool);
+        ctx.attribute("materials", materials);
+
+        ctx.render("admin-materials.html");
+    }
+
+    public static void displayMaterialPage(Context ctx, ConnectionPool connectionPool){
+        List <Material> materials = MaterialMapper.getAllMaterials(connectionPool);
+        System.out.println(materials);
+        ctx.attribute("materials", materials);
+        ctx.render("admin-materials.html");
     }
 }
