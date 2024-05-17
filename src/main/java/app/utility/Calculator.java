@@ -115,7 +115,7 @@ public class Calculator {
 
         MaterialVariant materialVariant = foundVariant;
 
-        beamPrice=(variantLength/100)*(quantity*37);
+        beamPrice=(foundVariant.getLength()/100)*(quantity*37);
 
         String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(2, connectionPool);
 
