@@ -113,9 +113,11 @@ public class Calculator {
             }
         }
 
-        MaterialVariant materialVariant = foundVariant;
+        double beamMeter= foundVariant.getLength();
 
-        beamPrice=(foundVariant.getLength()/100)*(quantity*37);
+        beamPrice=(beamMeter/100)*(quantity*37);
+
+        MaterialVariant materialVariant = foundVariant;
 
         String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(2, connectionPool);
 
