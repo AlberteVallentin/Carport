@@ -61,8 +61,11 @@ public class Calculator {
         List<MaterialVariant> materialVariants = MaterialMapper.getMaterialsByProductIdAndMinLength(0, POSTS, connectionPool);
         MaterialVariant materialVariant = materialVariants.get(0);
 
+        // Calculate price of posts
+        double materialPrice = materialVariant.getMaterial().getMaterialPrice();
+        double postMeter= materialVariant.getLength();
 
-        postPrice=(quantity*3)*82;
+        postPrice=(postMeter/100)* quantity* materialPrice;
 
         String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(1, connectionPool);
 
@@ -113,9 +116,11 @@ public class Calculator {
             }
         }
 
+        double materialPrice = foundVariant.getMaterial().getMaterialPrice();
+
         double beamMeter= foundVariant.getLength();
 
-        beamPrice=(beamMeter/100)*(quantity*37);
+        beamPrice=(beamMeter/100)*quantity*materialPrice;
 
         MaterialVariant materialVariant = foundVariant;
 
@@ -150,7 +155,11 @@ public class Calculator {
             }
         }
 
-       rafterPrice= (variantLength/100)*(quantity*37);
+        double materialPrice = foundVariant.getMaterial().getMaterialPrice();
+
+        double rafterMeter= foundVariant.getLength();
+
+        rafterPrice=(rafterMeter/100)*quantity*materialPrice;
 
         MaterialVariant materialVariant = foundVariant;
         String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(3, connectionPool);

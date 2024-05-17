@@ -1,7 +1,7 @@
 package app.entities;
 
 public class MaterialVariant {
-private int materialVariantId;
+    private int materialVariantId;
 private int length;
 private Material material;
 
@@ -25,6 +25,7 @@ private Material material;
     }
 
     public Material getMaterial() {
+
         return material;
     }
 

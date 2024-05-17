@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import app.entities.*;
 import app.exceptions.DatabaseException;
 import app.utility.Calculator;
-import app.utility.ShippingCalculator;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -180,8 +179,6 @@ public class OrderMapper {
         String sql = "INSERT INTO orders (price, user_id, comment, shipping_id, cp_length, cp_width, shed_length, shed_width, status_id, cp_roof) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = connectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
-
             Calculator calculator = new Calculator(order.getCpWidth(),order.getCpLength(),connectionPool);
             calculator.calcCarport(order);
             ps.setDouble(1, calculator.getTotalMaterialPrice());
