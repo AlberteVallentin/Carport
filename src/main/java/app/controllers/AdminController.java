@@ -239,6 +239,7 @@ public class AdminController {
         int length = Integer.parseInt(ctx.formParam("length"));
         int materialId = 0;
 
+
         //Materiale
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -276,6 +277,9 @@ public class AdminController {
         } catch (SQLException e) {
             e.printStackTrace(); // Proper error handling should be implemented
         }
+
+        List <Material> materials = MaterialMapper.getAllMaterials(connectionPool);
+        ctx.attribute("materials", materials);
 
         ctx.render("admin-materials.html");
     }
