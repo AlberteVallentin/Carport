@@ -29,7 +29,7 @@ public class AdminController {
         app.post("/sendoffer", ctx -> sendOffer(ctx, connectionPool));
         app.get("/materials", ctx -> displayMaterialPage(ctx,connectionPool));
         app.post("/creatematerial", ctx -> addMaterial(ctx, connectionPool));
-
+        app.post("/deletematerial", ctx -> deleteMaterial(ctx,connectionPool));
 
     }
 
@@ -284,16 +284,29 @@ public class AdminController {
             e.printStackTrace(); // Proper error handling should be implemented
         }
 
-        List <Material> materials = MaterialMapper.getAllMaterials(connectionPool);
-        ctx.attribute("materials", materials);
+        displayMaterialPage(ctx, connectionPool);
 
         ctx.render("admin-materials.html");
     }
 
     public static void displayMaterialPage(Context ctx, ConnectionPool connectionPool){
         List <Material> materials = MaterialMapper.getAllMaterials(connectionPool);
-        System.out.println(materials);
         ctx.attribute("materials", materials);
         ctx.render("admin-materials.html");
+    }
+
+    public static void deleteMaterial(Context ctx, ConnectionPool connectionPool) {
+        int materialId = Integer.parseInt(ctx.formParam("deleteId"));
+        String sql = "DELETE FROM material WHERE material_id = ?";
+        System.out.println(materialId);
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, materialId);
+                preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace(); // Proper error handling should be implemented
+        }
+        displayMaterialPage(ctx, connectionPool);
     }
 }
