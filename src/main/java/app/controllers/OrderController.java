@@ -57,17 +57,27 @@ public class OrderController {
         int cpWidth=ctx.sessionAttribute("currentWidth");
         int cpLength= ctx.sessionAttribute("currentLength");
 
-
-//
         // Forsøg at oprette ordren og shipping i databasen
         try {
             int shippingId = ShippingMapper.createShipping(user.getAddressId(), connectionPool);
-            OrderMapper.createOrder(order, user, shippingId, connectionPool);
 
+            // Insert the order into the database with initial price 0
+            OrderMapper.createOrder(order, user, shippingId, 0, connectionPool);
+            int orderId = OrderMapper.getLastOrder(connectionPool);
+
+            // Update the order id in the order object
+            order.setOrderId(orderId);
+
+            // Now, calculate the bill of materials and insert it into the database
             Calculator calculator = new Calculator(cpWidth,cpLength,connectionPool);
             calculator.calcCarport(order);
-             OrderMapper.createBomLine(calculator.getBomLine(),connectionPool);
-            int orderId = OrderMapper.getLastOrder(connectionPool);
+            OrderMapper.createBomLine(calculator.getBomLine(),connectionPool);
+            double materialPrice = calculator.getTotalMaterialPrice();
+            double shippingRate = ShippingMapper.getShippingRate(shippingId, connectionPool);
+            double totalPrice = materialPrice + shippingRate;
+
+            // Update the order in the database with the calculated price
+            OrderMapper.updatePriceByOrderId(orderId, totalPrice, connectionPool);
 
             MailController.sendOrderConfirmation(order, user, orderId);
             ctx.render("order-confirmation.html");
