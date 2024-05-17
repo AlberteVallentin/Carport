@@ -1,9 +1,6 @@
 package app.controllers;
 
-import app.entities.BillOfMaterialLine;
-import app.entities.MaterialVariant;
-import app.entities.Order;
-import app.entities.User;
+import app.entities.*;
 import app.exceptions.DatabaseException;
 import app.persistence.*;
 import app.utility.Calculator;
@@ -28,7 +25,7 @@ public class AdminController {
         app.post("/nonewoffer", ctx -> noNewOffer(ctx, connectionPool));
         app.post("/admindeleteorder", ctx -> adminDeleteOrder(ctx, connectionPool));
         app.post("/sendoffer", ctx -> sendOffer(ctx, connectionPool));
-        app.get("/materials", ctx -> ctx.render("admin-materials.html"));
+        app.get("/materials", ctx -> displayMaterialPage(ctx,connectionPool));
         app.post("/creatematerial", ctx -> addMaterial(ctx, connectionPool));
 
 
@@ -280,6 +277,13 @@ public class AdminController {
             e.printStackTrace(); // Proper error handling should be implemented
         }
 
+        ctx.render("admin-materials.html");
+    }
+
+    public static void displayMaterialPage(Context ctx, ConnectionPool connectionPool){
+        List <Material> materials = MaterialMapper.getAllMaterials(connectionPool);
+        System.out.println(materials);
+        ctx.attribute("materials", materials);
         ctx.render("admin-materials.html");
     }
 }

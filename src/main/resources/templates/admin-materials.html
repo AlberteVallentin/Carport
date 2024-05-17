@@ -190,14 +190,14 @@
                     </thead>
 
                     <tbody class="bom-table">
-                    <tr th:each="BillOfMaterialLine: ${bomLines}">
-                        <td th:text="${BillOfMaterialLine.materialVariant.material.type}">No info</td>
-                        <td th:text="${BillOfMaterialLine.materialVariant.material.type}">No info</td>
-                        <td th:text="${BillOfMaterialLine.materialVariant.material.materialDescription}">No info</td>
-                        <td th:text="${BillOfMaterialLine.materialVariant.material.unit}">No info</td>
-                        <td th:text="${BillOfMaterialLine.materialVariant.length}">No info</td>
-                        <td th:text="${BillOfMaterialLine.quantity}">No info</td>
-                        <td th:text="${BillOfMaterialLine.functionalDescription}">No info</td>
+                    <tr th:each="Material: ${materials}">
+                        <td th:text="${Material.materialId}">No info</td>
+                        <td th:text="${Material.width}">No info</td>
+                        <td th:text="${Material.depth}">No info</td>
+                        <td th:text="${Material.type}">No info</td>
+                        <td th:text="${Material.materialPrice}">No info</td>
+                        <td th:text="${Material.unit}">No info</td>
+                        <td th:text="${Material.materialDescription}">No info</td>
                     </tr>
                     </tbody>
                 </table>

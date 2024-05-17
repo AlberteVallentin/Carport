@@ -73,5 +73,31 @@ public class MaterialMapper
         }
         return material;
     }
+    public static List<Material> getAllMaterials(ConnectionPool connectionPool) {
+        List<Material> materials = new ArrayList<>();
+        String sql = "SELECT material_id, width, depth, type, material_price, unit, material_description FROM material";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                int materialId = resultSet.getInt("material_id");
+                int width = resultSet.getInt("width");
+                int depth = resultSet.getInt("depth");
+                String type = resultSet.getString("type");
+                int materialPrice = resultSet.getInt("material_price");
+                String unit = resultSet.getString("unit");
+                String materialDescription = resultSet.getString("material_description");
+
+                Material material = new Material(materialId, width, depth, type, materialPrice, unit, materialDescription);
+                materials.add(material);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Proper error handling should be implemented
+        }
+
+        return materials;
+    }
 
 }
