@@ -154,10 +154,11 @@ public class AdminController {
         ctx.attribute("cpRoof", order.getCpRoof());
         ctx.attribute("shLength", order.getShLength());
         ctx.attribute("shWidth", order.getShWidth());
-        ctx.attribute("price", order.getPrice());
+        ctx.attribute("price", order.getPrice()+shippingRate);
         ctx.attribute("comment", order.getComment());
         ctx.attribute("postalCode", postalCode);
         ctx.attribute("shippingRate", shippingRate);
+        ctx.attribute("materialPrice",order.getPrice());
 
         Calculator calculator = new Calculator(order.getCpWidth(), order.getCpLength(), connectionPool);
         calculator.calcCarport(order);

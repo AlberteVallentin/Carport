@@ -27,8 +27,7 @@ public class Calculator {
     private double beamPrice;
     private double rafterPrice;
     private double postPrice;
-    private double totalPrice;
-    ShippingCalculator shippingCalculator;
+    private double  totalMaterialPrice;
     private ConnectionPool connectionPool;
 
     // Constructor to initialize width, length, and connection pool
@@ -37,6 +36,8 @@ public class Calculator {
         this.length = length;
         this.connectionPool = connectionPool;
     }
+
+
 
     // Method to calculate bill of material for the carport
     public void calcCarport(Order order) throws DatabaseException {
@@ -61,7 +62,7 @@ public class Calculator {
         MaterialVariant materialVariant = materialVariants.get(0);
 
 
-        postPrice=quantity*82;
+        postPrice=(quantity*3)*82;
 
         String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(1, connectionPool);
 
@@ -159,10 +160,11 @@ public class Calculator {
     }
 
 
-    public double getTotalPrice() {
+    public double getTotalMaterialPrice() {
 
-        totalPrice=postPrice+beamPrice+rafterPrice+shippingCalculator.getShippingPrice();
-        return totalPrice;
+        totalMaterialPrice = postPrice + beamPrice + rafterPrice;
+        return  totalMaterialPrice;
+
     }
 
     // Method to retrieve the list of bill of material lines

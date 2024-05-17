@@ -46,14 +46,16 @@ private static double shippingPrice;
         return shippingPrice;
     }
 
+
     public double getShippingPrice() {
-        return shippingPrice;
+        return this.shippingPrice;
     }
 
     public static void updateShippingRateForShipping(int addressId, ConnectionPool connectionPool, Shipping shipping) {
         double shippingRate = calculateShippingRate(addressId, connectionPool);
         shipping.setShippingRate(shippingRate);
     }
+
 
 
 }
