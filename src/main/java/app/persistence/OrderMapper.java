@@ -1,37 +1,35 @@
 package app.persistence;
 
-import app.entities.Order;
-import app.entities.User;
+import app.entities.*;
 import app.exceptions.DatabaseException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import app.entities.*;
-import app.exceptions.DatabaseException;
-import app.utility.Calculator;
-
-import java.sql.*;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class OrderMapper {
 
-    public static List<Order> getAllOrders(ConnectionPool connectionPool) throws DatabaseException{
+    /**
+     * Retrieves all orders from the database.
+     *
+     * @param connectionPool The connection pool for database connections.
+     * @return A list of all orders.
+     * @throws DatabaseException If a database error occurs.
+     */
+    public static List<Order> getAllOrders(ConnectionPool connectionPool) throws DatabaseException {
         List<Order> orderList = new ArrayList<>();
-        String sql = "SELECT * FROM orders inner join users using(user_id)";
-        try(
-                Connection connection = connectionPool.getConnection();
-                var prepareStatement = connection.prepareStatement(sql);
-                var resultSet = prepareStatement.executeQuery();
-                )
-            {
-            while(resultSet.next()){
+        String sql = "SELECT * FROM orders INNER JOIN users USING(user_id)";
 
-                //Retreiving user attributes from DB
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                // Retrieving user attributes from DB
                 int userId = resultSet.getInt("user_id");
                 String firstName = resultSet.getString("first_name");
                 String lastName = resultSet.getString("last_name");
@@ -41,7 +39,7 @@ public class OrderMapper {
                 boolean isAdmin = resultSet.getBoolean("admin");
                 int addressId = resultSet.getInt("address_id");
 
-                //Retreiving order attributes from DB
+                // Retrieving order attributes from DB
                 int orderId = resultSet.getInt("order_id");
                 double price = resultSet.getDouble("price");
                 String comment = resultSet.getString("comment");
@@ -52,8 +50,6 @@ public class OrderMapper {
                 int shedLength = resultSet.getInt("shed_length");
                 int shedWidth = resultSet.getInt("shed_width");
                 int statusId = resultSet.getInt("status_id");
-
-
 
                 User user = new User(userId, firstName, lastName, phoneNumber, email, password, isAdmin, addressId);
                 Shipping shipping = ShippingMapper.getShippingById(shippingId, connectionPool);
@@ -66,24 +62,30 @@ public class OrderMapper {
         return orderList;
     }
 
-    public static List<BillOfMaterialLine> getOrderByOrderId(int orderId, ConnectionPool connectionPool) throws DatabaseException
-    {
+    /**
+     * Retrieves a list of BillOfMaterialLine objects by order ID.
+     *
+     * @param orderId        The ID of the order.
+     * @param connectionPool The connection pool for database connections.
+     * @return A list of BillOfMaterialLine objects.
+     * @throws DatabaseException If a database error occurs.
+     */
+    public static List<BillOfMaterialLine> getOrderByOrderId(int orderId, ConnectionPool connectionPool) throws DatabaseException {
         List<BillOfMaterialLine> BillOfMaterialLineList = new ArrayList<>();
-        String sql = "SELECT * FROM bill_of_materials_view where order_id = ?";
-        try (
-                Connection connection = connectionPool.getConnection();
-                PreparedStatement prepareStatement = connection.prepareStatement(sql);
-        )
-        {
+        String sql = "SELECT * FROM bill_of_materials_view WHERE order_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
+
             prepareStatement.setInt(1, orderId);
-            var rs = prepareStatement.executeQuery();
-            while (rs.next())
-            {
+            ResultSet rs = prepareStatement.executeQuery();
+
+            while (rs.next()) {
                 // Order
                 int orderId2 = rs.getInt("order_id");
                 Order order = getOrderById(orderId2, connectionPool);
 
-                //Material
+                // Material
                 int materialId = rs.getInt("material_id");
                 String type = rs.getString("type");
                 String unit = rs.getString("unit");
@@ -91,7 +93,7 @@ public class OrderMapper {
 
                 Material material = new Material(materialId, null, null, type, materialPrice, unit, null);
 
-                // material variant
+                // Material variant
                 int materialVariantId = rs.getInt("material_variant_id");
                 int length = rs.getInt("length");
 
@@ -105,61 +107,60 @@ public class OrderMapper {
                 BillOfMaterialLine BillOfMaterialLine = new BillOfMaterialLine(BillOfMaterialLineId, order, materialVariant, quantity, functionalDescription);
                 BillOfMaterialLineList.add(BillOfMaterialLine);
             }
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             throw new DatabaseException("Could not get users from the database", e.getMessage());
         }
         return BillOfMaterialLineList;
     }
 
-    public static Order insertOrder(Order order, ConnectionPool connectionPool) throws DatabaseException
-    {
-        String sql = "INSERT INTO orders (cp_width, cp_length, status_id, user_id, price) " +
-                "VALUES (?, ?, ?, ?, ?)";
-        try (Connection connection = connectionPool.getConnection())
-        {
-            try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))
-            {
-                ps.setDouble(2, order.getPrice());
-                ps.setInt(3, order.getUser().getUserId());
-                ps.setString(4, order.getComment());
-                ps.setInt(5, order.getShippingId());
-                ps.setInt(6, order.getCpLength());
-                ps.setInt(7, order.getCpWidth());
-                ps.setInt(8, order.getShLength());
-                ps.setInt(9,order.getShWidth());
-                ps.setInt(10, order.getStatusId());
-                ps.setString(11, order.getCpRoof());
+    /**
+     * Inserts a new order into the database.
+     *
+     * @param order          The order to insert.
+     * @param connectionPool The connection pool for database connections.
+     * @return The newly inserted order with the generated ID.
+     * @throws DatabaseException If a database error occurs.
+     */
+    public static Order insertOrder(Order order, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "INSERT INTO orders (cp_width, cp_length, status_id, user_id, price) VALUES (?, ?, ?, ?, ?)";
 
-                ps.executeUpdate();
-                ResultSet keySet = ps.getGeneratedKeys();
-                if (keySet.next())
-                {
-                    Shipping shipping = ShippingMapper.getShippingById(order.getShipping().getShippingId(), connectionPool);
-                    Order newOrder = new Order(keySet.getInt(1), order.getPrice(), order.getUser(), order.getComment(), shipping, order.getCpLength(), order.getCpWidth(), order.getCpRoof(), order.getShLength(), order.getShWidth(), order.getStatusId());
-                    return newOrder;
-                } else
-                    return null;
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            ps.setInt(1, order.getCpWidth());
+            ps.setInt(2, order.getCpLength());
+            ps.setInt(3, order.getStatusId());
+            ps.setInt(4, order.getUser().getUserId());
+            ps.setDouble(5, order.getPrice());
+
+            ps.executeUpdate();
+            ResultSet keySet = ps.getGeneratedKeys();
+
+            if (keySet.next()) {
+                int generatedId = keySet.getInt(1);
+                order.setOrderId(generatedId);
+                return order;
+            } else {
+                throw new DatabaseException("Order creation failed, no ID obtained.");
             }
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             throw new DatabaseException("Could not create order in the database", e.getMessage());
         }
-
     }
 
-    public static void createBomLine(List<BillOfMaterialLine> billOfMaterialLines, ConnectionPool connectionPool) throws DatabaseException
-    {
-        String sql = "INSERT INTO bill_of_material_line (order_id, material_variant_id, quanity ,functional_description_id) " +
-                "VALUES ( ?, ?, ?,?)";
-        try (Connection connection = connectionPool.getConnection())
-        {
-            for (BillOfMaterialLine billOfMaterialLine : billOfMaterialLines)
-            {
-                try (PreparedStatement ps = connection.prepareStatement(sql))
-                {
+    /**
+     * Creates BillOfMaterialLine records in the database for a given list of BillOfMaterialLine objects.
+     *
+     * @param billOfMaterialLines The list of BillOfMaterialLine objects to insert.
+     * @param connectionPool      The connection pool for database connections.
+     * @throws DatabaseException If a database error occurs.
+     */
+    public static void createBomLine(List<BillOfMaterialLine> billOfMaterialLines, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "INSERT INTO bill_of_material_line (order_id, material_variant_id, quanity, functional_description_id) VALUES (?, ?, ?, ?)";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            for (BillOfMaterialLine billOfMaterialLine : billOfMaterialLines) {
+                try (PreparedStatement ps = connection.prepareStatement(sql)) {
                     ps.setInt(1, billOfMaterialLine.getOrder().getOrderId());
                     ps.setInt(2, billOfMaterialLine.getMaterialVariant().getMaterialVariantId());
                     ps.setInt(3, billOfMaterialLine.getQuantity());
@@ -167,20 +168,27 @@ public class OrderMapper {
                     ps.executeUpdate();
                 }
             }
-        }
-        catch (SQLException e)
-        {
-            throw new DatabaseException("Could not create orderitem in the database", e.getMessage());
+        } catch (SQLException e) {
+            throw new DatabaseException("Could not create bill of material lines in the database", e.getMessage());
         }
     }
 
-
+    /**
+     * Creates a new order in the database.
+     *
+     * @param order          The order to create.
+     * @param user           The user who created the order.
+     * @param shippingId     The shipping ID associated with the order.
+     * @param totalPrice     The total price of the order.
+     * @param connectionPool The connection pool for database connections.
+     * @throws SQLException If a SQL error occurs.
+     */
     public static void createOrder(Order order, User user, int shippingId, double totalPrice, ConnectionPool connectionPool) throws SQLException {
         String sql = "INSERT INTO orders (price, user_id, comment, shipping_id, cp_length, cp_width, shed_length, shed_width, status_id, cp_roof) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
         try (Connection conn = connectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            //Calculator calculator = new Calculator(order.getCpWidth(),order.getCpLength(),connectionPool);
-            //calculator.calcCarport(order);
+
             ps.setDouble(1, totalPrice);
             ps.setInt(2, user.getUserId());
             ps.setString(3, order.getComment());
@@ -194,17 +202,28 @@ public class OrderMapper {
             ps.executeUpdate();
 
             ResultSet rs = ps.getGeneratedKeys();
-            rs.next();
-            int orderId = rs.getInt(1);
-
-            order.setOrderId(orderId);
+            if (rs.next()) {
+                int orderId = rs.getInt(1);
+                order.setOrderId(orderId);
+            }
         }
     }
 
+    /**
+     * Retrieves the last inserted order ID from the database.
+     *
+     * @param connectionPool The connection pool for database connections.
+     * @return The last inserted order ID.
+     * @throws DatabaseException If a database error occurs.
+     */
     public static int getLastOrder(ConnectionPool connectionPool) throws DatabaseException {
         int orderId = 0;
         String sql = "SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1";
-        try (Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery();) {
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
             if (rs.next()) {
                 orderId = rs.getInt("order_id");
             }
@@ -214,17 +233,28 @@ public class OrderMapper {
         return orderId;
     }
 
+    /**
+     * Retrieves the status ID of an order by its order ID.
+     *
+     * @param orderId        The ID of the order.
+     * @param connectionPool The connection pool for database connections.
+     * @return The status ID of the order.
+     * @throws DatabaseException If a database error occurs.
+     */
     public static int getOrderStatusByOrderId(int orderId, ConnectionPool connectionPool) throws DatabaseException {
         int statusId = 0;
         String sql = "SELECT status_id FROM orders WHERE order_id = ?";
-        try (Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
             ps.setInt(1, orderId);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    statusId = rs.getInt("status_id");
-                } else {
-                    throw new DatabaseException("Vi kunne desværre ikke finde en ordre med følgende ordrenummer: " + orderId + ". Prøv igen og tjek evt din e-mail, hvor du kan se dit ordrenummer.");
-                }
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                statusId = rs.getInt("status_id");
+            } else {
+                throw new DatabaseException("Vi kunne desværre ikke finde en ordre med følgende ordrenummer: " + orderId + ". Prøv igen og tjek evt din e-mail, hvor du kan se dit ordrenummer.");
             }
         } catch (SQLException e) {
             throw new DatabaseException("Error retrieving order status by ID", e.getMessage());
@@ -232,10 +262,20 @@ public class OrderMapper {
         return statusId;
     }
 
+    /**
+     * Updates the status ID of an order by its order ID.
+     *
+     * @param orderId        The ID of the order to update.
+     * @param statusId       The new status ID of the order.
+     * @param connectionPool The connection pool for database connections.
+     * @throws DatabaseException If a database error occurs.
+     */
     public static void updateOrderStatusById(int orderId, int statusId, ConnectionPool connectionPool) throws DatabaseException {
         String sql = "UPDATE orders SET status_id = ? WHERE order_id = ?";
+
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
+
             ps.setInt(1, statusId);
             ps.setInt(2, orderId);
             ps.executeUpdate();
@@ -244,27 +284,40 @@ public class OrderMapper {
         }
     }
 
+    /**
+     * Retrieves an order by its ID from the database.
+     *
+     * @param orderId        The ID of the order to retrieve.
+     * @param connectionPool The connection pool for database connections.
+     * @return The Order object corresponding to the given ID.
+     * @throws DatabaseException If a database error occurs.
+     */
     public static Order getOrderById(int orderId, ConnectionPool connectionPool) throws DatabaseException {
         Order order = null;
         String sql = "SELECT * FROM orders WHERE order_id = ?";
-        try (Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
             ps.setInt(1, orderId);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    int userId = rs.getInt("user_id");
-                    User user = UserMapper.getUserById(userId, connectionPool);
-                    if (user == null) {
-                        throw new DatabaseException("No user found with the provided userId: " + userId);
-                    }
-                    int cpLength = rs.getInt("cp_length");
-                    int cpWidth = rs.getInt("cp_width");
-                    int shLength = rs.getInt("shed_length");
-                    int shWidth = rs.getInt("shed_width");
-                    int statusId = rs.getInt("status_id");
-                    String cpRoof = rs.getString("cp_roof");
-                    double price = rs.getDouble("price");
-                    order = new Order(orderId, price, user, cpLength, cpWidth, cpRoof, shLength, shWidth, statusId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int userId = rs.getInt("user_id");
+                User user = UserMapper.getUserById(userId, connectionPool);
+                if (user == null) {
+                    throw new DatabaseException("No user found with the provided userId: " + userId);
                 }
+                int cpLength = rs.getInt("cp_length");
+                int cpWidth = rs.getInt("cp_width");
+                int shLength = rs.getInt("shed_length");
+                int shWidth = rs.getInt("shed_width");
+                int statusId = rs.getInt("status_id");
+                String cpRoof = rs.getString("cp_roof");
+                double price = rs.getDouble("price");
+
+                // Create and return Order object
+                order = new Order(orderId, price, user, cpLength, cpWidth, cpRoof, shLength, shWidth, statusId);
             }
         } catch (SQLException e) {
             throw new DatabaseException("Error retrieving order by ID", e.getMessage());
@@ -272,27 +325,41 @@ public class OrderMapper {
         return order;
     }
 
+    /**
+     * Retrieves an order by its ID and user ID from the database.
+     *
+     * @param orderId        The ID of the order to retrieve.
+     * @param userId         The ID of the user associated with the order.
+     * @param connectionPool The connection pool for database connections.
+     * @return The Order object corresponding to the given IDs.
+     * @throws DatabaseException If a database error occurs.
+     */
     public static Order getOrderByIdAndUserId(int orderId, int userId, ConnectionPool connectionPool) throws DatabaseException {
         Order order = null;
         String sql = "SELECT * FROM orders WHERE order_id = ? AND user_id = ?";
-        try (Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
             ps.setInt(1, orderId);
             ps.setInt(2, userId);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    User user = UserMapper.getUserById(userId, connectionPool);
-                    if (user == null) {
-                        throw new DatabaseException("No user found with the provided userId: " + userId);
-                    }
-                    int cpLength = rs.getInt("cp_length");
-                    int cpWidth = rs.getInt("cp_width");
-                    int shLength = rs.getInt("shed_length");
-                    int shWidth = rs.getInt("shed_width");
-                    int statusId = rs.getInt("status_id");
-                    String cpRoof = rs.getString("cp_roof");
-                    double price = rs.getDouble("price");
-                    order = new Order(orderId, price, user, cpLength, cpWidth, cpRoof, shLength, shWidth, statusId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                User user = UserMapper.getUserById(userId, connectionPool);
+                if (user == null) {
+                    throw new DatabaseException("No user found with the provided userId: " + userId);
                 }
+                int cpLength = rs.getInt("cp_length");
+                int cpWidth = rs.getInt("cp_width");
+                int shLength = rs.getInt("shed_length");
+                int shWidth = rs.getInt("shed_width");
+                int statusId = rs.getInt("status_id");
+                String cpRoof = rs.getString("cp_roof");
+                double price = rs.getDouble("price");
+
+                // Create and return Order object
+                order = new Order(orderId, price, user, cpLength, cpWidth, cpRoof, shLength, shWidth, statusId);
             }
         } catch (SQLException e) {
             throw new DatabaseException("Error retrieving order by ID", e.getMessage());
@@ -300,9 +367,19 @@ public class OrderMapper {
         return order;
     }
 
-    public static void deleteOrder (int orderId, ConnectionPool connectionPool) throws DatabaseException {
+    /**
+     * Deletes an order by its ID from the database.
+     *
+     * @param orderId        The ID of the order to delete.
+     * @param connectionPool The connection pool for database connections.
+     * @throws DatabaseException If a database error occurs.
+     */
+    public static void deleteOrder(int orderId, ConnectionPool connectionPool) throws DatabaseException {
         String sql = "DELETE FROM orders WHERE order_id = ?";
-        try (Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
             ps.setInt(1, orderId);
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -310,9 +387,21 @@ public class OrderMapper {
         }
     }
 
+    /**
+     * Updates the price of an order by its order ID.
+     *
+     * @param orderId        The ID of the order to update.
+     * @param price          The new price of the order.
+     * @param connectionPool The connection pool for database connections.
+     * @return The updated price.
+     * @throws DatabaseException If a database error occurs.
+     */
     public static double updatePriceByOrderId(int orderId, double price, ConnectionPool connectionPool) throws DatabaseException {
         String sql = "UPDATE orders SET price = ? WHERE order_id = ?";
-        try (Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
             ps.setDouble(1, price);
             ps.setInt(2, orderId);
             ps.executeUpdate();
@@ -322,9 +411,19 @@ public class OrderMapper {
         return price;
     }
 
+    /**
+     * Deletes all bill of material lines associated with an order ID from the database.
+     *
+     * @param orderId        The ID of the order.
+     * @param connectionPool The connection pool for database connections.
+     * @throws DatabaseException If a database error occurs.
+     */
     public static void deleteBillOfMaterialLinesByOrderId(int orderId, ConnectionPool connectionPool) throws DatabaseException {
         String sql = "DELETE FROM bill_of_material_line WHERE order_id = ?";
-        try (Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
             ps.setInt(1, orderId);
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -332,36 +431,44 @@ public class OrderMapper {
         }
     }
 
+    /**
+     * Retrieves all bill of material lines associated with an order ID from the database.
+     *
+     * @param orderId        The ID of the order.
+     * @param connectionPool The connection pool for database connections.
+     * @return A list of BillOfMaterialLine objects.
+     * @throws DatabaseException If a database error occurs.
+     */
     public static List<BillOfMaterialLine> getBomLinesByOrderId(int orderId, ConnectionPool connectionPool) throws DatabaseException {
         List<BillOfMaterialLine> bomLines = new ArrayList<>();
         String sql = "SELECT * FROM bill_of_material_line WHERE order_id = ?";
+
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
+
             ps.setInt(1, orderId);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    int bomLineId = rs.getInt("bom_line_id");
-                    int materialVariantId = rs.getInt("material_variant_id");
-                    int quantity = rs.getInt("quantity");
-                    int functionalDescriptionId = rs.getInt("functional_description_id");
+            ResultSet rs = ps.executeQuery();
 
-                    // Hent Order og MaterialVariant objekter baseret på deres id'er
-                    Order order = OrderMapper.getOrderById(orderId, connectionPool);
-                    MaterialVariant materialVariant = MaterialVariantMapper.getMaterialVariantById(materialVariantId, connectionPool);
+            while (rs.next()) {
+                int bomLineId = rs.getInt("bom_line_id");
+                int materialVariantId = rs.getInt("material_variant_id");
+                int quantity = rs.getInt("quantity");
+                int functionalDescriptionId = rs.getInt("functional_description_id");
 
-                    // Hent den funktionelle beskrivelse baseret på dens id
-                    String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(functionalDescriptionId, connectionPool);
+                // Retrieve Order and MaterialVariant objects based on their IDs
+                Order order = OrderMapper.getOrderById(orderId, connectionPool);
+                MaterialVariant materialVariant = MaterialVariantMapper.getMaterialVariantById(materialVariantId, connectionPool);
 
-                    // Opret et nyt BillOfMaterialLine objekt og tilføj det til listen
-                    BillOfMaterialLine bomLine = new BillOfMaterialLine(order, materialVariant, quantity, functionalDescription);
-                    bomLines.add(bomLine);
-                }
+                // Retrieve the functional description based on its ID
+                String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(functionalDescriptionId, connectionPool);
+
+                // Create a new BillOfMaterialLine object and add it to the list
+                BillOfMaterialLine bomLine = new BillOfMaterialLine(order, materialVariant, quantity, functionalDescription);
+                bomLines.add(bomLine);
             }
         } catch (SQLException e) {
             throw new DatabaseException("Error retrieving bill of material lines by order ID", e.getMessage());
         }
         return bomLines;
     }
-
-
 }

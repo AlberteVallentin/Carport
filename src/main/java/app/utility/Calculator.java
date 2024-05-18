@@ -17,7 +17,6 @@ public class Calculator {
     private static final int RAFTERS = 4;
     private static final int BEAMS = 4;
 
-
     // List to store bill of material lines
     private List<BillOfMaterialLine> bomLine = new ArrayList<>();
 
@@ -27,19 +26,28 @@ public class Calculator {
     private double beamPrice;
     private double rafterPrice;
     private double postPrice;
-    private double  totalMaterialPrice;
+    private double totalMaterialPrice;
     private ConnectionPool connectionPool;
 
-    // Constructor to initialize width, length, and connection pool
+    /**
+     * Constructor to initialize width, length, and connection pool.
+     *
+     * @param width          The width of the carport.
+     * @param length         The length of the carport.
+     * @param connectionPool The connection pool for database operations.
+     */
     public Calculator(int width, int length, ConnectionPool connectionPool) {
         this.width = width;
         this.length = length;
         this.connectionPool = connectionPool;
     }
 
-
-
-    // Method to calculate bill of material for the carport
+    /**
+     * Calculates the bill of material for the carport.
+     *
+     * @param order The order for which to calculate the bill of material.
+     * @throws DatabaseException If a database error occurs.
+     */
     public void calcCarport(Order order) throws DatabaseException {
         // Calculate bill of material for posts, beams, and rafters
         calcPost(order);
@@ -47,7 +55,12 @@ public class Calculator {
         calcRafters(order);
     }
 
-    // Method to calculate quantity of posts
+    /**
+     * Calculates the quantity of posts for the carport.
+     *
+     * @param order The order for which to calculate the quantity of posts.
+     * @throws DatabaseException If a database error occurs.
+     */
     private void calcPost(Order order) throws DatabaseException {
         // Calculate quantity of posts based on carport length
         int quantity;
@@ -63,9 +76,9 @@ public class Calculator {
 
         // Calculate price of posts
         double materialPrice = materialVariant.getMaterial().getMaterialPrice();
-        double postMeter= materialVariant.getLength();
+        double postMeter = materialVariant.getLength();
 
-        postPrice=(postMeter/100)* quantity* materialPrice;
+        postPrice = (postMeter / 100) * quantity * materialPrice;
 
         String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(1, connectionPool);
 
@@ -73,10 +86,14 @@ public class Calculator {
         bomLine.add(billOfMaterialLine);
     }
 
-    // Method to calculate quantity of beams
-    private void calcBeams(Order order) throws DatabaseException{
+    /**
+     * Calculates the quantity of beams for the carport.
+     *
+     * @param order The order for which to calculate the quantity of beams.
+     * @throws DatabaseException If a database error occurs.
+     */
+    private void calcBeams(Order order) throws DatabaseException {
         // Calculate quantity of beams based on carport length
-        //Remme
         int quantity;
         int variantId = 0;
         MaterialVariant foundVariant = null;
@@ -90,9 +107,6 @@ public class Calculator {
         }
 
         int variantLength = Integer.MAX_VALUE;
-
-        // Get all variants of beams from the database
-        //List<MaterialVariant> materialVariants = MaterialVariantMapper.getAllVariantsByMaterialId(4, connectionPool);
 
         // Get all variants of beams from the database
         List<MaterialVariant> materialVariants = MaterialVariantMapper.getAllVariantsByMaterialId(4, connectionPool);
@@ -118,9 +132,9 @@ public class Calculator {
 
         double materialPrice = foundVariant.getMaterial().getMaterialPrice();
 
-        double beamMeter= foundVariant.getLength();
+        double beamMeter = foundVariant.getLength();
 
-        beamPrice=(beamMeter/100)*quantity*materialPrice;
+        beamPrice = (beamMeter / 100) * quantity * materialPrice;
 
         MaterialVariant materialVariant = foundVariant;
 
@@ -128,17 +142,19 @@ public class Calculator {
 
         BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(order, materialVariant, quantity, 2, functionalDescription);
         bomLine.add(billOfMaterialLine);
-
-
     }
 
-    // Method to calculate quantity of rafters
-    private void calcRafters(Order order) throws DatabaseException{
-        // Calculate quantity of rafters based on carport length
-        //spær
+    /**
+     * Calculates the quantity of rafters for the carport.
+     *
+     * @param order The order for which to calculate the quantity of rafters.
+     * @throws DatabaseException If a database error occurs.
+     */
+    private void calcRafters(Order order) throws DatabaseException {
+        // Calculate quantity of rafters based on carport width
         length = order.getCpWidth();
         int variantLength = Integer.MAX_VALUE;
-        int variantId=0;
+        int variantId = 0;
         MaterialVariant foundVariant = null;
 
         int quantity = length / 55; // Assuming each rafter has a length of 55
@@ -146,7 +162,7 @@ public class Calculator {
         // Get all variants of rafters from the database
         List<MaterialVariant> materialVariants = MaterialVariantMapper.getAllVariantsByMaterialId(4, connectionPool);
 
-        // Find suitable rafter variant based on carport length
+        // Find suitable rafter variant based on carport width
         for (MaterialVariant m : materialVariants) {
             if (m.getLength() >= length && m.getLength() < variantLength) {
                 variantLength = m.getLength();
@@ -157,28 +173,32 @@ public class Calculator {
 
         double materialPrice = foundVariant.getMaterial().getMaterialPrice();
 
-        double rafterMeter= foundVariant.getLength();
+        double rafterMeter = foundVariant.getLength();
 
-        rafterPrice=(rafterMeter/100)*quantity*materialPrice;
+        rafterPrice = (rafterMeter / 100) * quantity * materialPrice;
 
         MaterialVariant materialVariant = foundVariant;
         String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(3, connectionPool);
 
-
         BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(order, materialVariant, quantity, 3, functionalDescription);
         bomLine.add(billOfMaterialLine);
-
     }
 
-
+    /**
+     * Gets the total material price for the carport.
+     *
+     * @return The total material price.
+     */
     public double getTotalMaterialPrice() {
-
         totalMaterialPrice = postPrice + beamPrice + rafterPrice;
-        return  totalMaterialPrice;
-
+        return totalMaterialPrice;
     }
 
-    // Method to retrieve the list of bill of material lines
+    /**
+     * Retrieves the list of bill of material lines.
+     *
+     * @return The list of bill of material lines.
+     */
     public List<BillOfMaterialLine> getBomLine() {
         return bomLine;
     }
