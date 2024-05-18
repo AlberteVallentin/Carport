@@ -10,29 +10,44 @@ import app.persistence.UserMapper;
 import app.utility.Calculator;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+
 import java.sql.SQLException;
 import java.util.List;
 
 public class StatusController {
 
+    /**
+     * Adds routes to the Javalin application for various status-related functionalities.
+     *
+     * @param app            The Javalin application instance.
+     * @param connectionPool The connection pool for database connections.
+     */
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
+        // Define routes for status operations
         app.get("/status", ctx -> ctx.render("status.html"));
         app.post("/statusRedirect", ctx -> statusRedirect(ctx, connectionPool));
         app.get("/confirm-offer", ctx -> ctx.render("confirm-offer.html"));
         app.get("/confirm-newcarport", ctx -> ctx.render("confirm-newcarport.html"));
         app.post("/newcarportconfirmed", ctx -> newCarportConfirmed(ctx, connectionPool));
         app.post("/offerconfirmed", ctx -> offerConfirmed(ctx, connectionPool));
-        //app.get("/orderdone", ctx -> ctx.render("order-done.html"));
         app.get("/orderdone", ctx -> orderDone(ctx, connectionPool));
         app.get("/statusRedirect", ctx -> statusRedirect(ctx, connectionPool));
     }
 
-
+    /**
+     * Redirects the user based on the order status.
+     *
+     * @param ctx            The Javalin context, which provides access to the request and response.
+     * @param connectionPool The connection pool for database connections.
+     */
     private static void statusRedirect(Context ctx, ConnectionPool connectionPool) {
         try {
+            // Retrieve form parameters from the request
             String email = ctx.formParam("email");
             String password = ctx.formParam("password");
             String orderIdStr = ctx.formParam("order-id");
+
+            // Validate input fields
             if (orderIdStr == null || orderIdStr.isEmpty() || email == null || email.isEmpty() || password == null || password.isEmpty()) {
                 ctx.attribute("message", "Udfyld venligst alle felter");
                 ctx.render("status.html");
@@ -41,7 +56,7 @@ public class StatusController {
 
             int orderId = Integer.parseInt(orderIdStr);
 
-            // Hent brugeren fra databasen
+            // Retrieve the user from the database
             User user = UserMapper.getUserByEmailAndPassword(email, password, connectionPool);
             if (user == null) {
                 ctx.attribute("message", "Din e-mail og kodeord stemmer ikke overens");
@@ -49,7 +64,7 @@ public class StatusController {
                 return;
             }
 
-            // Hent ordren fra databasen
+            // Retrieve the order from the database
             Order order = OrderMapper.getOrderByIdAndUserId(orderId, user.getUserId(), connectionPool);
             ctx.sessionAttribute("orderId", orderId);
             if (order == null) {
@@ -58,10 +73,10 @@ public class StatusController {
                 return;
             }
 
-            // Hent status-id'et fra ordren
+            // Retrieve the status ID from the order
             int statusId = order.getStatusId();
 
-            // Switch-case på status-id'et
+            // Redirect based on the status ID
             switch (statusId) {
                 case 2:
                     ctx.redirect("/confirm-offer");
@@ -82,95 +97,111 @@ public class StatusController {
         }
     }
 
+    /**
+     * Confirms the offer for an order and updates the order status.
+     *
+     * @param ctx            The Javalin context, which provides access to the request and response.
+     * @param connectionPool The connection pool for database connections.
+     */
     private static void offerConfirmed(Context ctx, ConnectionPool connectionPool) {
         try {
-            // Hent orderId fra sessionen
+            // Retrieve orderId from the session
             Integer orderId = ctx.sessionAttribute("orderId");
             if (orderId == null) {
-                System.out.println("No 'orderId' found in session"); // Logudskrift
+                // Log error if orderId is not found in the session
+                System.out.println("No 'orderId' found in session");
                 ctx.attribute("message", "No 'orderId' found in session");
                 ctx.render("/confirm-offer.html");
                 return;
             }
 
-            // Opdater status-ID'et for den pågældende ordre
+            // Update the status ID for the order
             OrderMapper.updateOrderStatusById(orderId, 5, connectionPool);
 
-            // Hent ordren fra databasen
+            // Retrieve the order from the database
             Order order = OrderMapper.getOrderById(orderId, connectionPool);
 
-            // Send mail til brugeren om at ordren er bekræftet
+            // Send email to the user confirming the order
             MailController.paymentConfirmed(order);
 
-            // Redirect to statusRedirect
+            // Redirect to the order done page
             ctx.redirect("/orderdone");
-
         } catch (DatabaseException e) {
-            System.out.println("Error updating order status: " + e.getMessage()); // Logudskrift
+            // Log error if order status update fails
+            System.out.println("Error updating order status: " + e.getMessage());
             ctx.attribute("message", "Error updating order status: " + e.getMessage());
             ctx.render("confirm-offer.html");
         }
     }
 
-
-
+    /**
+     * Confirms the creation of a new carport and updates the order status.
+     *
+     * @param ctx            The Javalin context, which provides access to the request and response.
+     * @param connectionPool The connection pool for database connections.
+     */
     private static void newCarportConfirmed(Context ctx, ConnectionPool connectionPool) {
         try {
-            // Hent orderId fra sessionen
+            // Retrieve orderId from the session
             Integer orderId = ctx.sessionAttribute("orderId");
             if (orderId == null) {
-                System.out.println("No 'orderId' found in session"); // Logudskrift
+                // Log error if orderId is not found in the session
+                System.out.println("No 'orderId' found in session");
                 ctx.attribute("message", "No 'orderId' found in session");
                 ctx.render("/confirm-newcarport.html");
                 return;
             }
 
-            // Opdater status-ID'et for den pågældende ordre
+            // Update the status ID for the order
             OrderMapper.updateOrderStatusById(orderId, 1, connectionPool);
 
+            // Render the new carport confirmation page
             ctx.render("newcarport-confirmation.html");
         } catch (DatabaseException e) {
-            System.out.println("Error updating order status: " + e.getMessage()); // Logudskrift
+            // Log error if order status update fails
+            System.out.println("Error updating order status: " + e.getMessage());
             ctx.attribute("message", "Error updating order status: " + e.getMessage());
             ctx.render("confirm-newcarport.html");
         }
     }
 
+    /**
+     * Displays the order completion page with the order and bill of materials.
+     *
+     * @param ctx            The Javalin context, which provides access to the request and response.
+     * @param connectionPool The connection pool for database connections.
+     */
     private static void orderDone(Context ctx, ConnectionPool connectionPool) {
         try {
-            // Hent orderId fra sessionen
+            // Retrieve orderId from the session
             Integer orderId = ctx.sessionAttribute("orderId");
             if (orderId == null) {
-                System.out.println("No 'orderId' found in session"); // Logudskrift
+                // Log error if orderId is not found in the session
+                System.out.println("No 'orderId' found in session");
                 ctx.attribute("message", "No 'orderId' found in session");
                 ctx.render("/confirm-offer.html");
                 return;
             }
 
-            // Hent ordren fra databasen
+            // Retrieve the order from the database
             Order order = OrderMapper.getOrderById(orderId, connectionPool);
 
-
+            // Calculate the bill of materials (BOM) for the carport
             Calculator calculator = new Calculator(order.getCpWidth(), order.getCpLength(), connectionPool);
             calculator.calcCarport(order);
             List<BillOfMaterialLine> bomLines = calculator.getBomLine();
 
-            ctx.attribute("bomLines", bomLines);
-
-            // Tilføj ordren og styklisten til modellen
+            // Add the order and BOM lines to the model
             ctx.attribute("order", order);
             ctx.attribute("bomLines", bomLines);
 
-            // Render 'order-done.html' skabelonen
+            // Render the order completion page
             ctx.render("order-done.html");
-
         } catch (DatabaseException e) {
-            System.out.println("Error retrieving order or bill of materials: " + e.getMessage()); // Logudskrift
+            // Log error if order or BOM retrieval fails
+            System.out.println("Error retrieving order or bill of materials: " + e.getMessage());
             ctx.attribute("message", "Error retrieving order or bill of materials: " + e.getMessage());
             ctx.render("confirm-offer.html");
         }
     }
-
-
-
 }

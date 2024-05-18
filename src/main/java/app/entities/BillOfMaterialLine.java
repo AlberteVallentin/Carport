@@ -1,5 +1,7 @@
 package app.entities;
 
+import java.util.Objects;
+
 public class BillOfMaterialLine {
     private int billOfMaterialLineId;
     private Order order;
@@ -101,5 +103,15 @@ public class BillOfMaterialLine {
         this.functionalDescription = functionalDescription;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BillOfMaterialLine that)) return false;
+        return billOfMaterialLineId == that.billOfMaterialLineId && quantity == that.quantity && Objects.equals(order, that.order) && Objects.equals(materialVariant, that.materialVariant) && Objects.equals(functionalDescription, that.functionalDescription);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(billOfMaterialLineId, order, materialVariant, quantity, functionalDescription);
+    }
 }

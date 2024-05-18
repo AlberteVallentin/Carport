@@ -1,9 +1,7 @@
 package app.persistence;
 
-import app.entities.BillOfMaterialLine;
 import app.entities.Material;
 import app.entities.MaterialVariant;
-import app.entities.Order;
 import app.exceptions.DatabaseException;
 
 import java.sql.Connection;
@@ -15,11 +13,21 @@ import java.util.List;
 
 public class MaterialVariantMapper {
 
+    /**
+     * Retrieves all material variants by material ID from the database.
+     *
+     * @param materialId      The ID of the material to retrieve variants for.
+     * @param connectionPool  The connection pool for database connections.
+     * @return A list of material variants associated with the specified material ID.
+     * @throws DatabaseException If a database error occurs.
+     */
     public static List<MaterialVariant> getAllVariantsByMaterialId(int materialId, ConnectionPool connectionPool) throws DatabaseException {
         List<MaterialVariant> materialVariants = new ArrayList<>();
+        String sql = "SELECT * FROM material_variant WHERE material_id = ?";
 
-        try (Connection connection = connectionPool.getConnection()) {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM material_variant WHERE material_id = ?");
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
             ps.setInt(1, materialId);
             ResultSet rs = ps.executeQuery();
 
@@ -32,7 +40,6 @@ public class MaterialVariantMapper {
 
                 // Create the MaterialVariant object with the Material object
                 MaterialVariant materialVariant = new MaterialVariant(materialVariantId, length, material);
-
                 materialVariants.add(materialVariant);
             }
         } catch (SQLException ex) {
@@ -42,9 +49,20 @@ public class MaterialVariantMapper {
         return materialVariants;
     }
 
+    /**
+     * Retrieves a material variant by its ID from the database.
+     *
+     * @param materialVariantId The ID of the material variant to retrieve.
+     * @param connectionPool    The connection pool for database connections.
+     * @return The MaterialVariant object corresponding to the given ID.
+     * @throws DatabaseException If a database error occurs.
+     */
     public static MaterialVariant getMaterialVariantById(int materialVariantId, ConnectionPool connectionPool) throws DatabaseException {
-        try (Connection connection = connectionPool.getConnection()) {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM material_variant WHERE material_variant_id = ?");
+        String sql = "SELECT * FROM material_variant WHERE material_variant_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
             ps.setInt(1, materialVariantId);
             ResultSet rs = ps.executeQuery();
 

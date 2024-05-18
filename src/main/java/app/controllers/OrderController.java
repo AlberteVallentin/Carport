@@ -5,7 +5,7 @@ import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.OrderMapper;
-import app.persistence.*;
+import app.persistence.ShippingMapper;
 import app.utility.Calculator;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
@@ -14,94 +14,136 @@ import java.sql.SQLException;
 
 import static app.controllers.UserController.contactDetails;
 
-
 public class OrderController {
 
+    /**
+     * Adds routes to the Javalin application for various order-related functionalities.
+     *
+     * @param app            The Javalin application instance.
+     * @param connectionPool The connection pool for database connections.
+     */
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
+        // Define routes for order operations
         app.get("/carportorder", ctx -> carportOrder(ctx, connectionPool));
         app.post("/savecarportdetails", ctx -> saveCarportDetails(ctx, connectionPool));
         app.get("/backtoorder", ctx -> backToOrder(ctx, connectionPool));
         app.post("/confirmorder", ctx -> confirmOrder(ctx, connectionPool));
         app.post("/deleteorder", ctx -> deleteOrder(ctx, connectionPool));
         app.get("/deleteorder", ctx -> ctx.render("order-deleted.html"));
-
     }
 
+    /**
+     * Deletes an order from the database.
+     *
+     * @param ctx            The Javalin context, which provides access to the request and response.
+     * @param connectionPool The connection pool for database connections.
+     */
     private static void deleteOrder(Context ctx, ConnectionPool connectionPool) {
         try {
-            // Hent orderId fra sessionen
+            // Retrieve orderId from the session
             Integer orderId = ctx.sessionAttribute("orderId");
             if (orderId == null) {
-                System.out.println("No 'orderId' found in session"); // Logudskrift
+                // Log error if orderId is not found in the session
+                System.out.println("No 'orderId' found in session");
                 ctx.attribute("message", "No 'orderId' found in session");
                 ctx.render("/confirm-offer.html");
                 return;
             }
 
-            // Opdater status-ID'et for den pågældende ordre
+            // Delete the order and its associated bill of material lines from the database
             OrderMapper.deleteBillOfMaterialLinesByOrderId(orderId, connectionPool);
             OrderMapper.deleteOrder(orderId, connectionPool);
 
+            // Redirect to the delete order confirmation page
             ctx.redirect("/deleteorder");
         } catch (DatabaseException e) {
-            System.out.println("Error updating order status: " + e.getMessage()); // Logudskrift
+            // Log error if order deletion fails
+            System.out.println("Error updating order status: " + e.getMessage());
             ctx.attribute("message", "Error updating order status: " + e.getMessage());
             ctx.render("confirm-offer.html");
         }
     }
 
-
+    /**
+     * Confirms an order and saves it to the database.
+     *
+     * @param ctx            The Javalin context, which provides access to the request and response.
+     * @param connectionPool The connection pool for database connections.
+     * @throws DatabaseException If a database error occurs.
+     */
     private static void confirmOrder(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
+        // Retrieve order and user details from the session
         Order order = ctx.sessionAttribute("currentOrder");
         User user = ctx.sessionAttribute("currentUser");
-        int cpWidth=ctx.sessionAttribute("currentWidth");
-        int cpLength= ctx.sessionAttribute("currentLength");
+        int cpWidth = ctx.sessionAttribute("currentWidth");
+        int cpLength = ctx.sessionAttribute("currentLength");
 
-        // Forsøg at oprette ordren og shipping i databasen
         try {
+            // Create a new shipping entry in the database
             int shippingId = ShippingMapper.createShipping(user.getAddressId(), connectionPool);
 
             // Insert the order into the database with initial price 0
             OrderMapper.createOrder(order, user, shippingId, 0, connectionPool);
             int orderId = OrderMapper.getLastOrder(connectionPool);
 
-            // Update the order id in the order object
+            // Update the order object with the new orderId
             order.setOrderId(orderId);
 
-            // Now, calculate the bill of materials and insert it into the database
-            Calculator calculator = new Calculator(cpWidth,cpLength,connectionPool);
+            // Calculate the bill of materials (BOM) for the carport
+            Calculator calculator = new Calculator(cpWidth, cpLength, connectionPool);
             calculator.calcCarport(order);
-            OrderMapper.createBomLine(calculator.getBomLine(),connectionPool);
+            OrderMapper.createBomLine(calculator.getBomLine(), connectionPool);
+
+            // Calculate total price and update the order in the database
             double materialPrice = calculator.getTotalMaterialPrice();
             double shippingRate = ShippingMapper.getShippingRate(shippingId, connectionPool);
             double totalPrice = materialPrice + shippingRate;
-
-            // Update the order in the database with the calculated price
             OrderMapper.updatePriceByOrderId(orderId, totalPrice, connectionPool);
 
+            // Send order confirmation email to the user
             MailController.sendOrderConfirmation(order, user, orderId);
             ctx.render("order-confirmation.html");
         } catch (SQLException | DatabaseException e) {
+            // Set HTTP status to 500 and display error message if order confirmation fails
             ctx.status(500);
             ctx.result("Der er sket en fejl ved oprettelse af ordren: " + e.getMessage());
         }
     }
 
+    /**
+     * Renders the carport order page.
+     *
+     * @param ctx The Javalin context, which provides access to the request and response.
+     */
     private static void backToOrder(Context ctx, ConnectionPool connectionPool) {
+        // Render the carport order page
         ctx.render("carport-order.html");
     }
 
+    /**
+     * Starts the carport order process.
+     *
+     * @param ctx            The Javalin context, which provides access to the request and response.
+     * @param connectionPool The connection pool for database connections.
+     */
     private static void carportOrder(Context ctx, ConnectionPool connectionPool) {
+        // Set a session attribute to indicate the ordering process has started
         ctx.sessionAttribute("isOrdering", true);
-        ctx.render("carport-order.html"); // Redirect to the carport order page
-
+        // Render the carport order page
+        ctx.render("carport-order.html");
     }
 
+    /**
+     * Saves the carport details provided by the user and stores them in the session.
+     *
+     * @param ctx            The Javalin context, which provides access to the request and response.
+     * @param connectionPool The connection pool for database connections.
+     */
     private static void saveCarportDetails(Context ctx, ConnectionPool connectionPool) {
+        // Retrieve the current user from the session
         User user = ctx.sessionAttribute("currentUser");
 
-
-        // Retrieve form parameters
+        // Retrieve form parameters from the request
         int cpWidth = Integer.parseInt(ctx.formParam("carport-width"));
         int cpLength = Integer.parseInt(ctx.formParam("carport-length"));
         String cpRoof = ctx.formParam("carport-roof");
@@ -109,58 +151,21 @@ public class OrderController {
         int shLength = Integer.parseInt(ctx.formParam("shed-length"));
         String comment = ctx.formParam("comment");
 
-
         // Create an Order object to store the form values
         Order order = new Order(user, comment, cpLength, cpWidth, cpRoof, shLength, shWidth);
-        // Set session attribute to store the order
-        ctx.sessionAttribute("currentOrder", order);
-        ctx.sessionAttribute("currentWidth",cpWidth);
-        ctx.sessionAttribute("currentLength",cpLength);
-        ctx.sessionAttribute("currentRoof",cpRoof);
-        ctx.sessionAttribute("currentShedWidth",shWidth);
-        ctx.sessionAttribute("currentShedLength",shLength);
-        ctx.sessionAttribute("currentComment",comment);
 
+        // Store the order details in the session
+        ctx.sessionAttribute("currentOrder", order);
+        ctx.sessionAttribute("currentWidth", cpWidth);
+        ctx.sessionAttribute("currentLength", cpLength);
+        ctx.sessionAttribute("currentRoof", cpRoof);
+        ctx.sessionAttribute("currentShedWidth", shWidth);
+        ctx.sessionAttribute("currentShedLength", shLength);
+        ctx.sessionAttribute("currentComment", comment);
         ctx.sessionAttribute("isOrdering", null);
         ctx.sessionAttribute("hasAnOrder", true);
 
+        // Redirect to the contact details page
         contactDetails(ctx, connectionPool);
-
     }
-
-// private static void sendRequest(Context ctx, ConnectionPool connectionPool)
-//  {
-//        // Get order details from front-end
-//        int width = ctx.sessionAttribute("width");
-//       int length = ctx.sessionAttribute("length");
-//       int status = 1; // hardcoded for now
-//       int totalPrice = 19999; // hardcoded for now
-//
-//     // hardcoded for now
-//     Order order = new Order(0, totalPrice, user, "tada", sh, length, width,"no roof", 600,600,5);
-//
-//        // TODO: Insert order in database
-//        try
-//        {
-//            order = OrderMapper.insertOrder(order, connectionPool);
-//
-//            // TODO: Calculate order items (stykliste)
-//            Calculator calculator = new Calculator(width, length, connectionPool);
-//            calculator.calcCarport(order);
-//
-//            // TODO: Save order items in database (stykliste)
-//            OrderMapper.insertOrderItems(calculator.getBomLine(), connectionPool);
-//
-//            // TODO: Create message to customer and render order / request confirmation
-//
-//            ctx.render("orderflow/requestconfirmation.html");
-//        }
-//        catch (DatabaseException e)
-//        {
-//            // TODO: handle exception later
-//            throw new RuntimeException(e);
-//        }
-//   }
-
-
 }

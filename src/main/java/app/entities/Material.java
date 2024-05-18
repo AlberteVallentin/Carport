@@ -1,6 +1,8 @@
 package app.entities;
 // Here we have a object that get the type of materials
 
+import java.util.Objects;
+
 public class Material {
     private int materialId;
     private int width;
@@ -92,5 +94,17 @@ public class Material {
                 ", unit='" + unit + '\'' +
                 ", materialDescription='" + materialDescription + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Material material)) return false;
+        return materialId == material.materialId && width == material.width && depth == material.depth && Double.compare(materialPrice, material.materialPrice) == 0 && Objects.equals(type, material.type) && Objects.equals(unit, material.unit) && Objects.equals(materialDescription, material.materialDescription);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(materialId, width, depth, type, materialPrice, unit, materialDescription);
     }
 }

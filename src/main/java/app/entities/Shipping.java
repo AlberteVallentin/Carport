@@ -1,5 +1,7 @@
 package app.entities;
 
+import java.util.Objects;
+
 public class Shipping {
     private int shippingId;
     private int adressId;
@@ -25,5 +27,26 @@ public class Shipping {
 
     public double getShippingRate() {
         return shippingRate;
+    }
+
+    @Override
+    public String toString() {
+        return "Shipping{" +
+                "shippingId=" + shippingId +
+                ", adressId=" + adressId +
+                ", shippingRate=" + shippingRate +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Shipping shipping)) return false;
+        return shippingId == shipping.shippingId && adressId == shipping.adressId && Double.compare(shippingRate, shipping.shippingRate) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(shippingId, adressId, shippingRate);
     }
 }

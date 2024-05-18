@@ -1,5 +1,7 @@
 package app.entities;
 
+import java.util.Objects;
+
 public class Address {
     private int addressId;
     private String streetName;
@@ -76,6 +78,18 @@ public class Address {
                 ", city='" + city + '\'' +
                 ", postalCode=" + postalCode +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Address address)) return false;
+        return addressId == address.addressId && postalCode == address.postalCode && Objects.equals(streetName, address.streetName) && Objects.equals(houseNumber, address.houseNumber) && Objects.equals(floorAndDoorDescription, address.floorAndDoorDescription) && Objects.equals(city, address.city);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(addressId, streetName, houseNumber, floorAndDoorDescription, city, postalCode);
     }
 }
 
