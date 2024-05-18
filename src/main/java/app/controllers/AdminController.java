@@ -398,14 +398,41 @@ public class AdminController {
     public static void deleteMaterial(Context ctx, ConnectionPool connectionPool) {
         // Extract the material ID from the form parameters
         int materialId = Integer.parseInt(ctx.formParam("deleteId"));
-        String sql = "DELETE FROM material WHERE material_id = ?";
-        System.out.println(materialId);
 
-        try (Connection connection = connectionPool.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            // Set the material ID parameter and execute the delete query
-            preparedStatement.setInt(1, materialId);
-            preparedStatement.executeUpdate();
+        // SQL query to delete references to the material in the bill_of_material_line table
+        String sqlDeleteBOMLine = "DELETE FROM bill_of_material_line WHERE material_variant_id IN (SELECT material_variant_id FROM material_variant WHERE material_id = ?)";
+
+        // SQL query to delete references to the material in the material_variant table
+        String sqlDeleteVariant = "DELETE FROM material_variant WHERE material_id = ?";
+
+        // SQL query to delete the material from the material table
+        String sqlDeleteMaterial = "DELETE FROM material WHERE material_id = ?";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            // Start a transaction
+            connection.setAutoCommit(false);
+
+            try (PreparedStatement psDeleteBOMLine = connection.prepareStatement(sqlDeleteBOMLine)) {
+                // Set the material ID parameter and execute the delete query
+                psDeleteBOMLine.setInt(1, materialId);
+                psDeleteBOMLine.executeUpdate();
+            }
+
+            try (PreparedStatement psDeleteVariant = connection.prepareStatement(sqlDeleteVariant)) {
+                // Set the material ID parameter and execute the delete query
+                psDeleteVariant.setInt(1, materialId);
+                psDeleteVariant.executeUpdate();
+            }
+
+            try (PreparedStatement psDeleteMaterial = connection.prepareStatement(sqlDeleteMaterial)) {
+                // Set the material ID parameter and execute the delete query
+                psDeleteMaterial.setInt(1, materialId);
+                psDeleteMaterial.executeUpdate();
+            }
+
+            // Commit the transaction
+            connection.commit();
+
         } catch (SQLException e) {
             e.printStackTrace(); // Proper error handling should be implemented
         }
