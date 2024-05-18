@@ -1,5 +1,7 @@
 package app.entities;
 
+import java.util.Objects;
+
 public class Order {
     private int orderId;
     private double price;
@@ -40,6 +42,21 @@ public class Order {
         this.shLength = shLength;
         this.shWidth = shWidth;
         this.statusId = statusId;
+
+    }
+
+    // Constructor without orderId for testing
+    public Order(double price, User user, String comment, int shippingId, int cpLength, int cpWidth, int shLength, int shWidth, int statusId, String cpRoof) {
+        this.price = price;
+        this.user = user;
+        this.comment = comment;
+        this.shippingId = shippingId;
+        this.cpLength = cpLength;
+        this.cpWidth = cpWidth;
+        this.shLength = shLength;
+        this.shWidth = shWidth;
+        this.statusId = statusId;
+        this.cpRoof = cpRoof;
 
     }
 
@@ -98,6 +115,7 @@ public class Order {
         this.comment = comment;
         this.shippingId = shippingId;
     }
+
 
 
     public int getOrderId() {
@@ -214,5 +232,44 @@ public class Order {
         this.shippingId = shippingId;
     }
 
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderId=" + orderId +
+                ", price=" + price +
+                ", user=" + user +
+                ", comment='" + comment + '\'' +
+                ", shipping=" + shipping +
+                ", cpLength=" + cpLength +
+                ", cpWidth=" + cpWidth +
+                ", cpRoof='" + cpRoof + '\'' +
+                ", shLength=" + shLength +
+                ", shWidth=" + shWidth +
+                ", statusId=" + statusId +
+                ", status='" + status + '\'' +
+                ", shippingId=" + shippingId +
+                '}';
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Order order = (Order) obj;
+        return orderId == order.orderId &&
+                Double.compare(order.price, price) == 0 &&
+                cpLength == order.cpLength &&
+                cpWidth == order.cpWidth &&
+                shLength == order.shLength &&
+                shWidth == order.shWidth &&
+                statusId == order.statusId &&
+                Objects.equals(user, order.user) &&
+                Objects.equals(comment, order.comment) &&
+                Objects.equals(shipping, order.shipping) &&
+                Objects.equals(cpRoof, order.cpRoof);
+    }
 }

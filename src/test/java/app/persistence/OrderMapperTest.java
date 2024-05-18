@@ -1,6 +1,7 @@
 package app.persistence;
 
 import app.entities.Order;
+import app.entities.User;
 import app.exceptions.DatabaseException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,7 +59,7 @@ class OrderMapperTest {
 
                 // Insert test data (first users, then orders to avoid foreign key constraint violation)
                 stmt.execute("INSERT INTO test.users (user_id, first_name, last_name, email, admin, address_id, password, phone_number) " +
-                        "VALUES (1, 'John', 'Doe', 'D8XrP@example.com', true, 1, 'password', '123456789'), (2, 'Jane', 'Doe', 'jD8XrP@example.com', true, 2, 'password', '123456789')");
+                        "VALUES (1, 'John', 'Doe', 'john@doe.com', true, 1, '12', '123456789'), (2, 'Jane', 'Doe', 'jD8XrP@example.com', true, 2, 'password', '123456789')");
 
                 stmt.execute("INSERT INTO test.orders (order_id, price, user_id, comment, shipping_id, cp_length, cp_width , shed_length, shed_width, status_id, cp_roof) " +
                         "VALUES (1, 1000, 1, 'En god carport', 1, 480, 480, 200, 210, 1, 'Uden tag'), (2, 2000, 2, 'Test', 2, 600, 780, 0, 0, 2, 'Med plasttrapeztag')");
@@ -89,11 +90,47 @@ class OrderMapperTest {
             fail("Database fejl: " + e.getMessage());
         }
     }
-    @Test
-    void getOrderByOrderId() {
-    }
 
     @Test
-    void insertOrder() {
+    void getOrderById()
+    {
+        try
+        {
+            User user = new User(1, "John", "Doe", "123456789", "john@doe.com", null, true, 1);
+            Order expected = new Order(1, 1000, user, 480, 480, "Uden tag", 200, 210, 1);
+            expected.setComment(null);
+            Order actualOrder = OrderMapper.getOrderById(1, connectionPool);
+            System.out.println("Expected: " + expected);
+            System.out.println("Actual: " + actualOrder);
+            assertEquals(expected, actualOrder);
+        }
+        catch (DatabaseException e)
+        {
+            fail("Database fejl: " + e.getMessage());
+        }
+    }
+
+
+    @Test
+    void createOrder() {
+        try {
+            // Opret et User objekt
+            User user = new User(1, "John", "Doe", "123456789", "john@doe.com", null, true, 1);
+
+
+            // Opret et Order objekt
+            Order expected = new Order(1000.00, user, null, 1, 480, 480, 200, 210, 1, "Uden tag");
+
+            // Indsæt ordren
+            OrderMapper.createOrder(expected, user, 1, 1000.00,  connectionPool);
+
+            // Hent den indsatte ordre fra databasen
+            Order actual = OrderMapper.getOrderById(expected.getOrderId(), connectionPool);
+
+            // Sammenlign det forventede og det faktiske Order objekt
+            assertEquals(expected, actual);
+        } catch (DatabaseException | SQLException e) {
+            fail("Database fejl: " + e.getMessage());
+        }
     }
 }
