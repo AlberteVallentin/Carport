@@ -30,7 +30,7 @@ public class AdminController {
         app.get("/materials", ctx -> displayMaterialPage(ctx,connectionPool));
         app.post("/creatematerial", ctx -> addMaterial(ctx, connectionPool));
         app.post("/deletematerial", ctx -> deleteMaterial(ctx,connectionPool));
-
+        app.post("/changematerial", ctx -> changeMaterial(ctx, connectionPool));
     }
 
     private static void sendOffer(Context ctx, ConnectionPool connectionPool) {
@@ -309,4 +309,46 @@ public class AdminController {
         }
         displayMaterialPage(ctx, connectionPool);
     }
+
+    public static void changeMaterial(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "UPDATE material SET width = ?, depth = ?, type = ?, material_price = ?, unit = ?, material_description = ? WHERE material_id = ?";
+
+        try {
+            // Fetching parameters from the form
+            int materialId = Integer.parseInt(ctx.formParam("material_IdC"));
+            int width = Integer.parseInt(ctx.formParam("widthC"));
+            int depth = Integer.parseInt(ctx.formParam("depthC"));
+            String type = ctx.formParam("typeC");
+            int materialPrice = Integer.parseInt(ctx.formParam("priceC"));
+            String unit = ctx.formParam("unitC");
+            String materialDescription = ctx.formParam("material_descriptionC");
+
+            try (Connection connection = connectionPool.getConnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+                // Setting the parameters for the SQL query
+                preparedStatement.setInt(1, width);
+                preparedStatement.setInt(2, depth);
+                preparedStatement.setString(3, type);
+                preparedStatement.setInt(4, materialPrice);
+                preparedStatement.setString(5, unit);
+                preparedStatement.setString(6, materialDescription);
+                preparedStatement.setInt(7, materialId);  // Set materialId in the WHERE clause
+
+                // Executing the update query
+                preparedStatement.executeUpdate();
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Logging the error
+            ctx.status(500).result("An error occurred: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            e.printStackTrace(); // Logging the error for invalid number format
+            ctx.status(400).result("Invalid input: " + e.getMessage());
+        }
+        displayMaterialPage(ctx, connectionPool);
+    }
+
+
+
 }
