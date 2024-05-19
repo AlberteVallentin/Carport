@@ -80,6 +80,7 @@ public class OrderController {
 
         try {
             // Create a new shipping entry in the database
+            assert user != null;
             int shippingId = ShippingMapper.createShipping(user.getAddressId(), connectionPool);
 
             // Insert the order into the database with initial price 0

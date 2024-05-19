@@ -2,6 +2,7 @@ package app.persistence;
 
 import app.entities.Shipping;
 import app.exceptions.DatabaseException;
+import app.utility.ShippingCalculator;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,8 +23,9 @@ public class ShippingMapper {
      * @throws DatabaseException  If a database error occurs.
      */
     public static int createShipping(int addressId, ConnectionPool connectionPool) throws SQLException, DatabaseException {
+        double shippingRate = ShippingCalculator.calculateShippingRate(addressId, connectionPool);
         String sql = "INSERT INTO shipping (address_id, shipping_rate) VALUES (?, ?) RETURNING shipping_id";
-        double shippingRate = calculateShippingRate(addressId, connectionPool);
+
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
