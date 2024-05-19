@@ -12,7 +12,6 @@ import java.util.List;
 
 public class Calculator {
 
-    // Constants defining the number of posts, rafters, and beams
     private static final int POSTS = 3;
     private static final int RAFTERS = 4;
     private static final int BEAMS = 4;
