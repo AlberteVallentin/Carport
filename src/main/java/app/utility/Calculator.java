@@ -72,18 +72,25 @@ public class Calculator {
 
         // Get material variants for posts from the database
         List<MaterialVariant> materialVariants = MaterialMapper.getMaterialsByProductIdAndMinLength(0, POSTS, connectionPool);
-        MaterialVariant materialVariant = materialVariants.get(0);
 
-        // Calculate price of posts
-        double materialPrice = materialVariant.getMaterial().getMaterialPrice();
-        double postMeter = materialVariant.getLength();
+        // Check if the list is not empty
+        if (!materialVariants.isEmpty()) {
+            MaterialVariant materialVariant = materialVariants.get(0);
 
-        postPrice = (postMeter / 100) * quantity * materialPrice;
+            // Calculate price of posts
+            double materialPrice = materialVariant.getMaterial().getMaterialPrice();
+            double postMeter = materialVariant.getLength();
 
-        String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(1, connectionPool);
+            postPrice = (postMeter / 100) * quantity * materialPrice;
 
-        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(order, materialVariant, quantity, 1, functionalDescription);
-        bomLine.add(billOfMaterialLine);
+            String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(1, connectionPool);
+
+            BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(order, materialVariant, quantity, 1, functionalDescription);
+            bomLine.add(billOfMaterialLine);
+        } else {
+            // Handle the case where the list is empty
+            System.out.println("No material variants found.");
+        }
     }
 
     /**
