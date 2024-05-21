@@ -43,6 +43,12 @@ public class ShippingCalculator {
         return shippingRate;
     }
 
+    /**
+     * Determines the shipping rate based on the postal code.
+     *
+     * @param postalCode The postal code of the address.
+     * @return The determined shipping rate.
+     */
     private static double determineShippingRate(int postalCode) {
         if (postalCode >= 0 && postalCode <= 4999) {
             shippingPrice = 0;
@@ -53,28 +59,8 @@ public class ShippingCalculator {
         } else {
             shippingPrice = 0;
         }
-        System.out.println("Determined shipping price for postal code " + postalCode + ": " + shippingPrice); // Add a log print to confirm the determined shipping price
         return shippingPrice;
     }
-//
-//    /**
-//     * Determines the shipping rate based on the postal code.
-//     *
-//     * @param postalCode The postal code of the address.
-//     * @return The determined shipping rate.
-//     */
-//    private static double determineShippingRate(int postalCode) {
-//        if (postalCode >= 0 && postalCode <= 4999) {
-//            shippingPrice = 0;
-//        } else if (postalCode >= 5000 && postalCode <= 5999) {
-//            shippingPrice = 199;
-//        } else if (postalCode >= 6000 && postalCode <= 9999) {
-//            shippingPrice = 299;
-//        } else {
-//            shippingPrice = 0;
-//        }
-//        return shippingPrice;
-//    }
 
     /**
      * Updates the shipping rate for a given shipping object based on the address ID.

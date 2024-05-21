@@ -26,9 +26,7 @@ public class AdminController {
         // Define routes for admin operations
         app.get("/adminpage", ctx -> viewOrders(ctx, connectionPool));
         app.get("/admin-order", ctx -> ctx.render("admin-order.html"));
-        //app.post("/admin-order", ctx -> viewOrders(ctx, connectionPool));
         app.post("/showorder", ctx -> showOrder(ctx, connectionPool));
-        //app.get("/showorder", ctx -> showOrder(ctx, connectionPool));
         app.post("/changeorder", ctx -> changeOrder(ctx, connectionPool));
         app.post("/nonewoffer", ctx -> noNewOffer(ctx, connectionPool));
         app.post("/admindeleteorder", ctx -> adminDeleteOrder(ctx, connectionPool));
