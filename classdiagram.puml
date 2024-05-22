@@ -1,26 +1,53 @@
 @startuml
 'https://plantuml.com/class-diagram
+!pragma layout smetana
 
-abstract class AbstractList
-abstract AbstractCollection
-interface List
-interface Collection
 
-List <|-- AbstractList
-Collection <|-- AbstractCollection
+class User {
+- int userId;
+- String firstName;
+- String lastName
+- String phoneNumber
+- String email
+-String password;
+- boolean isAdmin;
+- int addressId
 
-Collection <|- List
-AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
-
-class ArrayList {
-Object[] elementData
-size()
+boolean customer **;
 }
 
-class
-{
+class Order{
+int orderId
+User user
+String comment
+Shipping shipping
+int cpLength
+int cpWidth
+String cpRoof
+int shLength
+int shWidth
+int statusId
+String status
+int shippingId
+
 }
+
+
+class OrderLine{
+
+int quantity;
+}
+
+
+
+
+
+User --- Order
+Order --- OrderLine
+
+
+@enduml
+
 
 
 
