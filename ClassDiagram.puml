@@ -1,0 +1,392 @@
+@startuml
+class app.Main {
+- {static} String USER
+- {static} String PASSWORD
+- {static} String URL
+- {static} String DB
+- {static} ConnectionPool connectionPool
++ {static} void main(String[])
+}
+
+class app.entities.User{
+    - int id
+    - String name
+    - String email
+    - String password
+    - int phonenumber
+    - String address
+    - int zipcode
+
+    + User(int id, userId, String name, String email, String password, String address, int phoneNumber, int zipcode)
+    + void getUserId(int id)
+    + void setUserId(int userId)
+    + void getFirstName(String)
+    + void setEmail(String email)
+    + void setPassword(String password)
+    + void setAddress(String address)
+    + void setMobile(int mobile)
+    + void setRole(int role)
+    + void setZipcode(int zipcode)
+    + int getId()
+    + String getName()
+    + String getEmail()
+    + String getPassword()
+    + String getAddress()
+    + int getZipcode()
+    + int getPhoneNumber()
+
+}
+class app.entities.Order {
+- int orderId
+- double price
+- User user
+- String comment
+- Shipping shipping
+- int cpLength
+- int cpWidth
+- String cpRoof
+- int shLength
+- int shWidth
+- int statusId
+- String status
+- int shippingId
+
++ int getOrderId()
++ void setOrderId(int)
++ double getPrice()
++ void setPrice(double)
++ User getUser()
++ void setUser(User)
++ String getComment()
++ void setComment(String)
++ int getCpLength()
++ void setCpLength(int)
++ int getCpWidth()
++ void setCpWidth(int)
++ String getCpRoof()
++ void setCpRoof(String)
++ int getShLength()
++ void setShLength(int)
++ int getShWidth()
++ void setShWidth(int)
++ int getStatusId()
++ int getUserId()
++ String getFirstName()
++ String getLastName()
++ String getEmail()
++ double getShippingPrice()
++ Shipping getShipping()
++ String getStatus()
++ int getShippingId()
++ void setShippingId(int)
++ String toString()
++ boolean equals(Object)
+}
+class app.entities.Svg {
+- {static} String SVG_TEMPLATE
+- StringBuilder svg
+- {static} String SVG_LINE_TEMPLATE
+- {static} String SVG_RECT_TEMPLATE
+- {static} String SVG_TEXT_TEMPLATE
+- {static} String SVG_ARROW_TEMPLATE
++ void addRectangle(int,int,double,double,String)
++ void addLine(int,int,int,int,String)
++ void addArrow(int,int,int,int)
++ void addText(int,int,int,String)
++ void addSvg(Svg)
++ String toString()
+}
+
+class app.entities.Address{
+- int addressId
+- String streetName
+- String houseNumber
+- String floorAndDoorDescription
+- String city
+- int postalCode
+
++ int getPostalCode()
++ void setPostalCode(int postalCode)
++ String getCity()
++ void setCity(String city)
++ String getFloorAndDoorDescription()
+
+}
+
+class app.entities.BillOfMaterialLine{
+- int billOfMaterialLine
+- Order order
+- MaterialVariant materialVariant
+- int quantity
+- static int functionalDescriptionId
+
++ void getBillOfMaterial()
++ void setBillOfMaterialLineId(int billOfMaterialLineId)
++ Order getOrder()
++ void setOrder(Order order)
++ MaterialVariant getMaterialVariant()
++ void setMaterialVariant(MaterialVariant materialVariant)
++ int getQuantity()
++ void setQuantity(int quantity)
++ static int getFunctionalDescriptionId()
++ void setFunctionalDescriptionId(int functionalDescriptionId)
++ String getFunctionalDescription()
++ void setFunctionalDescription(String functionalDescription)
+}
+
+class app.entities.FunctionalDescription{
+- int functionalDescriptionId
+- String functionalDescription
+
++ FunctionalDescription(int functionalDescriptionId, String functionalDescription)
++ int getFunctionalDescriptionId()
++ void setFunctionalDescriptionId(int functionalDescriptionId)
++ String getFunctionalDescription()
++ void setFunctionalDescription(String functionalDescription)
+
+}
+
+class app.entities.Material{
+- int MaterialId
+- int width
+- int depth
+- String type
+- double materialPrice
+- String unit
+- String materialDescription
+
++ int getMaterialId()
++ void setMaterialId(int materialId)
++ int getWidth()
++ void setWidth(int width)
++ public int getDepth()
++ void setDepth(int depth)
++ String getType()
++ public void setType(String type)
++ double getMaterialPrice()
++ void setMaterialPrice(double materialPrice)
++  String getUnit()
++ void setUnit(String unit)
++ String getMaterialDescription()
++ void setMaterialDescription(String materialDescription)
+}
+
+class app.entities.MaterialVariant{
+- int materialVariantId
+- int length
+- Material material
+
++ int getMaterialVariantId()
++ int getLength()
++ Material getMaterial
+}
+
+
+class app.entities.Shipping{
+- int shippingId
+- int addressId
+- double shippingRate
+
++ void setShippingRate(double shippingRate)
++ int getShippingId()
++ int getAdressId()
++  double getShippingRate()
+
+}
+
+class app.entities.Status{
+- int statusId
+- String status
+
++ int getStatusId()
++ void setStatusId(int statusId)
++ String getStatus()
++ void setStatus(String status)
+
+}
+
+class app.controllers.AdminController {
++ {static} void addRoutes(Javalin,ConnectionPool)
+- {static} void sendOffer(Context,ConnectionPool)
+- {static} void adminDeleteOrder(Context,ConnectionPool)
+- {static} void noNewOffer(Context,ConnectionPool)
+- {static} void changeOrder(Context,ConnectionPool)
+- {static} void showOrder(Context,ConnectionPool)
+~ {static} void viewOrders(Context,ConnectionPool)
++ {static} List<User> getAllUsers(ConnectionPool)
++ {static} void addMaterial(Context,ConnectionPool)
++ {static} void displayMaterialPage(Context,ConnectionPool)
++ {static} void deleteMaterial(Context,ConnectionPool)
++ {static} void changeMaterial(Context,ConnectionPool)
+}
+
+class app.controllers.MailController {
++ {static} void sendOrderConfirmation(Order,User,int)
++ {static} void sendOffer(Order,int,double,double)
++ {static} void sendNewOffer(Order,int,double,double)
++ {static} void denyNewOffer(Order,int,double)
++ {static} void paymentConfirmed(Order)
++ {static} void sendModifiedOrder(Order,int)
+}
+
+class app.controllers.OrderController {
++ {static} void addRoutes(Javalin,ConnectionPool)
+- {static} void deleteOrder(Context,ConnectionPool)
+- {static} void confirmOrder(Context,ConnectionPool)
+- {static} void backToOrder(Context,ConnectionPool)
+- {static} void carportOrder(Context,ConnectionPool)
+- {static} void saveCarportDetails(Context,ConnectionPool)
+}
+
+class app.controllers.StatusController {
++ {static} void addRoutes(Javalin,ConnectionPool)
+- {static} void statusRedirect(Context,ConnectionPool)
+- {static} void offerConfirmed(Context,ConnectionPool)
+- {static} void newCarportConfirmed(Context,ConnectionPool)
+- {static} void orderDone(Context,ConnectionPool)
+}
+
+class app.controllers.UserController {
++ {static} void addRoutes(Javalin,ConnectionPool)
+- {static} void loginOrOut(Context)
+- {static} void logout(Context)
+~ {static} void contactDetails(Context,ConnectionPool)
++ {static} void login(Context,ConnectionPool)
+- {static} void createAccount(Context,ConnectionPool)
+- {static} boolean isAnyFieldEmpty(String[])
+- {static} void setAttributesAndRenderForm(Context,String,String)
+- {static} void handleDatabaseError(Context,DatabaseException,String,String,String,String,String,String,String,int,String)
+}
+
+class app.controllers.SvgController {
++ {static} void addRoutes(Javalin,ConnectionPool)
++ {static} void showCarportDrawing(Context)
+}
+
+class app.config.SessionConfig {
++ {static} SessionHandler sessionConfig()
+}
+
+class app.config.ThymeleafConfig {
++ {static} TemplateEngine templateEngine()
+}
+class app.exceptions.DatabaseException {
+}
+
+
+app.exceptions.Exception <|-- app.exceptions.DatabaseException
+
+class app.persistence.OrderMapper {
++ {static} List<Order> getAllOrders(ConnectionPool)
++ {static} List<BillOfMaterialLine> getOrderByOrderId(int,ConnectionPool)
++ {static} Order insertOrder(Order,ConnectionPool)
++ {static} void createBomLine(List<BillOfMaterialLine>,ConnectionPool)
++ {static} void createOrder(Order,User,int,double,ConnectionPool)
++ {static} int getLastOrder(ConnectionPool)
++ {static} int getOrderStatusByOrderId(int,ConnectionPool)
++ {static} void updateOrderStatusById(int,int,ConnectionPool)
++ {static} Order getOrderById(int,ConnectionPool)
++ {static} Order getOrderByIdAndUserId(int,int,ConnectionPool)
++ {static} void deleteOrder(int,ConnectionPool)
++ {static} double updatePriceByOrderId(int,double,ConnectionPool)
++ {static} void deleteBillOfMaterialLinesByOrderId(int,ConnectionPool)
++ {static} List<BillOfMaterialLine> getBomLinesByOrderId(int,ConnectionPool)
+}
+
+class app.persistence.FunctionalDescriptionMapper {
++ {static} String getFunctionalDescriptionById(int,ConnectionPool)
++ {static} List<String> getAllFunctionalDescriptions(ConnectionPool)
+}
+
+class app.persistence.AddressMapper {
++ {static} int createAddress(String,String,String,int,String,ConnectionPool)
++ {static} Address getAddressById(int,ConnectionPool)
+}
+
+class app.persistence.UserMapper {
++ {static} void createUser(String,String,String,String,String,int,ConnectionPool)
++ {static} User login(String,String,ConnectionPool)
++ {static} User getUserById(int,ConnectionPool)
++ {static} User getUserByEmailAndPassword(String,String,ConnectionPool)
++ {static} int getAddressIdByUserId(int,ConnectionPool)
+}
+
+class app.persistence.AdminMapper {
++ {static} List<Order> getAllOrders(ConnectionPool)
++ {static} List<Order> getOrderByStatus(int,ConnectionPool)
++ {static} Order getOrderDetailsById(int,ConnectionPool)
++ {static} void updateOrder(int,int,int,int,int,String,ConnectionPool)
+}
+
+class app.persistence.MaterialMapper {
++ {static} List<MaterialVariant> getMaterialsByProductIdAndMinLength(int,int,ConnectionPool)
++ {static} Material getMaterialById(int,ConnectionPool)
++ {static} List<Material> getAllMaterials(ConnectionPool)
+}
+
+class app.persistence.ShippingMapper {
++ {static} int createShipping(int,ConnectionPool)
++ {static} double getShippingRate(int,ConnectionPool)
++ {static} Shipping getShippingById(int,ConnectionPool)
+}
+
+class app.persistence.MaterialVariantMapper {
++ {static} List<MaterialVariant> getAllVariantsByMaterialId(int,ConnectionPool)
++ {static} MaterialVariant getMaterialVariantById(int,ConnectionPool)
+}
+
+class app.persistence.ConnectionPool {
++ {static} ConnectionPool instance
++ {static} HikariDataSource ds
++ {static} ConnectionPool getInstance()
++ {static} ConnectionPool getInstance(String,String,String,String)
++ Connection getConnection()
++ void close()
+- {static} HikariDataSource createHikariConnectionPool(String,String,String,String)
+}
+
+
+class app.utility.MailServer {
+- {static} String API_KEY
+- {static} String companyMail
++ {static} void sendOrderConfirmation(String,String,String,int,int,int,String,int,int)
++ {static} void sendOffer(String,String,String,double,double,int)
++ {static} void sendNewOffer(String,String,String,double,double,int)
++ {static} void denyNewOffer(String,String,String,double,double,int)
++ {static} void paymentConfirmed(String,String,String,int,double)
++ {static} void sendModifiedOrder(String,String,String,int,int,String,int,int,int)
+}
+
+
+class app.utility.ShippingCalculator {
+- {static} double shippingPrice
++ {static} double calculateShippingRate(int,ConnectionPool)
+- {static} double determineShippingRate(int)
++ {static} void updateShippingRateForShipping(int,ConnectionPool,Shipping)
+}
+
+
+class app.utility.Calculator {
+- {static} int POSTS
+- {static} int RAFTERS
+- {static} int BEAMS
+- List<BillOfMaterialLine> bomLine
+- int width
+- int length
+- double beamPrice
+- double rafterPrice
+- double postPrice
+- double totalMaterialPrice
+- ConnectionPool connectionPool
++ void calcCarport(Order)
+- void calcPost(Order)
+- void calcBeams(Order)
+- void calcRafters(Order)
++ double getTotalMaterialPrice()
++ List<BillOfMaterialLine> getBomLine()
+}
+
+controllers ----* Main
+
+
+@enduml
