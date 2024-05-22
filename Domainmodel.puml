@@ -34,8 +34,7 @@ phonenumber
 
 class Order
 {
-orderId
-user
+ordrenummer
 shipping
 lenght
 width
@@ -62,7 +61,7 @@ Order "*" -- "1" Carport
 Carport "1" -- "1" Shed
 Material "*" -- "1" Carport
 Material "*" -- "1" Shed
-Admin "1" -- "*" Order
+Admin "*" -- "*" Order
 
 
 
