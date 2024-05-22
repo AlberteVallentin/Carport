@@ -183,7 +183,6 @@ class app.entities.MaterialVariant{
 + Material getMaterial
 }
 
-
 class app.entities.Shipping{
 - int shippingId
 - int addressId
