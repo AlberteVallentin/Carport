@@ -9,33 +9,35 @@ class app.Main {
 }
 
 class app.entities.User{
-    - int id
-    - String name
+    - int userId
+    - String firstName
+    - String lastName
+    - int phoneNumber
     - String email
     - String password
-    - int phonenumber
-    - String address
-    - int zipcode
+    - boolean isAdmin
+    - String addressId
 
-    + User(int id, userId, String name, String email, String password, String address, int phoneNumber, int zipcode)
-    + void getUserId(int id)
+    + void getUserId()
     + void setUserId(int userId)
-    + void getFirstName(String)
+    + void getFirstName()
+    + void setFirstName(String firstName)
+    + String getLastName()
+    + void setLastName(String lastName)
+    + String getPhoneNumber()
+    + void setPhoneNumber(String phoneNumber)
+    + String getEmail(return email)
     + void setEmail(String email)
-    + void setPassword(String password)
-    + void setAddress(String address)
-    + void setMobile(int mobile)
-    + void setRole(int role)
-    + void setZipcode(int zipcode)
-    + int getId()
-    + String getName()
-    + String getEmail()
     + String getPassword()
-    + String getAddress()
-    + int getZipcode()
-    + int getPhoneNumber()
+    + void setPassword(String password)
+    + boolean isAdmin()
+    +  void setAdmin(boolean admin)
+    + int getAddressId()
+    + void setAddressId(int addressId)
 
 }
+
+
 class app.entities.Order {
 - int orderId
 - double price
