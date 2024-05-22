@@ -1,0 +1,61 @@
+@startuml
+'https://plantuml.com/class-diagram
+hide circle
+hide methods
+
+class Material
+{
+materialId
+materialPrice
+unit
+type
+
+}
+
+class Customer
+{
+name
+lastname
+phonenumber
+address
+e-mail
+password
+}
+
+
+
+class Order
+{
+orderId
+user
+shipping
+lenght
+width
+roof
+status
+}
+
+class Carport
+{
+price
+width
+lenght
+}
+
+class Shed
+{
+length
+width
+}
+
+
+Customer "1" -- "*" Order
+Order "*" -- "1" Carport
+Carport "1" -- "1" Shed
+Material "*" -- "1" Carport
+Material "*" -- "1" Shed
+
+
+
+
+@enduml
