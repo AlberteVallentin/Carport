@@ -22,6 +22,14 @@ e-mail
 password
 }
 
+class Admin
+{
+name
+e-mail
+password
+phonenumber
+}
+
 
 
 class Order
@@ -34,6 +42,7 @@ width
 roof
 status
 }
+
 
 class Carport
 {
@@ -54,6 +63,7 @@ Order "*" -- "1" Carport
 Carport "1" -- "1" Shed
 Material "*" -- "1" Carport
 Material "*" -- "1" Shed
+Admin "1" -- "*" Order
 
 
 
