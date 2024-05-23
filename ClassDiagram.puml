@@ -395,10 +395,34 @@ SvgController *----- app.persistence.ConnectionPool
 UserController *---- app.entities.Address
 UserController *---- app.entities.User
 UserController *---- app.entities.AddressMapper
-
 UserController *---- app.exceptions.DatabaseException
 UserController *---- app.persistence.UserMapper
-UserController *---- a
+
+StatusController *--- app.entities.BillOfMaterialLine
+StatusController *--- app.entities.Order
+StatusController *--- app.entities.User
+StatusController *--- app.exceptions.DatabaseException
+StatusController *--- app.persistence.ConnectionPool
+StatusController *--- app.persistence.OrderMapper
+StatusController *--- app.persistence.UserMapper
+
+OrderController *--- app.entities.Order
+OrderController *--- app.entities.User
+OrderController *--- app.exceptions.DatabaseException
+OrderController *--- app.persistence.ConnectionPool
+OrderController *--- app.persistence.OrderMapper
+OrderController *--- app.persistence.ShippingMapper
+OrderController *--- app.utility.Calculator
+
+MailController *--- app.entities.Order
+MailController *--- app.entities.User
+MailController *--- app.utility.MailServer
+
+
+AdminController *--- entities
+AdminController *--- app.exceptions.DatabaseException
+AdminController *--- persistence
+AdminController *--- app.utility.Calculator
 
 controller *--- connectionPool
 
