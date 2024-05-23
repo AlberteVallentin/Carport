@@ -394,7 +394,6 @@ SvgController *----- app.persistence.ConnectionPool
 
 UserController *---- app.entities.Address
 UserController *---- app.entities.User
-UserController *---- app.entities.AddressMapper
 UserController *---- app.exceptions.DatabaseException
 UserController *---- app.persistence.UserMapper
 
@@ -424,6 +423,19 @@ AdminController *--- app.exceptions.DatabaseException
 AdminController *--- persistence
 AdminController *--- app.utility.Calculator
 
+Calculator *--- entities
+Calculator *--- app.exceptions.DatabaseException
+Calculator *--- app.persistence.ConnectionPool
+Calculator *--- app.persistence.FunctionalDescriptionMapper
+Calculator *--- app.persistence.MaterialMapper
+Calculator *--- app.persistence.MaterialVariantMapper
+
+Order -- Status
+Order -- Shipping
+Material ---- MaterialVariant
+AddressMapper --- UserController
+AdminMapper --- AdminController
+FunctionalDescription --- MaterialVariant
 controller *--- connectionPool
 
 
