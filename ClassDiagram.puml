@@ -387,7 +387,21 @@ class app.utility.Calculator {
 + List<BillOfMaterialLine> getBomLine()
 }
 
-controllers ----* Main
+controllers ---* Main
+SvgController *----- app.entities.Order
+SvgController *----- app.entities.Svg
+SvgController *----- app.persistence.ConnectionPool
+
+UserController *---- app.entities.Address
+UserController *---- app.entities.User
+UserController *---- app.entities.AddressMapper
+
+UserController *---- app.exceptions.DatabaseException
+UserController *---- app.persistence.UserMapper
+UserController *---- a
+
+controller *--- connectionPool
+
 
 
 @enduml
