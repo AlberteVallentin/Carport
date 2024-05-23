@@ -136,9 +136,7 @@ public class Calculator {
 
         double materialPrice = foundVariant.getMaterial().getMaterialPrice();
 
-        double beamMeter = foundVariant.getLength();
-
-        beamPrice = (beamMeter / 100) * quantity * materialPrice;
+        beamPrice = ((double) variantLength / 100) * quantity * materialPrice;
 
         MaterialVariant materialVariant = foundVariant;
 
@@ -175,9 +173,7 @@ public class Calculator {
 
         double materialPrice = foundVariant.getMaterial().getMaterialPrice();
 
-        double rafterMeter = foundVariant.getLength();
-
-        rafterPrice = (rafterMeter / 100) * quantity * materialPrice;
+        rafterPrice = ((double) variantLength / 100) * quantity * materialPrice;
 
         MaterialVariant materialVariant = foundVariant;
         String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(3, connectionPool);
