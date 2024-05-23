@@ -2,7 +2,7 @@
 class app.Main {
 - {static} String USER
 - {static} String PASSWORD
-- {static} String URL
+- {static} String URLF
 - {static} String DB
 - {static} ConnectionPool connectionPool
 + {static} void main(String[])
