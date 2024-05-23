@@ -122,7 +122,6 @@ public class Calculator {
             for (MaterialVariant m : materialVariants) {
                 if (m.getLength() >= length / 2 && m.getLength() < variantLength) {
                     variantLength = m.getLength();
-                    variantId = m.getMaterialVariantId();
                     foundVariant = m;
                 }
             }
@@ -130,7 +129,6 @@ public class Calculator {
             for (MaterialVariant m : materialVariants) {
                 if (m.getLength() >= length && m.getLength() < variantLength) {
                     variantLength = m.getLength();
-                    variantId = m.getMaterialVariantId();
                     foundVariant = m;
                 }
             }
@@ -160,7 +158,6 @@ public class Calculator {
         // Calculate quantity of rafters based on carport width
         length = order.getCpWidth();
         int variantLength = Integer.MAX_VALUE;
-        int variantId = 0;
         MaterialVariant foundVariant = null;
 
         int quantity = length / 55; // Assuming each rafter has a length of 55
@@ -172,7 +169,6 @@ public class Calculator {
         for (MaterialVariant m : materialVariants) {
             if (m.getLength() >= length && m.getLength() < variantLength) {
                 variantLength = m.getLength();
-                variantId = m.getMaterialVariantId();
                 foundVariant = m;
             }
         }
