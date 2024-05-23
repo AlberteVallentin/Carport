@@ -101,7 +101,13 @@ public class Calculator {
             }
         }
         MaterialVariant materialVariant = foundVariant;
-        int quantity = 2*(shedHeight/(foundVariant.getMaterial().getDepth()/10));
+        int quantity;
+        if (length>360) {
+            quantity = 2 * 2 * (shedHeight / (foundVariant.getMaterial().getDepth() / 10));
+        }
+        else {
+            quantity = 2 * (shedHeight / (foundVariant.getMaterial().getDepth() / 10));
+        }
         double materialPrice = foundVariant.getMaterial().getMaterialPrice();
 
         shedWallPlanksSidePrice = ((double) variantLength / 100)*quantity*materialPrice;
@@ -139,7 +145,13 @@ public class Calculator {
             }
         }
         MaterialVariant materialVariant = foundVariant;
-        int quantity = 2*(shedHeight/(foundVariant.getMaterial().getDepth()/10));
+        int quantity;
+        if (width>360) {
+            quantity = 2 * 2 * (shedHeight / (foundVariant.getMaterial().getDepth() / 10));
+        }
+        else {
+            quantity = 2 * (shedHeight / (foundVariant.getMaterial().getDepth() / 10));
+        }
         double materialPrice = foundVariant.getMaterial().getMaterialPrice();
 
         shedWallPlanksEndsPrice = ((double) variantLength / 100)*quantity*materialPrice;
