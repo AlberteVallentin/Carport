@@ -15,6 +15,7 @@ public class Calculator {
     private static final int POSTS = 3;
     private static final int RAFTERS = 4;
     private static final int BEAMS = 4;
+    private static final int ROOF = 5;
 
     // List to store bill of material lines
     private List<BillOfMaterialLine> bomLine = new ArrayList<>();
@@ -25,6 +26,7 @@ public class Calculator {
     private double beamPrice;
     private double rafterPrice;
     private double postPrice;
+    private double roofPrice;
     private double totalMaterialPrice;
     private ConnectionPool connectionPool;
 
@@ -52,6 +54,9 @@ public class Calculator {
         calcPost(order);
         calcBeams(order);
         calcRafters(order);
+        if(order.getCpRoof().equals("Plasttrapeztag")){
+            calcRoof(order);
+        }
     }
 
     /**
@@ -179,6 +184,35 @@ public class Calculator {
         String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(3, connectionPool);
 
         BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(order, materialVariant, quantity, 3, functionalDescription);
+        bomLine.add(billOfMaterialLine);
+    }
+
+    public void calcRoof (Order order) throws DatabaseException {
+        length = order.getCpWidth();
+        int variantLength = Integer.MAX_VALUE;
+        MaterialVariant foundVariant = null;
+
+        int quantity = (int) Math.ceil((double) order.getCpLength() /100);
+
+        // Get all variants of rafters from the database
+        List<MaterialVariant> materialVariants = MaterialVariantMapper.getAllVariantsByMaterialId(ROOF, connectionPool);
+
+        // Find suitable rafter variant based on carport width
+        for (MaterialVariant m : materialVariants) {
+            if (m.getLength() >= length && m.getLength() < variantLength) {
+                variantLength = m.getLength();
+                foundVariant = m;
+            }
+        }
+
+        double materialPrice = foundVariant.getMaterial().getMaterialPrice();
+
+        roofPrice = ((double) variantLength / 100) * quantity * materialPrice;
+
+        MaterialVariant materialVariant = foundVariant;
+        String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(4, connectionPool);
+
+        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(order, materialVariant, quantity, 4, functionalDescription);
         bomLine.add(billOfMaterialLine);
     }
 
