@@ -158,7 +158,7 @@ public class Calculator {
         int variantLength = Integer.MAX_VALUE;
         MaterialVariant foundVariant = null;
 
-        int quantity = length / 55; // Assuming each rafter has a length of 55
+        int quantity = order.getCpLength() / 55; // Assuming each rafter has a length of 55
 
         // Get all variants of rafters from the database
         List<MaterialVariant> materialVariants = MaterialVariantMapper.getAllVariantsByMaterialId(RAFTERS, connectionPool);
