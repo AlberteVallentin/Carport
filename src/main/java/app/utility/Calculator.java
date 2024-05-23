@@ -16,6 +16,8 @@ public class Calculator {
     private static final int RAFTERS = 4;
     private static final int BEAMS = 4;
     private static final int ROOF = 5;
+    private static final int SHED_SUPPORT_BEAMS = 6;
+    private static final int SHED_WALL_PLANKS=7;
 
     // List to store bill of material lines
     private List<BillOfMaterialLine> bomLine = new ArrayList<>();
@@ -27,6 +29,10 @@ public class Calculator {
     private double rafterPrice;
     private double postPrice;
     private double roofPrice;
+
+    private double shedWallPlanksSidePrice;
+    private double shedWallPlanksEndsPrice;
+    private double shedSupportBeamsPrice;
     private double totalMaterialPrice;
     private ConnectionPool connectionPool;
 
@@ -57,7 +63,119 @@ public class Calculator {
         if(order.getCpRoof().equals("Plasttrapeztag")){
             calcRoof(order);
         }
+        if(order.getShLength()!=0 || order.getShWidth()!=0){
+            calcShed(order);
+        }
     }
+
+    public void calcShed(Order order) throws DatabaseException {
+        shedcalcSupportBeams(order);
+        shedCalcWallPlanksSides(order);
+        shedCalcWallPlanksEnds(order);
+    }
+
+    public void shedCalcWallPlanksSides(Order order)throws DatabaseException{
+        int length = order.getShLength();
+        int shedHeight = 220;
+
+        MaterialVariant foundVariant = null;
+
+        int variantLength = Integer.MAX_VALUE;
+
+        // Get all variants of beams from the database
+        List<MaterialVariant> materialVariants = MaterialVariantMapper.getAllVariantsByMaterialId(SHED_WALL_PLANKS, connectionPool);
+
+        if (length > 360) {
+            for (MaterialVariant m : materialVariants) {
+                if (m.getLength() >= length / 2 && m.getLength() < variantLength) {
+                    variantLength = m.getLength();
+                    foundVariant = m;
+                }
+            }
+        } else {
+            for (MaterialVariant m : materialVariants) {
+                if (m.getLength() >= length && m.getLength() < variantLength) {
+                    variantLength = m.getLength();
+                    foundVariant = m;
+                }
+            }
+        }
+        MaterialVariant materialVariant = foundVariant;
+        int quantity = 2*(shedHeight/(foundVariant.getMaterial().getDepth()/10));
+        double materialPrice = foundVariant.getMaterial().getMaterialPrice();
+
+        shedWallPlanksSidePrice = ((double) variantLength / 100)*quantity*materialPrice;
+
+        String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(6, connectionPool);
+
+        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(order, materialVariant, quantity, 6, functionalDescription);
+        bomLine.add(billOfMaterialLine);
+    }
+
+    public void shedCalcWallPlanksEnds(Order order)throws DatabaseException{
+        int width = order.getShWidth();
+        int shedHeight = 220;
+
+        MaterialVariant foundVariant = null;
+
+        int variantLength = Integer.MAX_VALUE;
+
+        // Get all variants of beams from the database
+        List<MaterialVariant> materialVariants = MaterialVariantMapper.getAllVariantsByMaterialId(SHED_WALL_PLANKS, connectionPool);
+
+        if (width > 360) {
+            for (MaterialVariant m : materialVariants) {
+                if (m.getLength() >= width / 2 && m.getLength() < variantLength) {
+                    variantLength = m.getLength();
+                    foundVariant = m;
+                }
+            }
+        } else {
+            for (MaterialVariant m : materialVariants) {
+                if (m.getLength() >= width && m.getLength() < variantLength) {
+                    variantLength = m.getLength();
+                    foundVariant = m;
+                }
+            }
+        }
+        MaterialVariant materialVariant = foundVariant;
+        int quantity = 2*(shedHeight/(foundVariant.getMaterial().getDepth()/10));
+        double materialPrice = foundVariant.getMaterial().getMaterialPrice();
+
+        shedWallPlanksEndsPrice = ((double) variantLength / 100)*quantity*materialPrice;
+
+        String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(7, connectionPool);
+
+        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(order, materialVariant, quantity, 7, functionalDescription);
+        bomLine.add(billOfMaterialLine);
+    }
+    
+    public void shedcalcSupportBeams(Order order) throws DatabaseException{
+        length = order.getShLength();
+        width = order.getShWidth();
+        int quantity=4;
+
+        if(length>360){
+            quantity+=2;
+        }
+        if(width>360){
+            quantity+=2;
+        }
+
+        List<MaterialVariant> materialVariants = MaterialVariantMapper.getAllVariantsByMaterialId(SHED_SUPPORT_BEAMS, connectionPool);
+        MaterialVariant materialVariant = materialVariants.get(0);
+
+        double materialPrice = materialVariant.getMaterial().getMaterialPrice();
+        double materialLength = materialVariant.getLength();
+
+        shedSupportBeamsPrice = quantity*materialPrice*(materialLength/100);
+
+        String functionalDescription = FunctionalDescriptionMapper.getFunctionalDescriptionById(5, connectionPool);
+
+        BillOfMaterialLine billOfMaterialLine = new BillOfMaterialLine(order, materialVariant, quantity, 5, functionalDescription);
+        bomLine.add(billOfMaterialLine);
+    }
+
 
     /**
      * Calculates the quantity of posts for the carport.
@@ -106,7 +224,6 @@ public class Calculator {
     private void calcBeams(Order order) throws DatabaseException {
         // Calculate quantity of beams based on carport length
         int quantity;
-        int variantId = 0;
         MaterialVariant foundVariant = null;
 
         int length = order.getCpLength();
@@ -216,13 +333,14 @@ public class Calculator {
         bomLine.add(billOfMaterialLine);
     }
 
+
     /**
      * Gets the total material price for the carport.
      *
      * @return The total material price.
      */
     public double getTotalMaterialPrice() {
-        totalMaterialPrice = postPrice + beamPrice + rafterPrice;
+        totalMaterialPrice = postPrice + beamPrice + rafterPrice + roofPrice + shedSupportBeamsPrice + shedWallPlanksSidePrice + shedWallPlanksEndsPrice;
         return totalMaterialPrice;
     }
 
