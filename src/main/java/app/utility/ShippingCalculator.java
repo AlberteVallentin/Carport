@@ -49,7 +49,7 @@ public class ShippingCalculator {
      * @param postalCode The postal code of the address.
      * @return The determined shipping rate.
      */
-    private static double determineShippingRate(int postalCode) {
+    static double determineShippingRate(int postalCode) {
         if (postalCode >= 0 && postalCode <= 4999) {
             shippingPrice = 0;
         } else if (postalCode >= 5000 && postalCode <= 5999) {
