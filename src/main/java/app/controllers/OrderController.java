@@ -12,6 +12,7 @@ import io.javalin.http.Context;
 
 import java.sql.SQLException;
 
+import static app.Main.connectionPool;
 import static app.controllers.UserController.contactDetails;
 
 public class OrderController {
@@ -25,7 +26,7 @@ public class OrderController {
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
         // Define routes for order operations
         app.get("/carportorder", ctx -> carportOrder(ctx, connectionPool));
-        app.post("/savecarportdetails", ctx -> saveCarportDetails(ctx, connectionPool));
+        app.post("/savecarportdetails", ctx -> saveCarportDetails(ctx));
         app.get("/backtoorder", ctx -> backToOrder(ctx, connectionPool));
         app.post("/confirmorder", ctx -> confirmOrder(ctx, connectionPool));
         app.post("/deleteorder", ctx -> deleteOrder(ctx, connectionPool));
@@ -137,14 +138,10 @@ public class OrderController {
     /**
      * Saves the carport details provided by the user and stores them in the session.
      *
-     * @param ctx            The Javalin context, which provides access to the request and response.
-     * @param connectionPool The connection pool for database connections.
+     * @param ctx The Javalin context, which provides access to the request and response.
      */
-    private static void saveCarportDetails(Context ctx, ConnectionPool connectionPool) {
-        // Retrieve the current user from the session
+    private static void saveCarportDetails(Context ctx) {
         User user = ctx.sessionAttribute("currentUser");
-
-        // Retrieve form parameters from the request
         int cpWidth = Integer.parseInt(ctx.formParam("carport-width"));
         int cpLength = Integer.parseInt(ctx.formParam("carport-length"));
         String cpRoof = ctx.formParam("carport-roof");
@@ -152,10 +149,7 @@ public class OrderController {
         int shLength = Integer.parseInt(ctx.formParam("shed-length"));
         String comment = ctx.formParam("comment");
 
-        // Create an Order object to store the form values
         Order order = new Order(user, comment, cpLength, cpWidth, cpRoof, shLength, shWidth);
-
-        // Store the order details in the session
         ctx.sessionAttribute("currentOrder", order);
         ctx.sessionAttribute("currentWidth", cpWidth);
         ctx.sessionAttribute("currentLength", cpLength);
@@ -166,7 +160,6 @@ public class OrderController {
         ctx.sessionAttribute("isOrdering", null);
         ctx.sessionAttribute("hasAnOrder", true);
 
-        // Redirect to the contact details page
-        contactDetails(ctx, connectionPool);
+        ctx.redirect("/contactdetails");
     }
 }
