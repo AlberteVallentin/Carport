@@ -84,9 +84,10 @@ public class OrderController {
             assert user != null;
             int shippingId = ShippingMapper.createShipping(user.getAddressId(), connectionPool);
 
-            // Insert the order into the database with initial price 0
-            OrderMapper.createOrder(order, user, shippingId, 0, connectionPool);
-            int orderId = OrderMapper.getLastOrder(connectionPool);
+            // Insert the order into the database with initial price 0 and get the generated orderId
+            int orderId = OrderMapper.createOrder(order, user, shippingId, 0, connectionPool);
+
+            //int orderId = OrderMapper.getLastOrder(connectionPool);
 
             // Update the order object with the new orderId
             order.setOrderId(orderId);

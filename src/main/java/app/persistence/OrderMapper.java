@@ -183,7 +183,7 @@ public class OrderMapper {
      * @param connectionPool The connection pool for database connections.
      * @throws SQLException If a SQL error occurs.
      */
-    public static void createOrder(Order order, User user, int shippingId, double totalPrice, ConnectionPool connectionPool) throws SQLException {
+    public static int createOrder(Order order, User user, int shippingId, double totalPrice, ConnectionPool connectionPool) throws SQLException {
         String sql = "INSERT INTO orders (price, user_id, comment, shipping_id, cp_length, cp_width, shed_length, shed_width, status_id, cp_roof) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = connectionPool.getConnection();
@@ -197,7 +197,7 @@ public class OrderMapper {
             ps.setInt(6, order.getCpWidth());
             ps.setInt(7, order.getShLength());
             ps.setInt(8, order.getShWidth());
-            ps.setInt(9, 1);
+            ps.setInt(9, 1); // Status ID for new order
             ps.setString(10, order.getCpRoof());
             ps.executeUpdate();
 
@@ -205,9 +205,13 @@ public class OrderMapper {
             if (rs.next()) {
                 int orderId = rs.getInt(1);
                 order.setOrderId(orderId);
+                return orderId;
+            } else {
+                throw new SQLException("Creating order failed, no ID obtained.");
             }
         }
     }
+
 
     /**
      * Retrieves the last inserted order ID from the database.

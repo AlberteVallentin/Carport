@@ -4,13 +4,6 @@ import app.config.ThymeleafConfig;
 import app.config.SessionConfig;
 import app.controllers.*;
 import app.persistence.ConnectionPool;
-import com.sendgrid.Method;
-import com.sendgrid.Request;
-import com.sendgrid.Response;
-import com.sendgrid.SendGrid;
-import com.sendgrid.helpers.mail.Mail;
-import com.sendgrid.helpers.mail.objects.Email;
-import com.sendgrid.helpers.mail.objects.Personalization;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
@@ -37,7 +30,7 @@ public class Main {
         app.get("/", ctx -> ctx.render("index.html"));
         OrderController.addRoutes(app, connectionPool);
         UserController.addRoutes(app, connectionPool);
-        SvgController.addRoutes(app, connectionPool);
+        SvgController.addRoutes(app);
         StatusController.addRoutes(app, connectionPool);
         AdminController.addRoutes(app, connectionPool);
 

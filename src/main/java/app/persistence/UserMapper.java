@@ -41,13 +41,13 @@ public class UserMapper {
             }
         } catch (SQLException e) {
             String msg = "Der er sket en fejl. Prøv igen";
-            if (e.getMessage().startsWith("ERROR: duplicate key value ")) {
+            if (e.getSQLState().equals("23505")) { // Check for duplicate key value violation
                 msg = "E-mailen findes allerede. Vælg en anden e-mail eller log ind";
             }
             throw new DatabaseException(msg, e.getMessage());
         }
-
     }
+
 
     /**
      * Authenticates a user based on email and password.

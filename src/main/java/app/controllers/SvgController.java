@@ -2,7 +2,6 @@ package app.controllers;
 
 import app.entities.Order;
 import app.entities.Svg;
-import app.persistence.ConnectionPool;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -14,9 +13,8 @@ public class SvgController {
      * Adds routes to the Javalin application for various SVG-related functionalities.
      *
      * @param app            The Javalin application instance.
-     * @param connectionPool The connection pool for database connections.
      */
-    public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
+    public static void addRoutes(Javalin app) {
         // Define route for showing carport drawing
         app.get("/showCarportDrawing", ctx -> SvgController.showCarportDrawing(ctx));
     }
@@ -40,7 +38,7 @@ public class SvgController {
         // Set default locale to US for consistent number formatting
         Locale.setDefault(new Locale("US"));
 
-        // Create SVG objects for the top and side views of the carport
+        // Create SVG objects for the top view of the carport
         Svg carportSvgTop = new Svg(0, 0, viewBox, "100%", "auto");
         Svg innerSvg = new Svg(0, 0, viewBox, "100%", "auto");
 
