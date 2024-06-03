@@ -12,9 +12,9 @@ import java.util.List;
 
 public class Calculator {
 
-    private static final int POSTS = 3;
-    private static final int RAFTERS = 4;
-    private static final int BEAMS = 4;
+    private static final int POSTS = 3; // Stolper
+    private static final int RAFTERS = 4; // Spær
+    private static final int BEAMS = 4; // Remme
     private static final int ROOF = 5;
     private static final int SHED_SUPPORT_BEAMS = 6;
     private static final int SHED_WALL_PLANKS=7;

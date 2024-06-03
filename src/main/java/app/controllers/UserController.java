@@ -182,6 +182,7 @@ public class UserController {
         }
     }
 
+
     /**
      * Checks if any of the fields are empty.
      *

@@ -16,7 +16,7 @@ function initAutocomplete() {
     address2Field = document.querySelector("#address2");
     postalField = document.querySelector("#postcode");
     // Create the autocomplete object, restricting the search predictions to
-    // addresses in the US and Canada.
+    // addresses in DK
     autocomplete = new google.maps.places.Autocomplete(address1Field, {
         componentRestrictions: { country: ["dk"] },
         fields: ["address_components", "geometry"],
