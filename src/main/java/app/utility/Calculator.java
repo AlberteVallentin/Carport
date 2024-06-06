@@ -17,7 +17,7 @@ public class Calculator {
     private static final int BEAMS = 4;
     private static final int ROOF = 5;
     private static final int SHED_SUPPORT_BEAMS = 6;
-    private static final int SHED_WALL_PLANKS=7;
+    private static final int SHED_WALL_PLANKS = 7;
 
     // List to store bill of material lines
     private List<BillOfMaterialLine> bomLine = new ArrayList<>();
