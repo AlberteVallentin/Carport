@@ -169,16 +169,10 @@ public class UserController {
             UserMapper.createUser(firstName, lastName, email, phone, password1, addressId, connectionPool);
             ctx.attribute("message", "Du er nu oprettet med e-mailen: " + email + ". Log på.");
             ctx.render("login.html");
-//        } catch (SQLException e) {
-//            String msg = "Der er sket en fejl. Prøv igen";
-//            if (e.getSQLState().equals("23505")) {
-//                msg = "E-mailen findes allerede. Vælg en anden e-mail eller log ind";
-//            }
-//            handleDatabaseError(ctx, new DatabaseException(msg, e.getMessage()), firstName, lastName, email, phone, streetName, houseNumber, floorAndDoor, postalCode, city);
         } catch (DatabaseException e) {
             handleDatabaseError(ctx, e, firstName, lastName, email, phone, streetName, houseNumber, floorAndDoor, postalCode, city);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            handleDatabaseError(ctx, new DatabaseException("Der er sket en fejl. Prøv igen"), firstName, lastName, email, phone, streetName, houseNumber, floorAndDoor, postalCode, city);
         }
     }
 

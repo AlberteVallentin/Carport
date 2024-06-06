@@ -1,47 +1,50 @@
-// This sample uses the Places Autocomplete widget to:
-// 1. Help the user select a place
-// 2. Retrieve the address components associated with that place
-// 3. Populate the form fields with those address components.
-// This sample requires the Places library, Maps JavaScript API.
-// Include the libraries=places parameter when you first load the API.
-// For example: <script
+// Dette eksempel bruger Places Autocomplete-widget til at:
+// 1. Hjælpe brugeren med at vælge et sted
+// 2. Hente adressekomponenterne, der er knyttet til det sted
+// 3. Udfylde formularfelterne med disse adressekomponenter.
+// Dette eksempel kræver Places-biblioteket og Maps JavaScript API.
+// Inkluder parameteren libraries=places, når du først indlæser API'en.
+// For eksempel: <script
 // src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
 let autocomplete;
 let address1Field;
 let address2Field;
 let postalField;
 
 function initAutocomplete() {
+    // Vælg formularfelter fra DOM'en
     address1Field = document.querySelector("#ship-address");
     address2Field = document.querySelector("#address2");
     postalField = document.querySelector("#postcode");
-    // Create the autocomplete object, restricting the search predictions to
-    // addresses in DK
+
+    // Opret autocomplete-objektet og begræns søgeforslagene til adresser i Danmark
     autocomplete = new google.maps.places.Autocomplete(address1Field, {
         componentRestrictions: { country: ["dk"] },
         fields: ["address_components", "geometry"],
         types: ["address"],
-    });//address1Field.focus();
-    // When the user selects an address from the drop-down, populate the
-    // address fields in the form.
+    });
+
+    // Tilføj en lytter, der udfylder adressefelterne, når brugeren vælger en adresse fra dropdown-listen
     autocomplete.addListener("place_changed", fillInAddress);
 }
 
 function fillInAddress() {
-    // Get the place details from the autocomplete object.
+    // Hent stedsdetaljerne fra autocomplete-objektet
     const place = autocomplete.getPlace();
     let address1 = "";
     let postcode = "";
     let street_number = "";
 
-    // Get each component of the address from the place details,
-    // and then fill-in the corresponding field on the form.
-    // place.address_components are google.maps.GeocoderAddressComponent objects
-    // which are documented at http://goo.gle/3l5i5Mr
+    // Hent hver komponent af adressen fra stedsdetaljerne
+    // place.address_components er google.maps.GeocoderAddressComponent objekter
+    // som er dokumenteret på http://goo.gle/3l5i5Mr
     for (const component of place.address_components) {
-        // @ts-ignore remove once typings fixed
+        // Fjern typinger, når de er rettet
+        // @ts-ignore
         const componentType = component.types[0];
 
+        // Tjek komponenttypen og udfyld de tilsvarende felter
         switch (componentType) {
             case "street_number": {
                 street_number = component.long_name;
@@ -75,12 +78,14 @@ function fillInAddress() {
         }
     }
 
+    // Udfyld adresse- og postnummerfelterne
     address1Field.value = address1;
     postalField.value = postcode;
-    // After filling the form with address components from the Autocomplete
-    // prediction, set cursor focus on the second address line to encourage
-    // entry of subpremise information such as apartment, unit, or floor number.
+
+    // Efter at have udfyldt formularen med adressekomponenter fra Autocomplete forudsigelsen
+    // sæt cursorfokus på den anden adresselinje for at tilskynde indtastning af ekstra oplysninger
     address2Field.focus();
 }
 
+// Initialiser autocomplete, når vinduet indlæses
 window.initAutocomplete = initAutocomplete;
